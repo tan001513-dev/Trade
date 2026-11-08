@@ -1,0 +1,426 @@
+<title>Lecteur de factures</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+/* Layout: a single working column, like a bordereau de saisie: actions on top, the
+   summary line, then the ledger table. Ink-blue on cool paper, with a ruled grid. */
+:root {
+  --paper: #f6f8fa;
+  --sheet: #ffffff;
+  --ink: #142436;
+  --muted: #5a6b7d;
+  --rule: #d9e1e8;
+  --accent: #1f5f8b;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3eef6;
+  --ok: #1d7a4c;
+  --ok-soft: #e1f3e9;
+  --warn: #9a5b00;
+  --warn-soft: #fbefd9;
+  --bad: #b3261e;
+  --bad-soft: #fbe3e1;
+  --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Public Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1620; --sheet: #15202c; --ink: #e4ecf3; --muted: #93a4b5; --rule: #283746;
+    --accent: #6fb0e0; --accent-ink: #0b1622; --accent-soft: #1a3044;
+    --ok: #5cc791; --ok-soft: #14301f; --warn: #e9b35a; --warn-soft: #332611;
+    --bad: #f08a80; --bad-soft: #3a1a18; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e1620; --sheet: #15202c; --ink: #e4ecf3; --muted: #93a4b5; --rule: #283746;
+  --accent: #6fb0e0; --accent-ink: #0b1622; --accent-soft: #1a3044;
+  --ok: #5cc791; --ok-soft: #14301f; --warn: #e9b35a; --warn-soft: #332611;
+  --bad: #f08a80; --bad-soft: #3a1a18; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 48px;
+}
+.wrap { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 5vw, 40px); line-height: 1.1; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 62ch; }
+
+.drop {
+  background: var(--sheet); border: 1.5px dashed var(--rule); border-radius: 10px;
+  padding: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px;
+}
+.drop.over { border-color: var(--accent); background: var(--accent-soft); }
+.drop p { margin: 0; flex: 1 1 260px; min-width: 0; }
+.drop strong { font-weight: 600; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+button, .filebtn {
+  font: 600 14px/1 var(--body); border-radius: 8px; padding: 11px 16px; cursor: pointer;
+  border: 1px solid var(--rule); background: var(--sheet); color: var(--ink);
+}
+button.primary, .filebtn { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:disabled { opacity: .55; cursor: progress; }
+button:focus-visible, .filebtn:focus-within, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.filebtn input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.filebtn { position: relative; display: inline-block; }
+
+.mode { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+.mode label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.mode input { accent-color: var(--accent); }
+.status { font-family: var(--mono); font-size: 13px; color: var(--muted); min-height: 1.5em; }
+
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.summary div { background: var(--sheet); padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.summary span { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.summary b { font-family: var(--mono); font-weight: 500; font-size: 20px; font-variant-numeric: tabular-nums; }
+.summary b.alert { color: var(--bad); }
+
+.tablebox { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 900px; font-size: 14px; }
+th { text-align: left; font-weight: 600; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.mono { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+.supplier { font-weight: 600; }
+.file { display: block; font-size: 12px; color: var(--muted); }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); margin-left: 6px; vertical-align: 1px; }
+.checks { display: flex; flex-direction: column; gap: 4px; min-width: 220px; }
+.chip { display: inline-block; font-size: 12.5px; line-height: 1.35; padding: 3px 8px; border-radius: 6px; }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.bad { background: var(--bad-soft); color: var(--bad); }
+
+.export { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.export .note { font-size: 13px; color: var(--muted); }
+
+.legend { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 18px; }
+.legend h2 { font-family: var(--display); font-size: 18px; margin: 0 0 8px; }
+.legend ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; max-width: 75ch; }
+.legend li { color: var(--muted); }
+.legend li b { color: var(--ink); font-weight: 600; }
+footer { font-size: 13px; color: var(--muted); max-width: 75ch; }
+@media (prefers-reduced-motion: no-preference) { .chip, .summary b { transition: color .2s, background .2s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Démo · saisie des factures fournisseurs</span>
+    <h1>Lecteur de factures</h1>
+    <p class="lede">Déposez des factures PDF. La page relève fournisseur, numéro, dates et montants, vérifie la cohérence HT + TVA = TTC, le SIRET et le numéro de TVA, puis prépare un fichier Excel prêt à importer.</p>
+  </header>
+
+  <section class="drop" id="drop" aria-label="Déposer des factures">
+    <p><strong>Glissez vos factures PDF ici</strong>, ou choisissez-les. Un PDF scanné (une photo) n'a pas de texte lisible : il faut alors un PDF issu d'un logiciel.</p>
+    <div class="btns">
+      <label class="filebtn">Choisir des PDF<input id="pick" type="file" accept="application/pdf,.pdf" multiple></label>
+      <button id="demo" type="button">Relire les 4 PDF d'exemple</button>
+    </div>
+  </section>
+
+  <div class="mode" role="radiogroup" aria-label="Mode de lecture">
+    <label><input type="radio" name="mode" id="mode-claude" value="claude"> Lecture par Claude (s'adapte à toutes les mises en page)</label>
+    <label><input type="radio" name="mode" id="mode-local" value="local" checked> Lecture locale (rien ne quitte le navigateur)</label>
+  </div>
+  <div class="status" id="status" aria-live="polite">Exemple affiché : 4 factures fictives reçues par le Garage Dupont SARL.</div>
+
+  <section class="summary" id="summary" aria-label="Récapitulatif"></section>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr>
+        <th>Fournisseur</th><th>N° facture</th><th>Date</th><th>Échéance</th><th>SIRET</th>
+        <th class="num">Total HT</th><th class="num">TVA</th><th class="num">Total TTC</th><th>Contrôles</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <div class="export">
+    <button class="primary" id="xlsx" type="button" hidden>Télécharger le fichier Excel</button>
+    <button id="copy" type="button">Copier le tableau pour Excel</button>
+    <span class="note" id="exportnote"></span>
+  </div>
+
+  <section class="legend">
+    <h2>Ce que la page vérifie</h2>
+    <ul>
+      <li><b>HT + TVA = TTC</b> à 2 centimes près. Un écart signale une erreur de saisie ou une remise oubliée.</li>
+      <li><b>Taux de TVA</b> : 20 %, 10 %, 5,5 % ou 2,1 %. Plusieurs taux sur une facture sont signalés pour ventilation.</li>
+      <li><b>SIRET</b> : 14 chiffres et clé de contrôle (algorithme de Luhn).</li>
+      <li><b>N° de TVA intracommunautaire</b> : la clé FR doit correspondre au SIREN du fournisseur.</li>
+      <li><b>Délai de paiement</b> : au-delà de 60 jours après la date de facture, le délai dépasse le plafond légal (art. L441-10 du Code de commerce).</li>
+      <li><b>Doublons</b> : même fournisseur et même numéro de facture.</li>
+    </ul>
+  </section>
+
+  <footer>Démo. Les 4 factures d'exemple et leurs entreprises sont inventées ; la facture de Nettoyage Éclat Services contient deux erreurs volontaires. En lecture par Claude, le texte des factures est envoyé à Claude depuis votre compte : n'y mettez de vraies factures qu'avec l'accord de leur propriétaire.</footer>
+</div>
+
+<script id="core">
+// ---------- parsing and checks (pure functions, no DOM) ----------
+const AMOUNT = /(\d{1,3}(?:[   ]\d{3})*,\d{2}|\d+,\d{2}|\d+\.\d{2})(?=\s*(?:€|EUR|$|\s))/g;
+const DATE = /\b(\d{2})[\/.](\d{2})[\/.](\d{4})\b/;
+const DUE = /(échéance|echeance|avant le|à régler|a regler|payable le|date limite)/i;
+
+function toNum(s) {
+  if (s == null) return null;
+  s = String(s).replace(/[   ]/g, "");
+  if (/,\d{2}$/.test(s)) s = s.replace(/\./g, "").replace(",", ".");
+  const n = parseFloat(s);
+  return isFinite(n) ? n : null;
+}
+function lastAmount(line) {
+  const m = line.match(AMOUNT);
+  return m ? toNum(m[m.length - 1]) : null;
+}
+function isoDate(m) { return m ? `${m[3]}-${m[2]}-${m[1]}` : null; }
+
+function parseLocal(text) {
+  const lines = text.split(/\n/).map(l => l.replace(/\s+/g, " ").trim()).filter(Boolean);
+  const r = { fournisseur: null, numero: null, date: null, echeance: null, siret: null, tva_intra: null, ht: null, tva: null, ttc: null, taux: [] };
+  if (lines.length) r.fournisseur = lines[0].replace(/\s*\bfacture\b.*$/i, "").trim() || lines[0];
+  const flat = lines.join("\n");
+  const siret = flat.match(/siret\D{0,12}((?:\d[ .]?){13}\d)/i) || flat.match(/\b(\d{3} ?\d{3} ?\d{3} ?\d{5})\b/);
+  if (siret) r.siret = siret[1].replace(/\D/g, "");
+  const intra = flat.match(/\bFR ?([0-9A-Z]{2}) ?(\d{3} ?\d{3} ?\d{3})\b/);
+  if (intra) r.tva_intra = "FR" + intra[1] + intra[2].replace(/\D/g, "");
+  let tvaSum = 0, tvaSeen = false;
+  for (const l of lines) {
+    if (!r.numero) {
+      const m = l.match(/factur\w*\s*(?:n\s?[°o]\.?|num[ée]ro)?\s*[:#]?\s*([A-Z0-9][A-Z0-9\/\-_.]{2,})/i);
+      if (m && /\d/.test(m[1]) && !DATE.test(m[1])) r.numero = m[1].replace(/[.,]$/, "");
+    }
+    const d = l.match(DATE);
+    if (d) {
+      if (DUE.test(l)) { if (!r.echeance) r.echeance = isoDate(d); }
+      else if (!r.date) r.date = isoDate(d);
+    }
+    const amt = lastAmount(l);
+    if (amt == null) continue;
+    if (/(total|montant)\s*(hors\s*taxes?|h\.?\s?t\.?\b)/i.test(l) && r.ht == null) r.ht = amt;
+    else if (/(total\s*t\.?\s?t\.?\s?c|net\s*[àa]\s*payer|montant\s*t\.?t\.?c)/i.test(l)) r.ttc = amt;
+    else if (/^(total\s*)?t\.?v\.?a\.?\b/i.test(l) && !/intracom|\bFR ?\d/i.test(l)) {
+      tvaSum += amt; tvaSeen = true;
+      const t = l.match(/(\d{1,2}(?:[,.]\d{1,2})?)\s?%/);
+      if (t) r.taux.push(parseFloat(t[1].replace(",", ".")));
+    }
+  }
+  if (tvaSeen) r.tva = Math.round(tvaSum * 100) / 100;
+  return r;
+}
+
+function luhn(digits) {
+  let s = 0;
+  for (let i = 0; i < digits.length; i++) {
+    let d = +digits[digits.length - 1 - i];
+    if (i % 2 === 1) { d *= 2; if (d > 9) d -= 9; }
+    s += d;
+  }
+  return s % 10 === 0;
+}
+function siretValid(s) {
+  if (!/^\d{14}$/.test(s)) return false;
+  if (s.startsWith("356000000")) return [...s].reduce((a, c) => a + +c, 0) % 5 === 0; // La Poste
+  return luhn(s) && luhn(s.slice(0, 9));
+}
+function intraKey(siren) { return String((12 + 3 * (Number(siren) % 97)) % 97).padStart(2, "0"); }
+const RATES = [20, 10, 5.5, 2.1];
+const fmtEur = n => n == null ? "—" : n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+
+function check(r, all) {
+  const out = [];
+  const miss = [["numero", "n° de facture"], ["date", "date"], ["ht", "total HT"], ["tva", "TVA"], ["ttc", "total TTC"]].filter(([k]) => r[k] == null).map(([, l]) => l);
+  if (miss.length) out.push(["warn", "Introuvable : " + miss.join(", ")]);
+  if (r.ht != null && r.tva != null && r.ttc != null) {
+    const sum = Math.round((r.ht + r.tva) * 100) / 100;
+    if (Math.abs(sum - r.ttc) <= 0.02) out.push(["ok", "HT + TVA = TTC"]);
+    else out.push(["bad", `TTC incohérent : HT + TVA = ${fmtEur(sum)}, la facture indique ${fmtEur(r.ttc)}`]);
+  }
+  const taux = (r.taux || []).filter(t => t != null);
+  if (taux.length > 1) out.push(["warn", `${taux.length} taux de TVA (${taux.map(t => String(t).replace(".", ",") + " %").join(" + ")}) : ventiler la saisie`]);
+  else if (r.ht && r.tva != null) {
+    const rate = r.tva / r.ht * 100;
+    if (!RATES.some(t => Math.abs(rate - t) < 0.06)) out.push(["warn", `Taux de TVA inhabituel : ${rate.toFixed(2).replace(".", ",")} %`]);
+  }
+  if (r.siret) out.push(siretValid(r.siret) ? ["ok", "SIRET valide"] : ["bad", "SIRET invalide (clé de contrôle fausse)"]);
+  else out.push(["warn", "SIRET absent (mention obligatoire)"]);
+  if (r.tva_intra) {
+    const siren = r.tva_intra.slice(4), key = r.tva_intra.slice(2, 4);
+    if (/^\d{9}$/.test(siren) && intraKey(siren) !== key) out.push(["bad", "N° TVA intracom. : clé fausse"]);
+    else if (r.siret && siren !== r.siret.slice(0, 9)) out.push(["bad", "N° TVA intracom. ne correspond pas au SIRET"]);
+  }
+  if (r.date && r.echeance) {
+    const days = Math.round((new Date(r.echeance) - new Date(r.date)) / 86400000);
+    if (days > 60) out.push(["warn", `Délai de paiement de ${days} jours : au-delà de 60 jours`]);
+  }
+  if (r.numero && all.filter(o => o.numero === r.numero && (o.fournisseur || "").toLowerCase() === (r.fournisseur || "").toLowerCase()).length > 1)
+    out.push(["bad", "Doublon : même fournisseur et même numéro"]);
+  return out;
+}
+
+function normalizeAI(o) {
+  const n = v => (v == null || v === "") ? null : (typeof v === "number" ? v : toNum(v));
+  const d = v => { if (!v) return null; const m = String(v).match(/(\d{4})-(\d{2})-(\d{2})/); if (m) return m[0]; const f = String(v).match(DATE); return f ? isoDate(f) : null; };
+  return {
+    fournisseur: o.fournisseur || null, numero: o.numero || null, date: d(o.date), echeance: d(o.echeance),
+    siret: o.siret ? String(o.siret).replace(/\D/g, "") || null : null,
+    tva_intra: o.tva_intra ? String(o.tva_intra).replace(/\s/g, "").toUpperCase() : null,
+    ht: n(o.ht), tva: n(o.tva), ttc: n(o.ttc), taux: Array.isArray(o.taux) ? o.taux.map(n).filter(x => x != null) : [],
+  };
+}
+if (typeof module !== "undefined") module.exports = { parseLocal, check, siretValid, intraKey, normalizeAI };
+</script>
+
+<script>
+const EXAMPLES = ["FOURNITURES PRO ATLANTIQUE FACTURE\nZA de la Lande, 85000 La Roche-sur-Yon Facture n° FPA-2026-0412\nSIRET : 81234567600017 TVA intracom. : FR19812345676\nDate : 03/11/2026\nÉchéance : 03/12/2026\nClient :\nGarage Dupont SARL\n14 rue des Forges\n44100 Nantes\nDésignation Qté P.U. HT Total HT\nRamettes papier A4 (carton de 5) 6 24,90 € 149,40 €\nCartouches toner noir 2 68,00 € 136,00 €\nClasseurs à levier 20 3,15 € 63,00 €\nTotal HT 348,40 €\nTVA 20 % 69,68 €\nTotal TTC 418,08 €\nPénalités de retard : 3 fois le taux d'intérêt légal. Indemnité forfaitaire de recouvrement : 40 €.", "Transports Lemaire & Fils\nSAS au capital de 50 000 € - 2 quai Ouest, 49100 Angers\nN° SIRET 49876543700013 - N° TVA FR28498765437\nDestinataire\nGarage Dupont SARL\n14 rue des Forges\n44100 Nantes\nFACTURE N° TL/26/1187 du 28/10/2026\nLivraison pièces détachées Nantes - Angers - Nantes, 3 tournées\nMontant hors taxes ....................... 435,00 €\nTVA (20 %) ............................... 87,00 €\nNET À PAYER .............................. 522,00 €\nRèglement par virement à 30 jours, soit avant le 27/11/2026.", "Imprimerie du Port\n5 place du Bouffay, 44000 Nantes\nSiret 75315985400011 | TVA FR83753159854\nFacture : IDP-0098 Garage Dupont SARL\nÉmise le 15/10/2026 14 rue des Forges, 44100 Nantes\nÀ régler avant le 14/11/2026\nArticle Taux TVA Montant HT\nCatalogue pièces 2027 (livre, 300 ex.) 5,5 % 900,00 €\nFlyers promotion hiver (2 000 ex.) 20,0 % 240,00 €\nCartes de visite (500 ex.) 20,0 % 60,00 €\nTotal HT 1 200,00 €\nTVA 5,5 % 49,50 €\nTVA 20 % 60,00 €\nTotal TTC 1 309,50 €", "NETTOYAGE ÉCLAT SERVICES\n8 allée des Tilleuls, 44800 Saint-Herblain - SIRET 41234567800013\nFacture N° NES-2026-233 Client : Garage Dupont SARL\nDate de facture : 31/10/2026\nEntretien des locaux - octobre 2026 (forfait mensuel)\nTotal HT 520,00 €\nTVA 20% 104,00 €\nTotal TTC 634,00 €"];
+
+const $ = id => document.getElementById(id);
+let rows = EXAMPLES.map((t, i) => ({ ...parseLocal(t), file: `facture-${i + 1}.pdf`, example: true }));
+let sample = null, downloads = null;
+
+const frDate = s => s ? s.split("-").reverse().join("/") : "—";
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+function render() {
+  rows.forEach(r => { r.checks = check(r, rows); });
+  const sum = k => rows.reduce((a, r) => a + (r[k] || 0), 0);
+  const flagged = rows.filter(r => r.checks.some(c => c[0] !== "ok")).length;
+  $("summary").innerHTML = `
+    <div><span>Factures</span><b>${rows.length}</b></div>
+    <div><span>Total HT</span><b>${fmtEur(sum("ht"))}</b></div>
+    <div><span>TVA déductible</span><b>${fmtEur(sum("tva"))}</b></div>
+    <div><span>Total TTC</span><b>${fmtEur(sum("ttc"))}</b></div>
+    <div><span>À vérifier</span><b class="${flagged ? "alert" : ""}">${flagged}</b></div>`;
+  $("rows").innerHTML = rows.length ? rows.map(r => `<tr>
+    <td><span class="supplier">${esc(r.fournisseur || "—")}</span>${r.example ? '<span class="tag">Exemple</span>' : ""}<span class="file">${esc(r.file)}</span></td>
+    <td class="mono">${esc(r.numero || "—")}</td>
+    <td class="mono">${frDate(r.date)}</td>
+    <td class="mono">${frDate(r.echeance)}</td>
+    <td class="mono">${esc(r.siret || "—")}</td>
+    <td class="num">${fmtEur(r.ht)}</td><td class="num">${fmtEur(r.tva)}</td><td class="num">${fmtEur(r.ttc)}</td>
+    <td><div class="checks">${r.checks.map(([k, t]) => `<span class="chip ${k}">${esc(t)}</span>`).join("")}</div></td>
+  </tr>`).join("") : `<tr><td colspan="9">Aucune facture lue. Déposez des PDF ci-dessus.</td></tr>`;
+}
+
+async function pdfText(buf) {
+  const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+  const out = [];
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const page = await pdf.getPage(p);
+    const tc = await page.getTextContent();
+    const lines = [];
+    for (const it of tc.items) {
+      if (!it.str || !it.str.trim()) continue;
+      const y = it.transform[5], x = it.transform[4];
+      let line = lines.find(l => Math.abs(l.y - y) < 3);
+      if (!line) { line = { y, parts: [] }; lines.push(line); }
+      line.parts.push({ x, s: it.str });
+    }
+    lines.sort((a, b) => b.y - a.y);
+    for (const l of lines) out.push(l.parts.sort((a, b) => a.x - b.x).map(p => p.s.trim()).join(" "));
+  }
+  return out.join("\n");
+}
+
+const PROMPT = `Tu lis le texte extrait d'une facture française. Réponds UNIQUEMENT avec un objet JSON, sans texte autour, de la forme :
+{"fournisseur": string|null, "numero": string|null, "date": "AAAA-MM-JJ"|null, "echeance": "AAAA-MM-JJ"|null, "siret": string|null, "tva_intra": string|null, "ht": number|null, "tva": number|null, "ttc": number|null, "taux": number[]}
+Règles : "fournisseur" est l'entreprise qui émet la facture, pas le client. "tva" est le total de TVA (somme si plusieurs taux), "taux" la liste des taux de TVA en pourcentage (ex. [20] ou [5.5, 20]). Montants en euros avec un point décimal. N'invente rien : null si l'information n'est pas dans le texte.
+
+Texte de la facture :
+"""
+`;
+
+async function readOne(name, buf, mode) {
+  const text = await pdfText(buf);
+  if (!text.replace(/\s/g, "")) return { file: name, fournisseur: "PDF sans texte (scan ?)", taux: [] };
+  if (mode === "claude" && sample) {
+    try {
+      const o = await sample.json(PROMPT + text.slice(0, 60000) + '\n"""', { modelTier: "quick" });
+      return { ...normalizeAI(o), file: name, via: "Claude" };
+    } catch (e) {
+      if (e && e.code === "not_granted") { $("mode-local").checked = true; }
+      const r = parseLocal(text); r.file = name; r.note = "lecture locale (Claude indisponible)"; return r;
+    }
+  }
+  const r = parseLocal(text); r.file = name; return r;
+}
+
+async function readFiles(list) {
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const busy = [$("demo"), $("pick")]; busy.forEach(b => b.disabled = true);
+  if (rows.some(r => r.example)) rows = [];
+  try {
+    for (let i = 0; i < list.length; i++) {
+      $("status").textContent = `Lecture ${i + 1}/${list.length} : ${list[i].name}${mode === "claude" ? " (Claude réfléchit…)" : ""}`;
+      try { rows.push(await readOne(list[i].name, await list[i].buf(), mode)); }
+      catch (e) { rows.push({ file: list[i].name, fournisseur: "Lecture impossible", taux: [] }); }
+      render();
+    }
+    const f = rows.filter(r => r.checks.some(c => c[0] !== "ok")).length;
+    $("status").textContent = `${list.length} facture(s) lue(s). ${f ? f + " à vérifier." : "Aucune anomalie détectée."}`;
+  } finally { busy.forEach(b => b.disabled = false); }
+}
+
+$("pick").addEventListener("change", e => {
+  const files = [...e.target.files].filter(f => /\.pdf$/i.test(f.name) || f.type === "application/pdf");
+  if (files.length) readFiles(files.map(f => ({ name: f.name, buf: () => f.arrayBuffer() })));
+  e.target.value = "";
+});
+const drop = $("drop");
+["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => {
+  const files = [...(e.dataTransfer?.files || [])].filter(f => /\.pdf$/i.test(f.name) || f.type === "application/pdf");
+  if (files.length) readFiles(files.map(f => ({ name: f.name, buf: () => f.arrayBuffer() })));
+  else $("status").textContent = "Seuls les fichiers PDF sont lus.";
+});
+$("demo").addEventListener("click", () => {
+  rows = [];
+  readFiles([1, 2, 3, 4].map(i => ({ name: `facture-${i}.pdf`, buf: async () => { const r = await fetch(`exemples/facture-${i}.pdf`); if (!r.ok) throw new Error("fetch"); return r.arrayBuffer(); } })));
+});
+
+const HEAD = ["Fournisseur", "N° facture", "Date", "Échéance", "SIRET", "N° TVA intracom.", "Total HT", "TVA", "Total TTC", "Statut", "Contrôles", "Fichier"];
+function tableData() {
+  return rows.map(r => [r.fournisseur || "", r.numero || "", r.date ? new Date(r.date + "T12:00:00") : "", r.echeance ? new Date(r.echeance + "T12:00:00") : "", r.siret || "", r.tva_intra || "", r.ht ?? "", r.tva ?? "", r.ttc ?? "",
+    r.checks.some(c => c[0] === "bad") ? "À corriger" : r.checks.some(c => c[0] === "warn") ? "À vérifier" : "OK",
+    r.checks.filter(c => c[0] !== "ok").map(c => c[1]).join(" ; "), r.file || ""]);
+}
+$("xlsx").addEventListener("click", async () => {
+  if (!downloads || !window.XLSX) return;
+  const ws = XLSX.utils.aoa_to_sheet([HEAD, ...tableData()], { cellDates: true, dateNF: "dd/mm/yyyy" });
+  const range = XLSX.utils.decode_range(ws["!ref"]);
+  for (let R = 1; R <= range.e.r; R++) for (const C of [6, 7, 8]) { const c = ws[XLSX.utils.encode_cell({ r: R, c: C })]; if (c && c.t === "n") c.z = '#,##0.00 "€"'; }
+  ws["!cols"] = [28, 16, 11, 11, 16, 16, 12, 11, 12, 11, 60, 18].map(w => ({ wch: w }));
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Factures");
+  const data = XLSX.write(wb, { type: "array", bookType: "xlsx" });
+  try {
+    await downloads.save({ filename: `factures-${new Date().toISOString().slice(0, 10)}.xlsx`, data: new Blob([data]) });
+    $("exportnote").textContent = "Fichier Excel enregistré.";
+  } catch (e) {
+    $("exportnote").textContent = e?.code === "declined" ? "Téléchargement annulé." : "Téléchargement indisponible ici : utilisez « Copier le tableau pour Excel ».";
+  }
+});
+$("copy").addEventListener("click", async () => {
+  const tsv = [HEAD, ...tableData().map(r => r.map(v => v instanceof Date ? v.toLocaleDateString("fr-FR") : typeof v === "number" ? String(v).replace(".", ",") : v))].map(r => r.join("\t")).join("\n");
+  try { await navigator.clipboard.writeText(tsv); $("exportnote").textContent = "Tableau copié : collez-le dans Excel (Ctrl+V)."; }
+  catch { $("exportnote").textContent = "Copie refusée par ce navigateur."; }
+});
+
+render();
+(async () => {
+  if (!window.claude?.use) return;
+  [sample, downloads] = await Promise.all([claude.use("sample"), claude.use("downloads")]);
+  if (downloads && window.XLSX) $("xlsx").hidden = false;
+  if (sample) { $("mode-claude").checked = true; }
+  else { $("mode-claude").disabled = true; $("mode-claude").parentElement.title = "Indisponible dans cette vue"; }
+})();
+</script>
