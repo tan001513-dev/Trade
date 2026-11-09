@@ -16,12 +16,19 @@ tags:
 > Solution renversée par l'art. 1124 al. 2 : point de départ de toute la question.
 
 > [!info] Faits
-> {faits}
+> Mme Y consent le 22 mai 1987 une promesse de vente d'un immeuble, valable jusqu'au 1er septembre. Le 26 mai, elle notifie aux bénéficiaires qu'elle ne veut plus vendre. Ceux-ci lèvent l'option le 10 juin.
+
+**Procédure.** Les bénéficiaires agissent en réalisation forcée de la vente. La cour d'appel de Paris (8 nov. 1990) rejette. Ils forment un pourvoi.
+
+**Prétentions.** Les bénéficiaires : l'obligation du promettant est une obligation de donner, susceptible d'exécution forcée.
+
+> [!question] Question de droit
+> La rétractation du promettant avant la levée de l'option empêche-t-elle la formation de la vente ?
 
 > [!success] Solution
-> {sol}
+> Rejet. Tant que les bénéficiaires n'ont pas déclaré acquérir, l'obligation du promettant n'est qu'une obligation de faire. La levée de l'option postérieure à la rétractation exclut toute rencontre des volontés : pas de vente forcée, seulement des dommages-intérêts (art. 1142 ancien).
 
-**Portée.** {portee}
+**Portée.** Solution très critiquée : la promesse, pourtant un contrat, avait moins de force qu'une offre. Contournée par des clauses d'exécution forcée (Civ. 3e, 27 mars 2008). Renversée par l'art. 1124 al. 2 (2016), puis par Civ. 3e, 23 juin 2021 pour les promesses antérieures.
 
 ## Notions
 [[Promesse unilatérale de contrat]]

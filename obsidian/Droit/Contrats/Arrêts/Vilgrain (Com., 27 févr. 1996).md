@@ -11,12 +11,12 @@ tags:
 *Com., 27 févr. 1996*
 
 > [!info] Faits
-> {faits}
+> Un dirigeant rachète les titres d'un associé sans révéler leur valeur.
 
 > [!success] Solution
-> {sol}
+> Réticence dolosive retenue.
 
-**Portée.** {portee}
+**Portée.** Limite de Baldus : dans une relation de confiance, il faut informer sur la valeur.
 
 ## Notions
 [[Dol]]

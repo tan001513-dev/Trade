@@ -11,12 +11,12 @@ tags:
 *Com., 29 juin 2010*
 
 > [!info] Faits
-> {faits}
+> Plafond de responsabilité négocié dans un contrat informatique.
 
 > [!success] Solution
-> {sol}
+> Seule la clause qui contredit la portée de l'obligation essentielle est écartée ; plafond non dérisoire valable.
 
-**Portée.** {portee}
+**Portée.** Critère de la « substance » repris par l'art. 1170.
 
 ## Notions
 [[Obligation essentielle]]

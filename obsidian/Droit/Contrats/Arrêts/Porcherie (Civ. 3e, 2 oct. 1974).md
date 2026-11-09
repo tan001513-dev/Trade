@@ -11,12 +11,12 @@ tags:
 *Civ. 3e, 2 oct. 1974*
 
 > [!info] Faits
-> {faits}
+> Les vendeurs taisent la présence d'une porcherie près de la maison.
 
 > [!success] Solution
-> {sol}
+> Vente annulée pour réticence dolosive.
 
-**Portée.** {portee}
+**Portée.** L'erreur provoquée par le dol est prise en compte même hors substance.
 
 ## Notions
 [[Dol]]

@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 4 juill. 1995*
 
 > [!info] Faits
-> {faits}
+> Bijou Cartier vendu à un prix très inférieur à sa valeur.
 
 > [!success] Solution
-> {sol}
+> Pas de nullité : une contrepartie existait.
 
-**Portée.** {portee}
+**Portée.** Seule l'absence de contrepartie compte (art. 1169), pas son insuffisance.
 
 ## Notions
 [[Contrepartie illusoire ou dérisoire]] · [[Lésion]]

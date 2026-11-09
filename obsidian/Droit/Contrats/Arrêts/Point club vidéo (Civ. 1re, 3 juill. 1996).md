@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 3 juill. 1996*
 
 > [!info] Faits
-> {faits}
+> Location de cassettes vidéo dans un village où l'exploitation était impossible « selon l'économie voulue ».
 
 > [!success] Solution
-> {sol}
+> Absence de cause retenue.
 
-**Portée.** {portee}
+**Portée.** Dérive subjective de la cause, abandonnée (Com., 9 juin 2009).
 
 ## Notions
 [[Contenu du contrat]] · [[Contrepartie illusoire ou dérisoire]]

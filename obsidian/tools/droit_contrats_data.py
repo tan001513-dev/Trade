@@ -377,3 +377,105 @@ ESSENTIELS = {
  "Chronopost (Com., 22 oct. 1996)": "Codifié à l'art. 1170 : obligation essentielle.",
  "Ass. plén., 1er déc. 1995": "Détermination du prix, repris aux art. 1164 et 1165.",
 }
+
+# Fiches d'arrêt complètes (méthode droit privé du TD) pour les arrêts essentiels.
+# Clés : faits, procedure, pretentions, question, solution, portee ; « complement » = hors cours, signalé.
+FICHES = {
+ "Soc., 21 sept. 2017": dict(
+  faits="En mai 2012, l'Union sportive carcassonnaise adresse à un joueur de rugby international une offre de contrat, avec une convention précisant la saison, la rémunération (3 200 € brut), la mise à disposition d'un véhicule et la date d'entrée en fonction (1er juillet 2012). Le 6 juin, le club renonce. Le joueur renvoie ensuite le contrat signé (12-13 juin).",
+  procedure="Le joueur saisit le conseil de prud'hommes. La cour d'appel de Montpellier (1er juin 2016) retient une promesse d'embauche valant contrat de travail et condamne le club. Le club forme un pourvoi.",
+  pretentions="Le joueur : la promesse d'embauche, qui précise l'emploi, la rémunération et la date, vaut contrat de travail. Le club : ce n'était qu'une offre, rétractée avant son acceptation.",
+  question="L'acte qui précise l'emploi, la rémunération et la date d'entrée en fonction constitue-t-il une offre de contrat de travail, librement rétractable, ou une promesse unilatérale de contrat de travail ?",
+  solution="Cassation (visa : art. 1134 ancien, L. 1221-1 C. trav.). L'acte qui précise l'emploi, la rémunération et la date d'entrée et exprime la volonté d'être lié en cas d'acceptation est une offre : elle peut être rétractée tant qu'elle n'est pas parvenue à son destinataire, et sa rétractation empêche la conclusion du contrat et n'engage que la responsabilité extracontractuelle de son auteur. La promesse unilatérale, elle, accorde au bénéficiaire un droit d'opter, et sa révocation pendant le délai n'empêche pas la formation du contrat. La cour d'appel n'a pas constaté de droit d'option.",
+  portee="Abandon de la jurisprudence « promesse d'embauche vaut contrat de travail ». Critères clairs de distinction offre / promesse, alignés par anticipation sur les art. 1114 à 1116 et 1124. Arrêt « à maîtriser absolument » selon le TD."),
+ "Com., 15 mars 2023": dict(
+  faits="Le 21 juin 2012, Morgane groupe (MG) et Groupe Télégramme développement (GTD) concluent un protocole sur l'entrée de GTD au capital de C2G, filiale de MG : achat de 47 % des actions, promesse unilatérale de cession de 13 % supplémentaires (option à lever dans les six mois de l'assemblée approuvant les comptes 2015), promesse synallagmatique pour le reste. Le 8 mars 2016, MG se rétracte, avant même l'ouverture du délai d'option. Le 28 juin 2016, GTD lève l'option.",
+  procedure="GTD (devenue GTM) assigne MG en exécution forcée de la cession et en dommages-intérêts. La cour d'appel de Rennes (6 juill. 2021) rejette en appliquant le droit antérieur à 2016. GTM forme un pourvoi.",
+  pretentions="GTM : la rétractation du promettant n'empêche pas la formation de la vente, même avant l'ouverture du délai d'option. MG : le droit antérieur s'applique et, à défaut, un revirement ne peut pas s'appliquer immédiatement (sécurité juridique, art. 6 § 1 CEDH, art. 1er du Protocole n° 1).",
+  question="Pour une promesse conclue avant l'ordonnance de 2016, la rétractation du promettant intervenue avant l'ouverture du délai d'option empêche-t-elle la formation du contrat promis ? Le revirement peut-il s'appliquer immédiatement ?",
+  solution="Cassation (visa : art. 1134 ancien). À l'instar de la troisième chambre civile, la chambre commerciale juge que le promettant s'oblige définitivement à vendre dès la promesse et ne peut pas se rétracter, même avant l'ouverture du délai d'option, sauf stipulation contraire. Application immédiate : nul n'a de droit acquis à une jurisprudence constante, le revirement était prévisible et ses conséquences ne sont pas disproportionnées.",
+  portee="Unification des chambres de la Cour de cassation. Anticipation du droit nouveau pour des contrats antérieurs, malgré l'art. 9 de l'ordonnance. Réserve des stipulations contraires (clause de dédit). Plan du TD : I. Le passage de la libre rétractation à l'irrévocabilité (A. la solution classique, B. son abandon) ; II. L'unification et la consolidation de la force obligatoire (A. une consécration jurisprudentielle et rétroactive, B. les implications : stipulations contraires, clause de dédit)."),
+ "Manoukian (Com., 26 nov. 2003)": dict(
+  faits="La société Alain Manoukian négocie avec les actionnaires de la société Stuck la cession de leurs actions. Un projet d'accord est établi (24 sept. 1997), avec des conditions suspensives dont la date est reportée d'un commun accord. Le 10 novembre 1997, les cédants consentent en secret une promesse de cession à la société Les Complices, tout en laissant croire que la signature n'était retardée que par l'absence de l'expert-comptable. Manoukian l'apprend le 24 novembre.",
+  procedure="Manoukian assigne les cédants et Les Complices. La cour d'appel de Paris (29 oct. 1999) condamne les cédants à 400 000 F (frais de négociation et d'études), sans indemniser les gains espérés. Pourvois des cédants (sur la faute) et de Manoukian (sur le montant).",
+  pretentions="Les cédants : ils ont usé de leur liberté de rompre. Manoukian : il doit être indemnisé de la perte de chance de réaliser les gains tirés de l'exploitation du fonds.",
+  question="La rupture fautive des pourparlers ouvre-t-elle droit à l'indemnisation de la perte de chance de réaliser les gains que permettait d'espérer la conclusion du contrat ?",
+  solution="Rejet des deux pourvois. La rupture, unilatérale et de mauvaise foi (négociations parallèles cachées), est fautive. Mais « les circonstances constitutives d'une faute commise dans l'exercice du droit de rupture unilatérale des pourparlers précontractuels ne sont pas la cause du préjudice consistant dans la perte d'une chance de réaliser les gains que permettait d'espérer la conclusion du contrat ». Seuls les frais de négociation et d'études sont réparés.",
+  portee="La liberté de rompre a pour limite l'abus. Le préjudice réparable exclut les gains espérés et la perte de chance, faute de lien de causalité. Codifié à l'art. 1112 al. 2. Étendu à la perte de chance de conclure avec un tiers (Civ. 3e, 28 juin 2006)."),
+ "Consorts Cruz (Civ. 3e, 15 déc. 1993)": dict(
+  faits="Mme Y consent le 22 mai 1987 une promesse de vente d'un immeuble, valable jusqu'au 1er septembre. Le 26 mai, elle notifie aux bénéficiaires qu'elle ne veut plus vendre. Ceux-ci lèvent l'option le 10 juin.",
+  procedure="Les bénéficiaires agissent en réalisation forcée de la vente. La cour d'appel de Paris (8 nov. 1990) rejette. Ils forment un pourvoi.",
+  pretentions="Les bénéficiaires : l'obligation du promettant est une obligation de donner, susceptible d'exécution forcée.",
+  question="La rétractation du promettant avant la levée de l'option empêche-t-elle la formation de la vente ?",
+  solution="Rejet. Tant que les bénéficiaires n'ont pas déclaré acquérir, l'obligation du promettant n'est qu'une obligation de faire. La levée de l'option postérieure à la rétractation exclut toute rencontre des volontés : pas de vente forcée, seulement des dommages-intérêts (art. 1142 ancien).",
+  portee="Solution très critiquée : la promesse, pourtant un contrat, avait moins de force qu'une offre. Contournée par des clauses d'exécution forcée (Civ. 3e, 27 mars 2008). Renversée par l'art. 1124 al. 2 (2016), puis par Civ. 3e, 23 juin 2021 pour les promesses antérieures."),
+ "Civ. 3e, 23 juin 2021": dict(
+  faits="Promesse de vente d'un appartement du 1er avril 1999, option levable au décès d'une usufruitière. La promettante se rétracte le 17 février 2010 ; les bénéficiaires lèvent l'option le 8 janvier 2011.",
+  procedure="Un premier arrêt (Civ. 3e, 6 déc. 2018) casse la décision qui avait déclaré la vente parfaite, en maintenant la solution Cruz. Sur renvoi, la cour d'appel de Lyon (19 mai 2020) résiste et déclare la vente parfaite. La promettante forme un pourvoi.",
+  pretentions="La promettante : la levée d'option postérieure à sa rétractation exclut la rencontre des volontés (solution Cruz).",
+  question="Pour une promesse conclue avant 2016, la rétractation du promettant pendant le délai d'option empêche-t-elle la formation de la vente ?",
+  solution="Rejet : revirement. La promesse unilatérale, à la différence de l'offre, est un avant-contrat qui contient le consentement du vendeur et les éléments essentiels du contrat. Le promettant « s'oblige définitivement à vendre dès la conclusion de l'avant-contrat, sans possibilité de rétractation, sauf stipulation contraire ».",
+  portee="Abandon de Cruz même pour les promesses antérieures à l'ordonnance : alignement sur l'art. 1124 al. 2. Étendu par Com., 15 mars 2023 à la rétractation intervenue avant l'ouverture du délai d'option."),
+ "Ch. mixte, 26 mai 2006": dict(
+  faits="Une donation-partage de 1957 contient un pacte de préférence sur un bien situé à Haapiti (Polynésie). Une parcelle est transmise en 1985, le pacte étant rappelé, puis vendue le 3 décembre 1985 à la SCI Emeraude.",
+  procedure="En 1992, la bénéficiaire du pacte demande sa substitution dans les droits de l'acquéreur, subsidiairement des dommages-intérêts. La cour d'appel de Papeete (13 févr. 2003) refuse la substitution. Elle forme un pourvoi.",
+  pretentions="La bénéficiaire invoque la primauté de l'exécution en nature et la publication du pacte.",
+  question="Le bénéficiaire d'un pacte de préférence violé peut-il obtenir l'annulation de la vente conclue avec un tiers et sa substitution à l'acquéreur, et à quelles conditions ?",
+  solution="Rejet, mais avec un principe : le bénéficiaire peut exiger l'annulation du contrat passé avec le tiers et sa substitution à l'acquéreur, à condition que ce tiers ait eu connaissance, lorsqu'il a contracté, de l'existence du pacte et de l'intention du bénéficiaire de s'en prévaloir. Ici, la connaissance de l'intention n'était pas prouvée.",
+  portee="Admission de l'exécution en nature (substitution), sous une double condition de mauvaise foi du tiers, difficile à prouver. Codifié à l'art. 1123 al. 2, complété par l'action interrogatoire (al. 3 et 4)."),
+ "Civ., 25 mai 1870 (Guilloux)": dict(
+  faits="Complément hors cours, à vérifier dans un recueil : M. Guilloux reçoit une lettre l'informant qu'il est inscrit comme souscripteur d'actions d'une société ; il ne répond pas, puis on lui réclame le versement.",
+  procedure="Complément hors cours : les juges du fond le condamnent à payer en tirant de son silence une acceptation ; pourvoi.",
+  pretentions="Complément hors cours : M. Guilloux soutient n'avoir jamais consenti.",
+  question="Le silence gardé face à une proposition de contracter vaut-il acceptation ?",
+  solution="Cassation : en principe, le silence ne vaut pas acceptation (cours, CM4).",
+  portee="Principe codifié à l'art. 1120, avec ses exceptions : loi, usages, relations d'affaires, circonstances particulières. Ta diapo date l'arrêt du « 25 mars » : la bonne date est le 25 mai 1870 (point corrigé du CM4)."),
+ "Poussin I (Civ. 1re, 22 févr. 1978)": dict(
+  faits="Des vendeurs mettent aux enchères un tableau attribué à « l'École des Carrache ». La Réunion des musées nationaux exerce son droit de préemption puis expose le tableau au Louvre comme une œuvre de Poussin.",
+  procedure="Les vendeurs agissent en nullité pour erreur. La cour d'appel les déboute, faute de preuve que le tableau est bien un Poussin. Ils forment un pourvoi.",
+  pretentions="Les vendeurs : ils ont vendu dans la conviction erronée que le tableau ne pouvait pas être un Poussin.",
+  question="Le vendeur peut-il obtenir la nullité pour erreur sur sa propre prestation, alors que l'authenticité de l'œuvre n'est pas établie avec certitude ?",
+  solution="Cassation : les juges devaient rechercher si le consentement des vendeurs n'avait pas été vicié par leur conviction erronée que le tableau ne pouvait pas être une œuvre de Poussin.",
+  portee="Deux enseignements : l'erreur peut porter sur sa propre prestation (art. 1133 al. 2) ; l'erreur existe sans certitude sur la réalité (discordance entre « ce n'est certainement pas un Poussin » et « c'est peut-être un Poussin »). Suite : Poussin II (1983), éléments postérieurs admis pour prouver l'erreur. À opposer à Fragonard (doute partagé)."),
+ "Verrou de Fragonard (Civ. 1re, 24 mars 1987)": dict(
+  faits="Un tableau (« Le Verrou ») est vendu comme « attribué à Fragonard ». Son authenticité est établie après la vente.",
+  procedure="Le vendeur agit en nullité pour erreur sur l'authenticité. Les juges du fond rejettent ; pourvoi.",
+  pretentions="Le vendeur : il croyait vendre une œuvre dont l'attribution à Fragonard était incertaine.",
+  question="Le vendeur qui a accepté un aléa sur l'authenticité de l'œuvre peut-il invoquer une erreur lorsque l'authenticité est ensuite établie ?",
+  solution="Rejet : l'aléa sur l'authenticité était entré dans le champ contractuel ; il exclut l'erreur.",
+  portee="Codifié à l'art. 1133 al. 3 : l'acceptation d'un aléa sur une qualité exclut l'erreur sur cette qualité. Étendu à la constructibilité d'un terrain (Civ. 3e, 13 nov. 2014). Différence avec Poussin : ici le doute était partagé dès la vente."),
+ "Baldus (Civ. 1re, 3 mai 2000)": dict(
+  faits="En 1986, Mme Boucher vend aux enchères 50 photographies de Baldus à 1 000 francs pièce. En 1989, elle en vend 85 autres au même acquéreur, au prix qu'elle fixe elle-même. Elle découvre ensuite la grande notoriété de Baldus et la valeur réelle des photos.",
+  procedure="Elle agit en nullité de la vente pour dol (réticence de l'acheteur). La cour d'appel lui donne raison. L'acquéreur forme un pourvoi.",
+  pretentions="La venderesse : l'acheteur connaissait la valeur réelle des photographies et l'a tue. L'acheteur : aucune obligation d'information ne pesait sur lui.",
+  question="L'acheteur qui connaît la valeur réelle du bien commet-il une réticence dolosive en ne la révélant pas au vendeur ?",
+  solution="Cassation : aucune obligation d'information ne pesait sur l'acheteur.",
+  portee="Pas de dol par silence sur la valeur (étendu à l'acheteur professionnel : Civ. 3e, 17 janv. 2007). Limites : les éléments objectifs (terrain bientôt constructible, Civ. 3e, 15 nov. 2000) et les relations de confiance (Vilgrain). Codifié et élargi à toute partie par l'art. 1137 al. 3 (2018) et l'art. 1112-1 al. 2."),
+ "Civ. 1re, 3 avr. 2002": dict(
+  faits="Une salariée cède à son employeur ses droits d'auteur sur un dictionnaire à succès qu'elle a rédigé, sous la crainte d'un licenciement.",
+  procedure="Elle agit en nullité de la cession pour violence. La cour d'appel annule. L'employeur forme un pourvoi.",
+  pretentions="La salariée : la crainte de perdre son emploi a vicié son consentement. L'employeur : une simple dépendance économique ne suffit pas.",
+  question="La dépendance économique d'une partie suffit-elle à caractériser une violence viciant son consentement ?",
+  solution="Cassation : seule l'exploitation abusive d'une situation de dépendance économique, faite pour tirer profit de la crainte d'un mal menaçant directement les intérêts légitimes de la personne, vicie le consentement.",
+  portee="La violence économique, c'est un contexte (la dépendance) et l'abus de ce contexte. Prolonge Civ. 1re, 30 mai 2000. Consacré par l'art. 1143 (abus de dépendance) : dépendance, abus procurant un avantage manifestement excessif, engagement déterminé par la contrainte."),
+ "Chronopost (Com., 22 oct. 1996)": dict(
+  faits="Complément hors cours pour le détail des faits : la société Banchereau confie à Chronopost deux plis contenant une soumission à une adjudication ; ils arrivent en retard et elle ne peut pas concourir. Le contrat limite l'indemnisation du retard au prix du transport (cours).",
+  procedure="Complément hors cours : Banchereau demande réparation ; la cour d'appel applique la clause limitative ; pourvoi.",
+  pretentions="Banchereau : la clause contredit l'engagement essentiel de Chronopost, la rapidité. Chronopost : la clause limitative est valable.",
+  question="Une clause qui limite l'indemnisation du retard au prix du transport est-elle valable alors que la célérité est l'obligation essentielle du transporteur rapide ?",
+  solution="Cassation : la clause qui contredit la portée de l'engagement essentiel (livrer dans un délai déterminé) est réputée non écrite (fondement : la cause, anc. art. 1131).",
+  portee="Suite : plafond du contrat type réglementaire substitué (Com., 9 juill. 2002) ; faute lourde subjective (Ch. mixte, 22 avr. 2005) ; Faurecia 2 (Com., 29 juin 2010), seule la clause qui vide l'obligation de sa substance est écartée. Codifié à l'art. 1170 pour tous les contrats."),
+ "Ass. plén., 1er déc. 1995": dict(
+  faits="Quatre affaires de contrats cadre de distribution ou de fourniture où le prix des contrats d'application était fixé unilatéralement par le fournisseur (complément hors cours : contrats de location-entretien d'installations téléphoniques et contrats de distribution).",
+  procedure="Les distributeurs demandaient la nullité des contrats cadre pour indétermination du prix (anc. art. 1129).",
+  pretentions="Les distributeurs : le prix n'était pas déterminable dès le contrat cadre, qui est donc nul. Les fournisseurs : le prix n'a pas à être déterminé dans le contrat cadre.",
+  question="L'indétermination du prix des contrats d'application dans le contrat cadre entraîne-t-elle la nullité de celui-ci ?",
+  solution="L'anc. art. 1129 n'est pas applicable à la détermination du prix (sauf texte spécial, comme l'art. 1591 pour la vente). La fixation unilatérale du prix est admise ; seul l'abus dans la fixation est sanctionné, par la résiliation ou l'indemnisation.",
+  portee="L'abus est une fixation égoïste au détriment du partenaire, pas un simple prix différent du marché (Com., 15 janv. 2002). La réforme de 2016 ne garde la fixation unilatérale qu'en exception : contrats cadre (art. 1164) et prestations de service (art. 1165), sans révision judiciaire du prix."),
+}
+
+# Procédure et prétentions non détaillées dans les cours pour ces arrêts : signalées comme complément.
+for _a in ("Poussin I (Civ. 1re, 22 févr. 1978)", "Verrou de Fragonard (Civ. 1re, 24 mars 1987)", "Baldus (Civ. 1re, 3 mai 2000)", "Civ. 1re, 3 avr. 2002", "Ass. plén., 1er déc. 1995"):
+    for _k in ("procedure", "pretentions"):
+        if not FICHES[_a][_k].startswith("Complément"):
+            FICHES[_a][_k] = "Complément hors cours, à vérifier : " + FICHES[_a][_k]

@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 7 nov. 2000*
 
 > [!info] Faits
-> {faits}
+> Cession de clientèle médicale.
 
 > [!success] Solution
-> {sol}
+> Licite si la liberté de choix du patient est sauvegardée.
 
-**Portée.** {portee}
+**Portée.** Fin du principe des clientèles civiles hors commerce.
 
 ## Notions
 [[Ordre public]] · [[Contenu du contrat]]

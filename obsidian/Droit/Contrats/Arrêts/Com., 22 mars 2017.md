@@ -11,12 +11,12 @@ tags:
 *Com., 22 mars 2017, n° 15-14.875*
 
 > [!info] Faits
-> {faits}
+> À quelques jours de la signature d'une cession d'actions, l'acquéreur remet en cause unilatéralement la valorisation.
 
 > [!success] Solution
-> {sol}
+> Rejet : rupture imputable à l'acquéreur ; réparation des dépenses inutiles (dont temps mobilisé et gêne).
 
-**Portée.** {portee}
+**Portée.** La remise en cause tardive d'un élément essentiel caractérise l'abus ; jamais les gains espérés.
 
 ## Notions
 [[Pourparlers]] · [[Négociation encadrée]]

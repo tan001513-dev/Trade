@@ -27,8 +27,15 @@ for n, (dfn, pts, arts, arrs, voir, cours) in mod.NOTIONS.items():
 
 for a, (ref, faits, sol, portee, notions, cours) in mod.ARRETS.items():
     ess = getattr(mod, "ESSENTIELS", {}).get(a)
+    fi = getattr(mod, "FICHES", {}).get(a)
     head = fm("arret", f"reference: \"{ref}\"\n" + ("essentiel: true\n" if ess else "")).replace("  - arret\n", "  - arret\n  - essentiel\n" if ess else "  - arret\n")
-    t = head + f"# {a}\n\n*{ref}*\n\n" + (f"> [!warning] Arrêt essentiel\n> {ess}\n\n" if ess else "") + "> [!info] Faits\n> {faits}\n\n> [!success] Solution\n> {sol}\n\n**Portée.** {portee}\n\n## Notions\n" + " · ".join(L(n) for n in notions) + "\n\n## Sources\n" + " · ".join(L(c) for c in cours) + "\n"
+    t = head + f"# {a}\n\n*{ref}*\n\n" + (f"> [!warning] Arrêt essentiel\n> {ess}\n\n" if ess else "")
+    if fi:
+        t += (f"> [!info] Faits\n> {fi['faits']}\n\n**Procédure.** {fi['procedure']}\n\n**Prétentions.** {fi['pretentions']}\n\n"
+              f"> [!question] Question de droit\n> {fi['question']}\n\n> [!success] Solution\n> {fi['solution']}\n\n**Portée.** {fi['portee']}\n\n")
+    else:
+        t += f"> [!info] Faits\n> {faits}\n\n> [!success] Solution\n> {sol}\n\n**Portée.** {portee}\n\n"
+    t += "## Notions\n" + " · ".join(L(n) for n in notions) + "\n\n## Sources\n" + " · ".join(L(c) for c in cours) + "\n"
     write("Arrêts", a, t)
 
 # articles cités partout

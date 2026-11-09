@@ -11,12 +11,12 @@ tags:
 *Com., 20 mai 2003*
 
 > [!info] Faits
-> {faits}
+> Responsabilité personnelle d'un dirigeant envers un tiers.
 
 > [!success] Solution
-> {sol}
+> Seulement en cas de faute séparable de ses fonctions (faute intentionnelle d'une particulière gravité).
 
-**Portée.** {portee}
+**Portée.** Principe de la responsabilité des dirigeants.
 
 ## Notions
 [[Représentation]]

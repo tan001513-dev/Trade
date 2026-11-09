@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 30 mai 2000*
 
 > [!info] Faits
-> {faits}
+> Un garagiste dont le garage a brûlé signe une transaction avec son assureur sous la pression du besoin d'argent.
 
 > [!success] Solution
-> {sol}
+> La contrainte économique peut constituer une violence.
 
-**Portée.** {portee}
+**Portée.** Première pierre de l'abus de dépendance (art. 1143).
 
 ## Notions
 [[Violence]] · [[Abus de dépendance]]

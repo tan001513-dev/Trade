@@ -184,7 +184,7 @@ function inline(s) {
   s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*([^*]+)\*/g, "<i>$1</i>");
   return s;
 }
-const CALLOUT = { warning: "Arrêt essentiel", abstract: "Définition", info: "Faits", success: "Solution", tip: "Texte intégral" };
+const CALLOUT = { question: "Question de droit", warning: "Arrêt essentiel", abstract: "Définition", info: "Faits", success: "Solution", tip: "Texte intégral" };
 function render(md) {
   const out = []; let list = null, call = null;
   const flush = () => { if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; } if (call) { out.push(`<div class="callout"><b class="t">${call.t}</b>${call.l.join("<br>")}</div>`); call = null; } };

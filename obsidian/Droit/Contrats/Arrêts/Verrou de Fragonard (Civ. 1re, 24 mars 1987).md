@@ -16,12 +16,19 @@ tags:
 > Codifié à l'art. 1133 al. 3 : l'aléa chasse l'erreur.
 
 > [!info] Faits
-> {faits}
+> Un tableau (« Le Verrou ») est vendu comme « attribué à Fragonard ». Son authenticité est établie après la vente.
+
+**Procédure.** Complément hors cours, à vérifier : Le vendeur agit en nullité pour erreur sur l'authenticité. Les juges du fond rejettent ; pourvoi.
+
+**Prétentions.** Complément hors cours, à vérifier : Le vendeur : il croyait vendre une œuvre dont l'attribution à Fragonard était incertaine.
+
+> [!question] Question de droit
+> Le vendeur qui a accepté un aléa sur l'authenticité de l'œuvre peut-il invoquer une erreur lorsque l'authenticité est ensuite établie ?
 
 > [!success] Solution
-> {sol}
+> Rejet : l'aléa sur l'authenticité était entré dans le champ contractuel ; il exclut l'erreur.
 
-**Portée.** {portee}
+**Portée.** Codifié à l'art. 1133 al. 3 : l'acceptation d'un aléa sur une qualité exclut l'erreur sur cette qualité. Étendu à la constructibilité d'un terrain (Civ. 3e, 13 nov. 2014). Différence avec Poussin : ici le doute était partagé dès la vente.
 
 ## Notions
 [[Erreur]]
