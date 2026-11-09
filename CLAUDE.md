@@ -28,3 +28,11 @@ Le coffre Obsidian est le dossier `obsidian/` (racine du coffre). La toile de dr
 - Keep final responses concise: changes, verification, caveats.
 - For ambiguous or broad tasks, agree on scope before extensive exploration.
 - Never expose secrets or weaken security to reduce token use.
+
+## Outils pour cabinets comptables (pack « SaaS Comptabilité & Agents IA »)
+- Build maintainable, secure SaaS and automation tools for accounting professionals.
+- Prefer a short plan and small changes. Ask before destructive actions, production deployment, external transmission or broad refactors.
+- Use a skill when its workflow matches the task. Delegate to a specialized subagent only when isolation or independent review provides clear value; do not spawn multiple agents by default.
+- For financial workflows, ensure tenant isolation, traceability, human approval and tests. Never assume AI-generated accounting decisions are authoritative.
+- Never use real client data, secrets or credentials in prompts, tests, logs or examples.
+- After changes, state files changed, targeted checks run, and unresolved risks in under 12 lines.
