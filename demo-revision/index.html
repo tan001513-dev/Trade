@@ -1,0 +1,266 @@
+<title>Révision express</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a calm review desk for accountants. Header with the file loaded, a row of findings
+   (summary first), then one section per check with its table, ending with the client email.
+   White and cocoa brown; red/amber/green only for the state of each finding. */
+:root {
+  --bg: #ffffff; --panel: #faf7f4; --ink: #2e241d; --muted: #7a6a5e; --rule: #ece4dc;
+  --brown: #7a5236; --brown-2: #9a6b47; --soft: #f4ece5;
+  --ok: #4d7a4a; --ok-soft: #edf4ea; --warn: #9a661c; --warn-soft: #fbf1e1; --bad: #a8432f; --bad-soft: #fbece8;
+  --display: "Fraunces", Georgia, serif; --body: "Figtree", "Segoe UI", Roboto, Arial, sans-serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1b1612; --panel: #241d18; --ink: #efe6dd; --muted: #b3a294; --rule: #3a2f27; --brown: #d9a77f; --brown-2: #e2b58f; --soft: #2e251f;
+  --ok: #8fbf86; --ok-soft: #1f2c1d; --warn: #e2b25c; --warn-soft: #33281a; --bad: #f08a6b; --bad-soft: #3a211b; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #1b1612; --panel: #241d18; --ink: #efe6dd; --muted: #b3a294; --rule: #3a2f27; --brown: #d9a77f; --brown-2: #e2b58f; --soft: #2e251f;
+  --ok: #8fbf86; --ok-soft: #1f2c1d; --warn: #e2b25c; --warn-soft: #33281a; --bad: #f08a6b; --bad-soft: #3a211b; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 56px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px; }
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 20px 0; }
+.brand { font-family: var(--display); font-size: 19px; color: var(--brown); font-weight: 500; }
+.pill { font-size: 12px; font-weight: 600; color: var(--brown); background: var(--soft); padding: 4px 12px; border-radius: 999px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.08; letter-spacing: -.02em; margin: 6px 0 0; text-wrap: balance; }
+h1 em { color: var(--brown-2); }
+.lede { color: var(--muted); font-size: 17px; max-width: 62ch; margin: 12px 0 0; }
+h2 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 10px; }
+.sec-head p { margin: 0; color: var(--muted); font-size: 14px; max-width: 70ch; }
+.load { background: var(--panel); border-radius: 22px; padding: 22px; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; justify-content: space-between; }
+.load .file { display: flex; gap: 14px; align-items: center; min-width: 0; }
+.load .file b { font-family: var(--display); font-weight: 500; font-size: 19px; display: block; }
+.load .file span { color: var(--muted); font-size: 14px; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+button, .filebtn { font: 600 14px/1 var(--body); border-radius: 999px; padding: 12px 18px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; position: relative; }
+.filebtn, button.primary { background: var(--brown); border-color: var(--brown); color: var(--bg); }
+.filebtn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+button:focus-visible, .filebtn:focus-within { outline: 3px solid var(--brown-2); outline-offset: 2px; }
+.drop.over { outline: 2px dashed var(--brown-2); outline-offset: 6px; }
+.status { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.tile { border: 1px solid var(--rule); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; background: var(--bg); text-decoration: none; color: inherit; }
+.tile:hover { border-color: var(--brown-2); }
+.tile .k { font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.tile .v { font-family: var(--display); font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile .s { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.tile.bad { background: var(--bad-soft); border-color: transparent; } .tile.bad .v, .tile.bad .k { color: var(--bad); }
+.tile.warn { background: var(--warn-soft); border-color: transparent; } .tile.warn .v, .tile.warn .k { color: var(--warn); }
+.tile.ok { background: var(--ok-soft); border-color: transparent; } .tile.ok .v, .tile.ok .k { color: var(--ok); }
+section.card { border: 1px solid var(--rule); border-radius: 20px; padding: 20px; scroll-margin-top: 16px; }
+.tbl { overflow-x: auto; border-radius: 12px; border: 1px solid var(--rule); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+th { text-align: left; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 10px 12px; background: var(--panel); white-space: nowrap; }
+td { padding: 10px 12px; border-top: 1px solid var(--rule); vertical-align: top; }
+td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.m { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.tag.bad { background: var(--bad-soft); color: var(--bad); } .tag.warn { background: var(--warn-soft); color: var(--warn); } .tag.ok { background: var(--ok-soft); color: var(--ok); }
+.empty { color: var(--muted); padding: 14px; }
+.mail { display: grid; gap: 10px; }
+textarea { width: 100%; min-height: 300px; font: 14px/1.55 var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 14px; padding: 14px; resize: vertical; }
+.note { font-size: 13px; color: var(--muted); }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 16px; max-width: 80ch; }
+@media (max-width: 640px) { section.card { padding: 14px; border-radius: 16px; } .tile .v { font-size: 26px; } }
+</style>
+
+<div class="wrap">
+  <div class="bar"><span class="brand">Révision express</span><span class="pill">Démo</span></div>
+
+  <div>
+    <h1>Le FEC d'un dossier, <em>révisé en dix secondes.</em></h1>
+    <p class="lede">Déposez le fichier des écritures comptables exporté de votre logiciel. L'outil propose les lettrages, liste les pièces manquantes et les vieux soldes, et rédige le mail de demande de justificatifs au client. Le fichier est lu dans votre navigateur : rien n'est envoyé.</p>
+  </div>
+
+  <div class="load drop" id="drop">
+    <div class="file">
+      <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect x="6" y="3" width="24" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--brown)"/><path d="M11 11h14M11 16h14M11 21h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="color:var(--brown-2)"/></svg>
+      <div><b id="fname">Exemple : Boulangerie Les Blés d'Or SARL</b><span id="fmeta">FEC fictif, exercice 2025</span></div>
+    </div>
+    <div class="btns">
+      <label class="filebtn">Déposer un FEC<input id="pick" type="file" accept=".txt,.csv,.tsv,text/plain"></label>
+      <button id="sample" type="button">Recharger l'exemple</button>
+    </div>
+  </div>
+  <div class="status" id="status" aria-live="polite"></div>
+
+  <div class="tiles" id="tiles"></div>
+
+  <section class="card" id="manquantes">
+    <div class="sec-head"><h2>Pièces manquantes</h2><p>Paiements sans facture en face, encaissements sans facture de vente, mouvements bancaires passés en compte d'attente.</p></div>
+    <div class="tbl"><table><thead><tr><th>Date</th><th>Tiers / compte</th><th>Libellé</th><th class="n">Montant</th><th>Constat</th></tr></thead><tbody id="t-manq"></tbody></table></div>
+  </section>
+
+  <section class="card" id="lettrage">
+    <div class="sec-head"><h2>Lettrages proposés</h2><p>Factures et règlements non lettrés du même tiers, de même montant : l'outil propose de les rapprocher.</p></div>
+    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Facture</th><th>Règlement</th><th class="n">Montant</th><th>Écart</th></tr></thead><tbody id="t-lett"></tbody></table></div>
+  </section>
+
+  <section class="card" id="soldes">
+    <div class="sec-head"><h2>Soldes ouverts par ancienneté</h2><p>Factures clients non encaissées et factures fournisseurs non réglées à la clôture, les plus anciennes d'abord.</p></div>
+    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Pièce</th><th>Date</th><th class="n">Montant</th><th class="n">Âge</th><th>Priorité</th></tr></thead><tbody id="t-sold"></tbody></table></div>
+  </section>
+
+  <section class="card" id="doublons">
+    <div class="sec-head"><h2>Doublons probables</h2><p>Même tiers, même montant et même numéro de pièce ou même date dans les journaux d'achats et de ventes.</p></div>
+    <div class="tbl"><table><thead><tr><th>Journal</th><th>Tiers</th><th>Pièce</th><th>Dates</th><th class="n">Montant</th></tr></thead><tbody id="t-doub"></tbody></table></div>
+  </section>
+
+  <section class="card mail" id="mail">
+    <div class="sec-head"><h2>Mail au client</h2><p>Prêt à envoyer : la liste des justificatifs à fournir, générée à partir des pièces manquantes.</p></div>
+    <textarea id="mailtxt" aria-label="Texte du mail au client"></textarea>
+    <div class="btns"><button class="primary" id="copy" type="button">Copier le mail</button><span class="note" id="copynote"></span></div>
+  </section>
+
+  <footer>Démo. La boulangerie et ses écritures sont fictives ; le fichier d'exemple contient volontairement des anomalies. Format attendu : FEC conforme à l'article A47 A-1 du livre des procédures fiscales (18 colonnes, séparateur tabulation ou barre verticale, montants à virgule).</footer>
+</div>
+
+<script>
+// ---------- FEC d'exemple (fictif) ----------
+function sampleFEC() {
+  const H = "JournalCode\tJournalLib\tEcritureNum\tEcritureDate\tCompteNum\tCompteLib\tCompAuxNum\tCompAuxLib\tPieceRef\tPieceDate\tEcritureLib\tDebit\tCredit\tEcritureLet\tDateLet\tValidDate\tMontantdevise\tIdevise";
+  const L = []; let num = 0, letN = 0;
+  const f = n => n.toFixed(2).replace(".", ",");
+  const d = (m, day) => `2025${String(m).padStart(2, "0")}${String(day).padStart(2, "0")}`;
+  const nextLet = () => { letN++; let s = "", n = letN; while (n > 0) { s = String.fromCharCode(65 + (n - 1) % 26) + s; n = Math.floor((n - 1) / 26); } return s; };
+  function ecr(j, jl, date, piece, lib, lines) { num++; for (const [cpt, clib, aux, alib, de, cr, let_] of lines) L.push([j, jl, String(num), date, cpt, clib, aux || "", alib || "", piece, date, lib, f(de), f(cr), let_ || "", let_ ? date : "", date, "", ""].join("\t")); }
+  const SUP = { MOULIN: ["Moulins de la Beauce", 607000, "Achats de farine", .055], LAIT: ["Laiterie du Vexin", 607000, "Achats produits laitiers", .055], ENERG: ["Énergie Plus", 606100, "Électricité", .20], SCI: ["SCI Gambetta", 613200, "Loyer", .20] };
+  function achat(code, m, day, ht, piece, lettre) {
+    const [nom, cpt, clib, tx] = SUP[code]; const tva = Math.round(ht * tx * 100) / 100, ttc = ht + tva;
+    ecr("AC", "Achats", d(m, day), piece, `${nom} fact. ${piece}`, [[String(cpt), clib, "", "", ht, 0], ["445660", "TVA déductible", "", "", tva, 0], ["401000", "Fournisseurs", "401" + code, nom, 0, ttc, lettre]]);
+    return ttc;
+  }
+  function regl(code, nom, m, day, ttc, lettre, lib) { ecr("BQ", "Banque", d(m, day), "REL" + d(m, day).slice(2, 6), lib || `VIR ${nom.toUpperCase()}`, [["401000", "Fournisseurs", "401" + code, nom, ttc, 0, lettre], ["512000", "Banque", "", "", 0, ttc]]); }
+  function vente(code, nom, m, day, ht, piece, lettre) { const tva = Math.round(ht * .055 * 100) / 100, ttc = ht + tva; ecr("VE", "Ventes", d(m, day), piece, `${nom} fact. ${piece}`, [["411000", "Clients", "411" + code, nom, ttc, 0, lettre], ["706000", "Ventes", "", "", 0, ht], ["445710", "TVA collectée", "", "", 0, tva]]); return ttc; }
+  function encais(code, nom, m, day, ttc, lettre, lib) { ecr("BQ", "Banque", d(m, day), "REL" + d(m, day).slice(2, 6), lib || `VIR RECU ${nom.toUpperCase()}`, [["512000", "Banque", "", "", ttc, 0], ["411000", "Clients", "411" + code, nom, 0, ttc, lettre]]); }
+
+  const farine = [1840, 1720, 1910, 1780, 1695, 1650, 1580, 1610, 1870, 1930, 2010, 2140];
+  const lait = [620, 590, 640, 655, 610, 600, 570, 560, 630, 660, 690, 720];
+  for (let m = 1; m <= 12; m++) {
+    const recent = m >= 11;
+    let L1 = recent ? "" : nextLet(); const t1 = achat("MOULIN", m, 5, farine[m - 1], `MB-25${String(m).padStart(2, "0")}`, L1);
+    if (m < 12) regl("MOULIN", "Moulins de la Beauce", m + 1 > 12 ? 12 : m + 1, 8, t1, L1);
+    let L2 = recent ? "" : nextLet(); const t2 = achat("LAIT", m, 12, lait[m - 1], `LV-${String(m).padStart(2, "0")}12`, L2);
+    regl("LAIT", "Laiterie du Vexin", m, 28, t2, L2);
+    let L3 = nextLet(); const t3 = achat("ENERG", m, 3, 410 + (m % 3) * 35, `EP${m}25`, L3); regl("ENERG", "Énergie Plus", m, 15, t3, L3, "PRLV ENERGIE PLUS");
+    let L4 = nextLet(); const t4 = achat("SCI", m, 1, 1500, `LOY-${m}`, L4); regl("SCI", "SCI Gambetta", m, 2, t4, L4, "PRLV SCI GAMBETTA LOYER");
+    let L5 = m >= 11 ? "" : nextLet(); const t5 = vente("HOTEL", "Hôtel du Parc", m, 30 > 28 && m === 2 ? 28 : 28, 860 + m * 12, `F25-${100 + m}`, L5);
+    if (m < 12) encais("HOTEL", "Hôtel du Parc", m === 12 ? 12 : m + 1, 10, t5, L5);
+  }
+  // Anomalies plantées
+  achat("LAIT", 4, 12, 655, "LV-0412", "");                         // doublon de la facture d'avril
+  for (const [m, day, amt] of [[3, 18, 238.80], [7, 9, 412.50], [9, 22, 238.80]])
+    regl("EMBAL", "Emballages Martin", m, day, amt, "", "CB EMBALLAGES MARTIN");   // paiements sans facture
+  ecr("BQ", "Banque", d(5, 14), "REL0514", "CB AMAZON MKTPLACE", [["471000", "Compte d'attente", "", "", 89.90, 0], ["512000", "Banque", "", "", 0, 89.90]]);
+  ecr("BQ", "Banque", d(8, 6), "REL0806", "VIR SEPA SANS LIBELLE", [["471000", "Compte d'attente", "", "", 450, 0], ["512000", "Banque", "", "", 0, 450]]);
+  encais("CAFE", "Café des Arts", 6, 17, 312, "", "VIR RECU CAFE DES ARTS");  // encaissement sans facture
+  vente("CANT", "Cantine Les Petits Loups", 2, 26, 1402.84, "F25-090", ""); // vieille créance jamais encaissée
+  return [H, ...L].join("\n");
+}
+
+// ---------- Lecture du FEC ----------
+const toNum = s => { s = String(s || "").trim().replace(/\s/g, ""); if (!s) return 0; if (s.includes(",")) s = s.replace(/\./g, "").replace(",", "."); const n = parseFloat(s); return isFinite(n) ? n : 0; };
+const toDate = s => { s = String(s || "").trim(); let m = s.match(/^(\d{4})(\d{2})(\d{2})/) || s.match(/^(\d{4})-(\d{2})-(\d{2})/); if (m) return new Date(+m[1], +m[2] - 1, +m[3]); m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})/); return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null; };
+function parseFEC(text) {
+  text = text.replace(/^﻿/, "");
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  const sep = lines[0].includes("\t") ? "\t" : lines[0].includes("|") ? "|" : ";";
+  const head = lines[0].split(sep).map(h => h.trim().toLowerCase());
+  const col = name => head.indexOf(name.toLowerCase());
+  const need = ["JournalCode", "EcritureDate", "CompteNum", "Debit", "Credit"];
+  const miss = need.filter(n => col(n) < 0);
+  if (miss.length) throw new Error("Colonnes FEC introuvables : " + miss.join(", ") + ". Vérifiez qu'il s'agit bien d'un FEC.");
+  const get = (r, n) => { const i = col(n); return i < 0 ? "" : (r[i] || "").trim(); };
+  return lines.slice(1).map((l, i) => { const r = l.split(sep); return {
+    i, j: get(r, "JournalCode"), date: toDate(get(r, "EcritureDate")), cpt: get(r, "CompteNum"), clib: get(r, "CompteLib"),
+    aux: get(r, "CompAuxNum"), auxlib: get(r, "CompAuxLib"), piece: get(r, "PieceRef"), lib: get(r, "EcritureLib"),
+    de: toNum(get(r, "Debit")), cr: toNum(get(r, "Credit")), let: get(r, "EcritureLet"), num: get(r, "EcritureNum") }; });
+}
+
+// ---------- Contrôles ----------
+function analyse(rows) {
+  const tot = rows.reduce((a, r) => [a[0] + r.de, a[1] + r.cr], [0, 0]);
+  const close = new Date(Math.max(...rows.filter(r => r.date).map(r => +r.date)));
+  const isTiers = r => /^40[01]/.test(r.cpt) || /^41[01]/.test(r.cpt);
+  const tiers = new Map();
+  rows.filter(r => isTiers(r) && !r.let).forEach(r => { const k = (r.aux || r.cpt); if (!tiers.has(k)) tiers.set(k, []); tiers.get(k).push(r); });
+  const propos = [], ouverts = [], manq = [];
+  for (const [k, list] of tiers) {
+    const fourn = /^40/.test(list[0].cpt);
+    const facts = list.filter(r => fourn ? r.cr > 0 : r.de > 0).sort((a, b) => a.date - b.date);
+    const regs = list.filter(r => fourn ? r.de > 0 : r.cr > 0).sort((a, b) => a.date - b.date);
+    const amt = r => r.de || r.cr, used = new Set();
+    for (const f of facts) {
+      const g = regs.find(r => !used.has(r) && Math.abs(amt(r) - amt(f)) < .005 && r.date >= f.date);
+      if (g) { used.add(g); propos.push({ tiers: f.auxlib || k, f, g, ecart: Math.round((g.date - f.date) / 864e5) }); }
+      else ouverts.push({ tiers: f.auxlib || k, r: f, age: Math.round((close - f.date) / 864e5), fourn });
+    }
+    for (const g of regs.filter(r => !used.has(r)))
+      manq.push({ date: g.date, who: g.auxlib || k, lib: g.lib, amt: amt(g), kind: fourn ? ["bad", "Paiement sans facture d'achat"] : ["bad", "Encaissement sans facture de vente"] });
+  }
+  const att = rows.filter(r => /^47[0-9]/.test(r.cpt));
+  att.forEach(r => manq.push({ date: r.date, who: (r.clib || "Compte d'attente") + " (" + r.cpt + ")", lib: r.lib, amt: r.de || r.cr, kind: ["warn", "En compte d'attente : à justifier"] }));
+  const attSolde = att.reduce((a, r) => a + r.de - r.cr, 0);
+  // doublons : journaux d'achats / ventes, ligne tiers
+  const seen = new Map(), doub = [];
+  rows.filter(r => isTiers(r) && /^(AC|HA|VE|VT)/i.test(r.j)).forEach(r => {
+    const key = [r.j, r.aux || r.cpt, (r.de || r.cr).toFixed(2), r.piece].join("|");
+    if (seen.has(key)) doub.push({ a: seen.get(key), b: r }); else seen.set(key, r);
+  });
+  manq.sort((a, b) => a.date - b.date); ouverts.sort((a, b) => b.age - a.age);
+  return { n: rows.length, ecr: new Set(rows.map(r => r.num)).size, tot, close, propos, ouverts, manq, attSolde, doub };
+}
+
+// ---------- Affichage ----------
+const $ = id => document.getElementById(id);
+const eur = n => n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+const fd = d => d ? d.toLocaleDateString("fr-FR") : "—";
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const empty = (cols, t) => `<tr><td colspan="${cols}" class="empty">${t}</td></tr>`;
+function render(A, name, meta) {
+  $("fname").textContent = name; $("fmeta").textContent = meta;
+  const eq = Math.abs(A.tot[0] - A.tot[1]) < .01;
+  const manqAmt = A.manq.reduce((a, m) => a + m.amt, 0), vieux = A.ouverts.filter(o => o.age > 90);
+  $("tiles").innerHTML = [
+    ["ok", "Écritures lues", A.ecr, `${A.n} lignes · ${eq ? "équilibré" : "déséquilibré !"}`, "#manquantes"],
+    [A.manq.length ? "bad" : "ok", "Pièces manquantes", A.manq.length, eur(manqAmt), "#manquantes"],
+    ["warn", "Lettrages proposés", A.propos.length, eur(A.propos.reduce((a, p) => a + (p.f.de || p.f.cr), 0)), "#lettrage"],
+    [vieux.length ? "bad" : "ok", "Soldes > 90 jours", vieux.length, eur(vieux.reduce((a, o) => a + (o.r.de || o.r.cr), 0)), "#soldes"],
+    [A.attSolde ? "warn" : "ok", "Compte d'attente", eur(A.attSolde).replace(" €", ""), "solde à la clôture (€)", "#manquantes"],
+    [A.doub.length ? "bad" : "ok", "Doublons probables", A.doub.length, A.doub.length ? eur(A.doub.reduce((a, d) => a + (d.b.de || d.b.cr), 0)) : "aucun", "#doublons"],
+  ].map(([c, k, v, s, h]) => `<a class="tile ${c}" href="${h}"><span class="k">${k}</span><span class="v">${v}</span><span class="s">${s}</span></a>`).join("");
+  $("t-manq").innerHTML = A.manq.map(m => `<tr><td class="m">${fd(m.date)}</td><td>${esc(m.who)}</td><td>${esc(m.lib)}</td><td class="n">${eur(m.amt)}</td><td><span class="tag ${m.kind[0]}">${m.kind[1]}</span></td></tr>`).join("") || empty(5, "Aucune pièce manquante détectée.");
+  $("t-lett").innerHTML = A.propos.map(p => `<tr><td>${esc(p.tiers)}</td><td class="m">${esc(p.f.piece)} · ${fd(p.f.date)}</td><td class="m">${fd(p.g.date)} · ${esc(p.g.lib)}</td><td class="n">${eur(p.f.de || p.f.cr)}</td><td><span class="tag ok">${p.ecart} j</span></td></tr>`).join("") || empty(5, "Rien à lettrer : tout est déjà rapproché.");
+  $("t-sold").innerHTML = A.ouverts.map(o => { const c = o.age > 180 ? ["bad", "À relancer"] : o.age > 90 ? ["warn", "À surveiller"] : ["ok", "Normal"]; return `<tr><td>${esc(o.tiers)} <span class="note">${o.fourn ? "fournisseur" : "client"}</span></td><td class="m">${esc(o.r.piece)}</td><td class="m">${fd(o.r.date)}</td><td class="n">${eur(o.r.de || o.r.cr)}</td><td class="n">${o.age} j</td><td><span class="tag ${c[0]}">${c[1]}</span></td></tr>`; }).join("") || empty(6, "Aucun solde ouvert.");
+  $("t-doub").innerHTML = A.doub.map(x => `<tr><td class="m">${esc(x.b.j)}</td><td>${esc(x.b.auxlib || x.b.aux)}</td><td class="m">${esc(x.b.piece)}</td><td class="m">${fd(x.a.date)} et ${fd(x.b.date)}</td><td class="n">${eur(x.b.de || x.b.cr)}</td></tr>`).join("") || empty(5, "Aucun doublon détecté.");
+  const lines = A.manq.map(m => `- ${fd(m.date)} : ${m.lib} (${eur(m.amt)})${m.kind[1].startsWith("Encaissement") ? " : facture de vente correspondante" : " : facture ou justificatif"}`);
+  const relances = A.ouverts.filter(o => !o.fourn && o.age > 90).map(o => `- ${o.tiers}, facture ${o.r.piece} du ${fd(o.r.date)} (${eur(o.r.de)}) : toujours non encaissée, est-elle réglée ?`);
+  $("mailtxt").value = `Objet : justificatifs manquants pour la clôture au ${fd(A.close)}
+
+Bonjour,
+
+Pour finaliser la révision de vos comptes, il nous manque les justificatifs suivants :
+
+${lines.join("\n") || "- aucun"}
+${relances.length ? `\nPar ailleurs, merci de nous confirmer la situation de ces factures clients :\n\n${relances.join("\n")}\n` : ""}
+Vous pouvez nous les transmettre en réponse à ce message, en photo ou en PDF.
+
+Merci d'avance, bonne journée.`;
+}
+function load(text, name, meta) {
+  try { const rows = parseFEC(text); if (!rows.length) throw new Error("Le fichier ne contient aucune écriture."); const A = analyse(rows); render(A, name, meta); $("status").textContent = `Analyse terminée : ${A.manq.length} pièce(s) manquante(s), ${A.propos.length} lettrage(s) proposé(s).`; }
+  catch (e) { $("status").textContent = "Impossible de lire ce fichier : " + e.message; }
+}
+$("pick").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes("�")) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); e.target.value = ""; });
+const drop = $("drop");
+["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", async e => { const f = e.dataTransfer?.files?.[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes("�")) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); });
+$("sample").addEventListener("click", () => load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025"));
+$("copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText($("mailtxt").value); $("copynote").textContent = "Mail copié."; } catch { $("mailtxt").select(); $("copynote").textContent = "Copie refusée : le texte est sélectionné, utilisez Ctrl+C."; } });
+load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025");
+</script>
