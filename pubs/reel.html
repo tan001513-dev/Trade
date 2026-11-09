@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Reel FacturePrête</title>
+<style>
+:root {
+  --ink: #2e241d; --muted: #7a6a5e; --rule: #eadfd5; --brown: #7a5236; --brown-2: #9a6b47; --soft: #f4ece5; --panel: #faf6f2;
+  --ok: #4d7a4a; --ok-soft: #edf4ea; --bad: #a8432f; --bad-soft: #fbece8;
+  --display: "Caladea", "Bitstream Charter", Georgia, serif;
+  --body: "Inter", "Liberation Sans", Arial, sans-serif;
+  --mono: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; background: #fff; color: var(--ink); font-family: var(--body); overflow: hidden; }
+.brand { position: absolute; top: 110px; left: 90px; right: 90px; display: flex; justify-content: space-between; font-size: 34px; font-weight: 600; color: var(--brown); z-index: 5; }
+.scene { position: absolute; inset: 0; padding: 0 90px; display: flex; flex-direction: column; justify-content: center; opacity: 0; }
+h1 { font-family: var(--display); font-weight: 400; font-size: 132px; line-height: 1.02; letter-spacing: -2px; }
+h1 em { font-style: italic; color: var(--brown-2); }
+h2 { font-family: var(--display); font-weight: 400; font-size: 100px; line-height: 1.05; letter-spacing: -1.5px; }
+.p { font-size: 46px; line-height: 1.35; color: var(--muted); margin-top: 40px; }
+.date { display: inline-block; font-family: var(--mono); font-size: 44px; background: var(--soft); color: var(--brown); padding: 14px 28px; border-radius: 999px; margin-bottom: 44px; align-self: flex-start; }
+.card { background: #fff; border: 3px solid var(--rule); border-radius: 36px; box-shadow: 0 30px 80px rgba(46,36,29,.10); padding: 44px 46px; }
+.card .head { font-size: 40px; font-weight: 600; margin-bottom: 20px; }
+.row { display: flex; align-items: center; gap: 24px; padding: 24px 0; border-top: 3px solid var(--panel); font-size: 40px; opacity: 0; }
+.ic { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 34px; flex: none; background: var(--bad-soft); color: var(--bad); }
+.ic i { grid-area: 1 / 1; font-style: normal; }
+.ic .v { opacity: 0; }
+@keyframes show { to { opacity: 1; } }
+@keyframes hide { to { opacity: 0; } }
+.cta { margin-top: 60px; background: var(--brown); color: #fff; border-radius: 36px; padding: 48px 50px; }
+.cta b { display: block; font-family: var(--display); font-weight: 400; font-size: 64px; line-height: 1.1; }
+.cta span { display: block; font-size: 40px; opacity: .88; margin-top: 18px; }
+
+/* timeline: 0-3s / 3-6.5s / 6.5-10.5s / 10.5-14s */
+@keyframes inout { 0% { opacity: 0; transform: translateY(40px); } 8% { opacity: 1; transform: none; } 90% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes inhold { 0% { opacity: 0; transform: translateY(40px); } 12% { opacity: 1; transform: none; } 100% { opacity: 1; } }
+@keyframes pop { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }
+@keyframes fix { to { background: var(--ok-soft); color: var(--ok); } }
+.s1 { animation: inout 3s ease 0.2s both; }
+.s2 { animation: inout 3.5s ease 3.2s both; }
+.s3 { animation: inout 4s ease 6.7s both; }
+.s3 .row:nth-child(2) { animation: pop .4s ease 7.3s both; }
+.s3 .row:nth-child(3) { animation: pop .4s ease 7.7s both; }
+.s3 .row:nth-child(4) { animation: pop .4s ease 8.1s both; }
+.s3 .row .ic { animation: fix .3s ease both; }
+.s3 .row:nth-child(2) .ic, .s3 .row:nth-child(2) .ic i { animation-delay: 9.0s; }
+.s3 .row:nth-child(3) .ic, .s3 .row:nth-child(3) .ic i { animation-delay: 9.3s; }
+.s3 .row:nth-child(4) .ic, .s3 .row:nth-child(4) .ic i { animation-delay: 9.6s; }
+.s3 .ic .v { animation: show .3s ease both; }
+.s3 .ic .x { animation: hide .3s ease both; }
+.s4 { animation: inhold 3.5s ease 10.8s both; }
+</style>
+</head>
+<body>
+<div class="brand"><span>FacturePrête</span><span>Micro-entrepreneurs</span></div>
+
+<section class="scene s1"><h1>Micro-<br>entrepreneur&nbsp;?</h1><p class="p">Vos factures vont changer.</p></section>
+
+<section class="scene s2"><span class="date">Septembre 2027</span><h2>Vos factures doivent passer <em>en électronique.</em></h2><p class="p">Avec de nouvelles mentions obligatoires.</p></section>
+
+<section class="scene s3">
+  <div class="card">
+    <div class="head">Votre facture</div>
+    <div class="row"><span class="ic"><i class="x">✕</i><i class="v">✓</i></span>SIREN de votre client</div>
+    <div class="row"><span class="ic"><i class="x">✕</i><i class="v">✓</i></span>Nature : biens ou services</div>
+    <div class="row"><span class="ic"><i class="x">✕</i><i class="v">✓</i></span>Plateforme de réception</div>
+  </div>
+  <p class="p">Je vérifie et je corrige votre modèle.</p>
+</section>
+
+<section class="scene s4">
+  <h2>Prêt avant <em>tout le monde.</em></h2>
+  <div class="cta"><b>Gratuit pour les 5 premiers</b><span>Écrivez « FACTURE » en message privé</span></div>
+</section>
+</body>
+</html>

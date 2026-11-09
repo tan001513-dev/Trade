@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Pubs FacturePrête</title>
+<style>
+:root {
+  --page: #ffffff; --panel: #faf6f2; --ink: #2e241d; --muted: #7a6a5e; --rule: #eadfd5;
+  --brown: #7a5236; --brown-2: #9a6b47; --soft: #f4ece5;
+  --ok: #4d7a4a; --ok-soft: #edf4ea; --bad: #a8432f; --bad-soft: #fbece8; --warn: #9a661c; --warn-soft: #fbf1e1;
+  --display: "Caladea", "Bitstream Charter", Georgia, serif;
+  --body: "Inter", "Liberation Sans", Arial, sans-serif;
+  --mono: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+html, body { background: var(--page); color: var(--ink); font-family: var(--body); }
+.ad { width: 1080px; height: 1350px; position: relative; overflow: hidden; padding: 84px 84px 0; display: none; flex-direction: column; }
+body[data-v="1"] #ad1, body[data-v="2"] #ad2 { display: flex; }
+.brand { display: flex; align-items: center; justify-content: space-between; font-size: 28px; font-weight: 600; color: var(--brown); }
+.brand .pill { font-size: 24px; font-weight: 600; background: var(--soft); color: var(--brown); padding: 10px 22px; border-radius: 999px; }
+h1 { font-family: var(--display); font-weight: 400; font-size: 96px; line-height: 1.02; letter-spacing: -1.5px; margin-top: 56px; }
+h1 em { font-style: italic; color: var(--brown-2); }
+.sub { font-size: 34px; line-height: 1.4; color: var(--muted); margin-top: 28px; max-width: 880px; }
+.card { background: #fff; border: 2px solid var(--rule); border-radius: 28px; box-shadow: 0 20px 60px rgba(46,36,29,.08); padding: 34px 38px; margin-top: 46px; }
+.card .head { display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; font-weight: 600; margin-bottom: 18px; }
+.card .head span { font-family: var(--mono); font-size: 22px; color: var(--muted); font-weight: 400; }
+.row { display: flex; align-items: center; gap: 18px; padding: 15px 0; border-top: 2px solid var(--panel); font-size: 28px; }
+.row .ic { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 24px; flex: none; }
+.ok .ic { background: var(--ok-soft); color: var(--ok); }
+.bad .ic { background: var(--bad-soft); color: var(--bad); }
+.warn .ic { background: var(--warn-soft); color: var(--warn); }
+.row .lab { flex: 1; }
+.row .val { font-family: var(--mono); font-size: 24px; color: var(--muted); }
+.bad .val { color: var(--bad); } .warn .val { color: var(--warn); } .ok .val { color: var(--ok); }
+.cta { position: absolute; left: 0; right: 0; bottom: 0; background: var(--brown); color: #fff; padding: 40px 84px 46px; }
+.cta b { display: block; font-family: var(--display); font-weight: 400; font-size: 52px; line-height: 1.1; }
+.cta span { display: block; font-size: 28px; opacity: .85; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<section class="ad" id="ad1">
+  <div class="brand"><span>FacturePrête</span><span class="pill">Micro-entrepreneurs</span></div>
+  <h1>Vos factures changent.<br><em>Votre modèle est-il prêt&nbsp;?</em></h1>
+  <p class="sub">Avec la facture électronique, de nouvelles mentions deviennent obligatoires. Je vérifie votre modèle et vous livre une version conforme.</p>
+  <div class="card">
+    <div class="head">Exemple de vérification <span>FAC-2027-014</span></div>
+    <div class="row ok"><span class="ic">✓</span><span class="lab">Vos mentions habituelles</span><span class="val">OK</span></div>
+    <div class="row bad"><span class="ic">✕</span><span class="lab">SIREN de votre client</span><span class="val">manquant</span></div>
+    <div class="row bad"><span class="ic">✕</span><span class="lab">Nature : biens ou services</span><span class="val">manquant</span></div>
+    <div class="row warn"><span class="ic">!</span><span class="lab">Plateforme de réception choisie</span><span class="val">à faire</span></div>
+  </div>
+  <div class="cta"><b>Vérification gratuite pour les 5 premiers</b><span>Écrivez « FACTURE » en message privé</span></div>
+</section>
+
+<section class="ad" id="ad2">
+  <div class="brand"><span>FacturePrête</span><span class="pill">TPE · Cabinets comptables</span></div>
+  <h1>1 SIREN faux,<br><em>1 facture bloquée.</em></h1>
+  <p class="sub">Avec la facture électronique, chaque facture est adressée grâce au SIREN. On vérifie tout votre fichier clients et fournisseurs dans la base officielle de l'INSEE.</p>
+  <div class="card">
+    <div class="head">Exemple de diagnostic <span>412 fiches</span></div>
+    <div class="row ok"><span class="ic">✓</span><span class="lab">Fiches valides</span><span class="val">371</span></div>
+    <div class="row bad"><span class="ic">✕</span><span class="lab">Entreprises fermées</span><span class="val">23</span></div>
+    <div class="row bad"><span class="ic">✕</span><span class="lab">SIREN ou n° TVA faux</span><span class="val">11</span></div>
+    <div class="row warn"><span class="ic">!</span><span class="lab">Doublons</span><span class="val">7</span></div>
+  </div>
+  <div class="cta"><b>Diagnostic gratuit de vos 50 premières fiches</b><span>Envoyez votre export Excel en message privé</span></div>
+</section>
+
+<script>document.body.dataset.v = location.hash.slice(1) || "1";</script>
+</body>
+</html>
