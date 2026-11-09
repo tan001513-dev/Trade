@@ -184,7 +184,8 @@ function parseFEC(text) {
 // ---------- Contrôles ----------
 function analyse(rows) {
   const tot = rows.reduce((a, r) => [a[0] + r.de, a[1] + r.cr], [0, 0]);
-  const close = new Date(Math.max(...rows.filter(r => r.date).map(r => +r.date)));
+  const last = new Date(Math.max(...rows.filter(r => r.date).map(r => +r.date)));
+  const close = new Date(last.getFullYear(), 11, 31);
   const isTiers = r => /^40[01]/.test(r.cpt) || /^41[01]/.test(r.cpt);
   const tiers = new Map();
   rows.filter(r => isTiers(r) && !r.let).forEach(r => { const k = (r.aux || r.cpt); if (!tiers.has(k)) tiers.set(k, []); tiers.get(k).push(r); });
@@ -255,11 +256,11 @@ function load(text, name, meta) {
   try { const rows = parseFEC(text); if (!rows.length) throw new Error("Le fichier ne contient aucune écriture."); const A = analyse(rows); render(A, name, meta); $("status").textContent = `Analyse terminée : ${A.manq.length} pièce(s) manquante(s), ${A.propos.length} lettrage(s) proposé(s).`; }
   catch (e) { $("status").textContent = "Impossible de lire ce fichier : " + e.message; }
 }
-$("pick").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes("�")) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); e.target.value = ""; });
+$("pick").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes(String.fromCharCode(0xFFFD))) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); e.target.value = ""; });
 const drop = $("drop");
 ["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
 ["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
-drop.addEventListener("drop", async e => { const f = e.dataTransfer?.files?.[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes("�")) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); });
+drop.addEventListener("drop", async e => { const f = e.dataTransfer?.files?.[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes(String.fromCharCode(0xFFFD))) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); });
 $("sample").addEventListener("click", () => load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025"));
 $("copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText($("mailtxt").value); $("copynote").textContent = "Mail copié."; } catch { $("mailtxt").select(); $("copynote").textContent = "Copie refusée : le texte est sélectionné, utilisez Ctrl+C."; } });
 load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025");
