@@ -1,0 +1,107 @@
+---
+type: matiere
+tags:
+  - droit/contrats
+---
+# Droit des contrats
+
+Retour : [[Droit - Accueil]]
+
+## Cours et TD
+- [[CM1 Contrats]] : Introduction générale
+- [[CM2 Contrats]] : Sources des obligations, réforme 2016, principes directeurs, définitions, début du devoir d'information
+- [[CM3 Contrats]] : Phase de préparation : devoir d'information, pourparlers, avant-contrats ; définition de l'offre
+- [[CM4 Contrats]] : Conclusion du contrat, capacité, représentation, vices du consentement
+- [[CM5 Contrats]] : Contenu du contrat : prestation licite et équilibrée (art. 1162 à 1171)
+- [[TD1 Contrats]] : Notion de contrat, définitions et classification, sources d'obligations
+- [[TD2 Contrats]] : Négociation et avant-contrats
+
+## Notions
+- [[Contrat]]
+- [[Obligation]]
+- [[Acte juridique et fait juridique]]
+- [[Obligation naturelle]]
+- [[Engagement unilatéral de volonté]]
+- [[Réforme de 2016]]
+- [[Liberté contractuelle]]
+- [[Force obligatoire]]
+- [[Bonne foi]]
+- [[Droit commun et droit spécial]]
+- [[Droit impératif et droit supplétif]]
+- [[Classification des contrats]]
+- [[Contrat synallagmatique]]
+- [[Contrat aléatoire]]
+- [[Contrat d'adhésion]]
+- [[Ordre public]]
+- [[Devoir précontractuel d'information]]
+- [[Pourparlers]]
+- [[Négociation encadrée]]
+- [[Pacte de préférence]]
+- [[Promesse unilatérale de contrat]]
+- [[Promesse synallagmatique]]
+- [[Action interrogatoire]]
+- [[Offre]]
+- [[Acceptation]]
+- [[Silence]]
+- [[Contrat entre absents]]
+- [[Contrat électronique]]
+- [[Conditions de validité du contrat]]
+- [[Capacité]]
+- [[Insanité d'esprit]]
+- [[Représentation]]
+- [[Mandat apparent]]
+- [[Vices du consentement]]
+- [[Erreur]]
+- [[Dol]]
+- [[Violence]]
+- [[Abus de dépendance]]
+- [[Nullité relative]]
+- [[Contenu du contrat]]
+- [[Détermination du prix]]
+- [[Lésion]]
+- [[Clauses abusives]]
+- [[Contrepartie illusoire ou dérisoire]]
+- [[Obligation essentielle]]
+- [[Caducité]]
+- [[Imprévision]]
+- [[Engagements perpétuels]]
+- [[Assistance bénévole]]
+
+## Arrêts
+- [[Manoukian (Com., 26 nov. 2003)]]
+- [[Civ. 3e, 31 mai 2018]]
+- [[Civ. 3e, 11 mai 2023]]
+- [[Com., 22 mars 2017]]
+- [[Cons. const., 13 juin 2013]]
+- [[Consorts Cruz (Civ. 3e, 15 déc. 1993)]]
+- [[Civ. 3e, 6 déc. 2018]]
+- [[Civ. 3e, 17 oct. 2019 (QPC)]]
+- [[Civ. 3e, 23 juin 2021]]
+- [[Com., 15 mars 2023]]
+- [[Civ. 3e, 22 juin 2023]]
+- [[Soc., 21 sept. 2017]]
+- [[Ch. mixte, 26 mai 2006]]
+- [[Civ. 3e, 3 nov. 2011]]
+- [[Civ. 1re, 25 sept. 2024]]
+- [[Com., 14 mai 2025]]
+- [[Civ. 1re, 3 déc. 2025 (cercueil)]]
+- [[Civ. 1re, 11 oct. 2017]]
+- [[Civ., 25 mai 1870 (Guilloux)]]
+- [[Poussin I (Civ. 1re, 22 févr. 1978)]]
+- [[Poussin II (Civ. 1re, 13 déc. 1983)]]
+- [[Verrou de Fragonard (Civ. 1re, 24 mars 1987)]]
+- [[Baldus (Civ. 1re, 3 mai 2000)]]
+- [[Porcherie (Civ. 3e, 2 oct. 1974)]]
+- [[Vilgrain (Com., 27 févr. 1996)]]
+- [[Civ. 1re, 5 mai 2021]]
+- [[Civ. 1re, 30 mai 2000]]
+- [[Civ. 1re, 3 avr. 2002]]
+- [[Ass. plén., 13 déc. 1962]]
+- [[Com., 20 mai 2003 (Seusse)]]
+- [[Ass. plén., 1er déc. 1995]]
+- [[Cartier (Civ. 1re, 4 juill. 1995)]]
+- [[Point club vidéo (Civ. 1re, 3 juill. 1996)]]
+- [[Chronopost (Com., 22 oct. 1996)]]
+- [[Faurecia 2 (Com., 29 juin 2010)]]
+- [[Civ. 1re, 7 oct. 1998]]
+- [[Civ. 1re, 7 nov. 2000]]
