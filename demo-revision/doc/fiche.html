@@ -18,24 +18,24 @@ ul { margin:0; padding-left: 15px; } li { margin: 0 0 4px; }
 .foot { margin-top: 12px; border-top:1px solid var(--rule); padding-top:6px; color: var(--muted); font-size: 8.5pt; display:flex; justify-content:space-between; }
 </style></head><body>
 <div class="top"><span class="brand">Révision express</span><span>Outil de révision pour cabinets comptables</span></div>
-<h1>Lettrage automatique et factures manquantes, <em>en dix secondes.</em></h1>
+<h1>Lettrage automatique et factures manquantes, <em>en quelques secondes.</em></h1>
 <p class="lede">Pour gagner du temps sur la révision des comptes : le cabinet dépose le fichier des écritures comptables (FEC) exporté de son logiciel, l'outil lettre les factures avec leurs règlements et repère les factures manquantes.</p>
 <img src="apercu.png" alt="Aperçu de l'outil sur un dossier d'exemple">
 <div class="cols">
   <div>
     <h2>Ce qu'il fait</h2>
     <ul>
-      <li><b>Lettrage automatique</b> : chaque facture non lettrée est rapprochée de son règlement (même tiers, même montant), avec le délai de paiement.</li>
-      <li>Liste les <b>factures restées sans règlement</b> après lettrage.</li>
-      <li>Repère les <b>factures manquantes</b> : paiements sans facture d'achat, encaissements sans facture de vente.</li>
-      <li>Signale les sommes passées en <b>compte d'attente</b> faute de justificatif.</li>
-      <li>Résume le dossier en <b>4 chiffres clés</b> et vérifie que le fichier est équilibré.</li>
-      <li>Fonctionne avec le FEC de <b>n'importe quel logiciel</b> comptable.</li>
+      <li><b>Lettrage automatique</b> des comptes fournisseurs et clients, avec 5 méthodes : n° de facture trouvé dans le libellé bancaire, montant exact, <b>paiement groupé</b> (un virement pour plusieurs factures), <b>paiement fractionné</b> (une facture réglée en plusieurs fois), <b>petit écart</b> (frais, escompte).</li>
+      <li>Chaque proposition a un niveau de confiance ; le comptable <b>valide ou refuse</b>, ou valide d'un clic toutes les propositions sûres.</li>
+      <li>Montre le <b>taux de lettrage avant / après</b> et ce qui reste non lettré.</li>
+      <li>Repère les <b>factures manquantes</b> : paiements sans facture d'achat, encaissements sans facture de vente, compte d'attente, dépenses passées en charge sans pièce.</li>
+      <li><b>Export Excel</b> en trois onglets (lettrages avec code et décision, reste à lettrer, factures manquantes).</li>
+      <li>Réglages : écart toléré, fenêtre de rapprochement. Fonctionne avec le FEC de <b>n'importe quel logiciel</b>.</li>
     </ul>
   </div>
   <div>
     <div class="box"><h2>Confidentiel</h2>Le fichier est lu dans le navigateur : <b>aucune donnée n'est envoyée</b> sur internet. Fonctionne sur ordinateur et téléphone, sans installation.</div>
-    <div class="box"><h2>Limites actuelles</h2><ul><li>Il <b>propose</b> les lettrages ; le comptable les valide dans son logiciel.</li><li>Paiements partiels ou groupés pas encore gérés.</li><li>Version de démonstration, testée sur un dossier fictif : à ajuster sur vos FEC.</li><li>La saisie des factures n'est pas traitée : vos logiciels l'automatisent déjà.</li></ul></div>
+    <div class="box"><h2>Limites actuelles</h2><ul><li>Il <b>propose</b> les lettrages ; le comptable les reporte dans son logiciel.</li><li>Version de démonstration, testée sur un dossier fictif : à ajuster sur vos FEC.</li><li>La saisie des factures n'est pas traitée : vos logiciels l'automatisent déjà.</li></ul></div>
   </div>
 </div>
 <div class="foot"><span>Karoui · étudiant à l'UVSQ</span><span>Démo : la boulangerie de l'aperçu et ses écritures sont fictives.</span></div>

@@ -2,10 +2,11 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-/* Layout: a calm review desk for accountants. Header with the file loaded, a row of findings
-   (summary first), then one section per check with its table, ending with the client email.
-   White and cocoa brown; red/amber/green only for the state of each finding. */
+/* Layout: a review desk for accountants. File bar, four key figures (summary first), then two work
+   areas: automatic matching (proposals to accept or reject, then what stays open) and missing invoices.
+   White and cocoa brown; red/amber/green only carry the state of a finding. */
 :root {
   --bg: #ffffff; --panel: #faf7f4; --ink: #2e241d; --muted: #7a6a5e; --rule: #ece4dc;
   --brown: #7a5236; --brown-2: #9a6b47; --soft: #f4ece5;
@@ -21,60 +22,72 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55;
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 56px; }
-.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px; }
+.wrap { max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
 .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 20px 0; }
 .brand { font-family: var(--display); font-size: 19px; color: var(--brown); font-weight: 500; }
 .pill { font-size: 12px; font-weight: 600; color: var(--brown); background: var(--soft); padding: 4px 12px; border-radius: 999px; }
-h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.08; letter-spacing: -.02em; margin: 6px 0 0; text-wrap: balance; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 4.4vw, 44px); line-height: 1.08; letter-spacing: -.02em; margin: 6px 0 0; text-wrap: balance; }
 h1 em { color: var(--brown-2); }
-.lede { color: var(--muted); font-size: 17px; max-width: 62ch; margin: 12px 0 0; }
+.lede { color: var(--muted); font-size: 17px; max-width: 64ch; margin: 12px 0 0; }
 h2 { font-family: var(--display); font-weight: 500; font-size: 24px; margin: 0; }
-.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 10px; }
+h3 { font-family: var(--display); font-weight: 500; font-size: 18px; margin: 20px 0 8px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 12px; }
 .sec-head p { margin: 0; color: var(--muted); font-size: 14px; max-width: 70ch; }
-.load { background: var(--panel); border-radius: 22px; padding: 22px; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; justify-content: space-between; }
+.load { background: var(--panel); border-radius: 22px; padding: 18px 22px; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; justify-content: space-between; }
 .load .file { display: flex; gap: 14px; align-items: center; min-width: 0; }
 .load .file b { font-family: var(--display); font-weight: 500; font-size: 19px; display: block; }
 .load .file span { color: var(--muted); font-size: 14px; }
-.btns { display: flex; flex-wrap: wrap; gap: 10px; }
-button, .filebtn { font: 600 14px/1 var(--body); border-radius: 999px; padding: 12px 18px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; position: relative; }
+.drop.over { outline: 2px dashed var(--brown-2); outline-offset: 6px; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button, .filebtn { font: 600 14px/1 var(--body); border-radius: 999px; padding: 11px 17px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); cursor: pointer; display: inline-flex; gap: 8px; align-items: center; position: relative; }
 .filebtn, button.primary { background: var(--brown); border-color: var(--brown); color: var(--bg); }
 .filebtn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-button:focus-visible, .filebtn:focus-within { outline: 3px solid var(--brown-2); outline-offset: 2px; }
-.drop.over { outline: 2px dashed var(--brown-2); outline-offset: 6px; }
-.status { font-family: var(--mono); font-size: 13px; color: var(--muted); }
-.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
-.tile { border: 1px solid var(--rule); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; background: var(--bg); text-decoration: none; color: inherit; }
-.tile:hover { border-color: var(--brown-2); }
+button.sm { padding: 6px 11px; font-size: 13px; }
+button.yes[aria-pressed="true"] { background: var(--ok); border-color: var(--ok); color: var(--bg); }
+button.no[aria-pressed="true"] { background: var(--bad); border-color: var(--bad); color: var(--bg); }
+button:focus-visible, .filebtn:focus-within, input:focus-visible, select:focus-visible { outline: 3px solid var(--brown-2); outline-offset: 2px; }
+.settings { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; font-size: 14px; color: var(--muted); }
+.settings label { display: inline-flex; gap: 8px; align-items: center; }
+.settings input { width: 82px; font: 500 14px var(--mono); padding: 6px 8px; border: 1px solid var(--rule); border-radius: 8px; background: var(--bg); color: var(--ink); }
+.status { font-family: var(--mono); font-size: 13px; color: var(--muted); min-height: 1.4em; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.tile { border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; background: var(--panel); text-decoration: none; color: inherit; }
 .tile .k { font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
-.tile .v { font-family: var(--display); font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile .v { font-family: var(--display); font-size: 32px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .tile .s { font-family: var(--mono); font-size: 13px; color: var(--muted); }
-.tile.bad { background: var(--bad-soft); border-color: transparent; } .tile.bad .v, .tile.bad .k { color: var(--bad); }
-.tile.warn { background: var(--warn-soft); border-color: transparent; } .tile.warn .v, .tile.warn .k { color: var(--warn); }
-.tile.ok { background: var(--ok-soft); border-color: transparent; } .tile.ok .v, .tile.ok .k { color: var(--ok); }
+.tile.bad { background: var(--bad-soft); } .tile.bad .v, .tile.bad .k { color: var(--bad); }
+.tile.warn { background: var(--warn-soft); } .tile.warn .v, .tile.warn .k { color: var(--warn); }
+.tile.ok { background: var(--ok-soft); } .tile.ok .v, .tile.ok .k { color: var(--ok); }
+.meter { height: 8px; border-radius: 99px; background: var(--rule); overflow: hidden; margin-top: 6px; display: flex; }
+.meter i { display: block; height: 100%; }
 section.card { border: 1px solid var(--rule); border-radius: 20px; padding: 20px; scroll-margin-top: 16px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.toolbar input[type=search] { font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule); background: var(--panel); color: var(--ink); min-width: 0; flex: 1 1 200px; max-width: 320px; }
+.toolbar select { font: inherit; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); }
 .tbl { overflow-x: auto; border-radius: 12px; border: 1px solid var(--rule); }
-table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 720px; }
 th { text-align: left; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 10px 12px; background: var(--panel); white-space: nowrap; }
 td { padding: 10px 12px; border-top: 1px solid var(--rule); vertical-align: top; }
 td.n, th.n { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
-td.m { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+td.m { font-family: var(--mono); font-size: 12.5px; }
+td.m div + div { margin-top: 3px; }
+tr.rejected td { opacity: .45; }
 .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
-.tag.bad { background: var(--bad-soft); color: var(--bad); } .tag.warn { background: var(--warn-soft); color: var(--warn); } .tag.ok { background: var(--ok-soft); color: var(--ok); }
+.tag.bad { background: var(--bad-soft); color: var(--bad); } .tag.warn { background: var(--warn-soft); color: var(--warn); } .tag.ok { background: var(--ok-soft); color: var(--ok); } .tag.info { background: var(--soft); color: var(--brown); }
+.why { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
 .empty { color: var(--muted); padding: 14px; }
-h3.sub { font-family: var(--display); font-weight: 500; font-size: 18px; margin: 18px 0 8px; }
-.mail { display: grid; gap: 10px; }
-textarea { width: 100%; min-height: 300px; font: 14px/1.55 var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 14px; padding: 14px; resize: vertical; }
 .note { font-size: 13px; color: var(--muted); }
-footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 16px; max-width: 80ch; }
-@media (max-width: 640px) { section.card { padding: 14px; border-radius: 16px; } .tile .v { font-size: 26px; } }
+.export { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 16px; max-width: 84ch; }
+@media (max-width: 640px) { section.card { padding: 14px; border-radius: 16px; } .tile .v { font-size: 27px; } }
 </style>
 
 <div class="wrap">
   <div class="bar"><span class="brand">Révision express</span><span class="pill">Démo</span></div>
 
   <div>
-    <h1>Lettrage automatique et factures manquantes, <em>en dix secondes.</em></h1>
-    <p class="lede">Déposez le fichier des écritures comptables exporté de votre logiciel. L'outil lettre automatiquement les factures avec leurs règlements et repère les factures manquantes, pour gagner du temps sur la révision des comptes. Le fichier est lu dans votre navigateur : rien n'est envoyé.</p>
+    <h1>Lettrage automatique et factures manquantes, <em>en quelques secondes.</em></h1>
+    <p class="lede">Déposez le FEC exporté de votre logiciel. L'outil rapproche les factures de leurs règlements, y compris les paiements groupés, fractionnés ou avec un petit écart, et liste les factures manquantes. Vous validez, vous exportez. Le fichier est lu dans votre navigateur : rien n'est envoyé.</p>
   </div>
 
   <div class="load drop" id="drop">
@@ -87,26 +100,40 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule)
       <button id="sample" type="button">Recharger l'exemple</button>
     </div>
   </div>
-  <div class="status" id="status" aria-live="polite"></div>
+
+  <div class="settings">
+    <label for="tol">Écart toléré <input id="tol" type="number" min="0" step="0.5" value="2"> €</label>
+    <label for="win">Fenêtre de rapprochement <input id="win" type="number" min="15" step="15" value="120"> jours</label>
+    <span class="status" id="status" aria-live="polite"></span>
+  </div>
 
   <div class="tiles" id="tiles"></div>
 
   <section class="card" id="lettrage">
-    <div class="sec-head"><h2>Lettrage automatique</h2><p>Chaque facture non lettrée est rapprochée de son règlement : même tiers, même montant. Le comptable valide en un coup d'œil.</p></div>
-    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Facture</th><th>Règlement</th><th class="n">Montant</th><th>Écart</th></tr></thead><tbody id="t-lett"></tbody></table></div>
-    <h3 class="sub">Factures restées sans règlement</h3>
-    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Facture</th><th>Date</th><th class="n">Montant</th></tr></thead><tbody id="t-sold"></tbody></table></div>
+    <div class="sec-head"><h2>Lettrage automatique</h2><p>Chaque proposition rapproche des factures et des règlements du même tiers. Validez ou refusez ; les propositions sûres peuvent être validées d'un coup.</p></div>
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="Filtrer par tiers, pièce, libellé…" aria-label="Filtrer les propositions">
+      <div class="btns">
+        <select id="fconf" aria-label="Filtrer par niveau de confiance"><option value="">Toutes les propositions</option><option value="haute">Confiance haute</option><option value="moyenne">Confiance moyenne</option><option value="verif">À vérifier</option></select>
+        <button class="primary" id="okall" type="button">Valider les propositions sûres</button>
+      </div>
+    </div>
+    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Factures</th><th>Règlements</th><th class="n">Montant</th><th>Type</th><th>Décision</th></tr></thead><tbody id="t-lett"></tbody></table></div>
+    <h3>Restent non lettrées</h3>
+    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Pièce</th><th>Date</th><th>Libellé</th><th class="n">Montant</th><th>Nature</th></tr></thead><tbody id="t-rest"></tbody></table></div>
   </section>
 
   <section class="card" id="manquantes">
-    <div class="sec-head"><h2>Factures manquantes</h2><p>Mouvements bancaires sans facture en face : paiements sans facture d'achat, encaissements sans facture de vente, sommes passées en compte d'attente faute de justificatif.</p></div>
-    <div class="tbl"><table><thead><tr><th>Date</th><th>Tiers / compte</th><th>Libellé</th><th class="n">Montant</th><th>Constat</th></tr></thead><tbody id="t-manq"></tbody></table></div>
+    <div class="sec-head"><h2>Factures manquantes</h2><p>Mouvements bancaires sans facture : paiements et encaissements de tiers sans facture en face, sommes en compte d'attente, dépenses passées directement en charge sans pièce.</p></div>
+    <div class="tbl"><table><thead><tr><th>Date</th><th>Tiers / compte</th><th>Libellé bancaire</th><th class="n">Montant</th><th>Constat</th></tr></thead><tbody id="t-manq"></tbody></table></div>
   </section>
 
+  <section class="card">
+    <div class="sec-head"><h2>Exporter</h2><p>Un fichier Excel avec trois onglets : les lettrages (avec un code par groupe et la décision), ce qui reste à lettrer, les factures manquantes.</p></div>
+    <div class="export"><button class="primary" id="xlsx" type="button" hidden>Télécharger le rapport Excel</button><button id="copy" type="button">Copier les factures manquantes</button><span class="note" id="exnote"></span></div>
+  </section>
 
-
-
-  <footer>Démo. La boulangerie et ses écritures sont fictives ; le fichier d'exemple contient volontairement des factures manquantes et des écritures à lettrer. Format attendu : FEC conforme à l'article A47 A-1 du livre des procédures fiscales (18 colonnes, séparateur tabulation ou barre verticale, montants à virgule).</footer>
+  <footer>Démo. La boulangerie et ses écritures sont fictives ; le fichier d'exemple contient volontairement des cas à lettrer (paiement groupé, paiement en deux fois, écart de frais bancaires, référence de facture dans le libellé) et des factures manquantes. Format attendu : FEC (article A47 A-1 du livre des procédures fiscales), séparateur tabulation, barre verticale ou point-virgule, montants à virgule. Les lettrages sont des propositions : ils ne sont pas reportés dans votre logiciel.</footer>
 </div>
 
 <script>
@@ -117,125 +144,206 @@ function sampleFEC() {
   const f = n => n.toFixed(2).replace(".", ",");
   const d = (m, day) => `2025${String(m).padStart(2, "0")}${String(day).padStart(2, "0")}`;
   const nextLet = () => { letN++; let s = "", n = letN; while (n > 0) { s = String.fromCharCode(65 + (n - 1) % 26) + s; n = Math.floor((n - 1) / 26); } return s; };
-  function ecr(j, jl, date, piece, lib, lines) { num++; for (const [cpt, clib, aux, alib, de, cr, let_] of lines) L.push([j, jl, String(num), date, cpt, clib, aux || "", alib || "", piece, date, lib, f(de), f(cr), let_ || "", let_ ? date : "", date, "", ""].join("\t")); }
+  const r2 = x => Math.round(x * 100) / 100;
+  function ecr(j, jl, date, piece, lib, lines) { num++; for (const [cpt, clib, aux, alib, de, cr, lt] of lines) L.push([j, jl, String(num), date, cpt, clib, aux || "", alib || "", piece, date, lib, f(de), f(cr), lt || "", lt ? date : "", date, "", ""].join("\t")); }
   const SUP = { MOULIN: ["Moulins de la Beauce", 607000, "Achats de farine", .055], LAIT: ["Laiterie du Vexin", 607000, "Achats produits laitiers", .055], ENERG: ["Énergie Plus", 606100, "Électricité", .20], SCI: ["SCI Gambetta", 613200, "Loyer", .20] };
-  function achat(code, m, day, ht, piece, lettre) {
-    const [nom, cpt, clib, tx] = SUP[code]; const tva = Math.round(ht * tx * 100) / 100, ttc = ht + tva;
-    ecr("AC", "Achats", d(m, day), piece, `${nom} fact. ${piece}`, [[String(cpt), clib, "", "", ht, 0], ["445660", "TVA déductible", "", "", tva, 0], ["401000", "Fournisseurs", "401" + code, nom, 0, ttc, lettre]]);
-    return ttc;
-  }
-  function regl(code, nom, m, day, ttc, lettre, lib) { ecr("BQ", "Banque", d(m, day), "REL" + d(m, day).slice(2, 6), lib || `VIR ${nom.toUpperCase()}`, [["401000", "Fournisseurs", "401" + code, nom, ttc, 0, lettre], ["512000", "Banque", "", "", 0, ttc]]); }
-  function vente(code, nom, m, day, ht, piece, lettre) { const tva = Math.round(ht * .055 * 100) / 100, ttc = ht + tva; ecr("VE", "Ventes", d(m, day), piece, `${nom} fact. ${piece}`, [["411000", "Clients", "411" + code, nom, ttc, 0, lettre], ["706000", "Ventes", "", "", 0, ht], ["445710", "TVA collectée", "", "", 0, tva]]); return ttc; }
-  function encais(code, nom, m, day, ttc, lettre, lib) { ecr("BQ", "Banque", d(m, day), "REL" + d(m, day).slice(2, 6), lib || `VIR RECU ${nom.toUpperCase()}`, [["512000", "Banque", "", "", ttc, 0], ["411000", "Clients", "411" + code, nom, 0, ttc, lettre]]); }
-
+  function achat(code, m, day, ht, piece, lt) { const [nom, cpt, clib, tx] = SUP[code]; const tva = r2(ht * tx), ttc = r2(ht + tva);
+    ecr("AC", "Achats", d(m, day), piece, `${nom} fact. ${piece}`, [[String(cpt), clib, "", "", ht, 0], ["445660", "TVA déductible", "", "", tva, 0], ["401000", "Fournisseurs", "401" + code, nom, 0, ttc, lt]]); return ttc; }
+  function regl(code, nom, m, day, amt, lt, lib) { ecr("BQ", "Banque", d(m, day), "REL" + d(m, day).slice(2, 6), lib, [["401000", "Fournisseurs", "401" + code, nom, amt, 0, lt], ["512000", "Banque", "", "", 0, amt]]); }
+  function vente(code, nom, m, day, ht, piece, lt) { const tva = r2(ht * .055), ttc = r2(ht + tva); ecr("VE", "Ventes", d(m, day), piece, `${nom} fact. ${piece}`, [["411000", "Clients", "411" + code, nom, ttc, 0, lt], ["706000", "Ventes", "", "", 0, ht], ["445710", "TVA collectée", "", "", 0, tva]]); return ttc; }
+  function encais(code, nom, m, day, amt, lt, lib) { ecr("BQ", "Banque", d(m, day), "REL" + d(m, day).slice(2, 6), lib, [["512000", "Banque", "", "", amt, 0], ["411000", "Clients", "411" + code, nom, 0, amt, lt]]); }
   const farine = [1840, 1720, 1910, 1780, 1695, 1650, 1580, 1610, 1870, 1930, 2010, 2140];
   const lait = [620, 590, 640, 655, 610, 600, 570, 560, 630, 660, 690, 720];
+  let laitOpen = 0;
   for (let m = 1; m <= 12; m++) {
     const recent = m >= 11;
-    let L1 = recent ? "" : nextLet(); const t1 = achat("MOULIN", m, 5, farine[m - 1], `MB-25${String(m).padStart(2, "0")}`, L1);
-    if (m < 12) regl("MOULIN", "Moulins de la Beauce", m + 1 > 12 ? 12 : m + 1, 8, t1, L1);
-    let L2 = recent ? "" : nextLet(); const t2 = achat("LAIT", m, 12, lait[m - 1], `LV-${String(m).padStart(2, "0")}12`, L2);
-    regl("LAIT", "Laiterie du Vexin", m, 28, t2, L2);
-    let L3 = nextLet(); const t3 = achat("ENERG", m, 3, 410 + (m % 3) * 35, `EP${m}25`, L3); regl("ENERG", "Énergie Plus", m, 15, t3, L3, "PRLV ENERGIE PLUS");
-    let L4 = nextLet(); const t4 = achat("SCI", m, 1, 1500, `LOY-${m}`, L4); regl("SCI", "SCI Gambetta", m, 2, t4, L4, "PRLV SCI GAMBETTA LOYER");
-    let L5 = m >= 11 ? "" : nextLet(); const t5 = vente("HOTEL", "Hôtel du Parc", m, 30 > 28 && m === 2 ? 28 : 28, 860 + m * 12, `F25-${100 + m}`, L5);
-    if (m < 12) encais("HOTEL", "Hôtel du Parc", m === 12 ? 12 : m + 1, 10, t5, L5);
+    const L1 = recent ? "" : nextLet(); const t1 = achat("MOULIN", m, 5, farine[m - 1], `MB-25${String(m).padStart(2, "0")}`, L1);
+    if (m < 12) regl("MOULIN", "Moulins de la Beauce", m + 1, 8, t1, L1, "VIR MOULINS DE LA BEAUCE");
+    const L2 = recent ? "" : nextLet(); const t2 = achat("LAIT", m, 12, lait[m - 1], `LV-${String(m).padStart(2, "0")}12`, L2);
+    if (!recent) regl("LAIT", "Laiterie du Vexin", m, 28, t2, L2, "VIR LAITERIE DU VEXIN"); else laitOpen += t2;
+    const L3 = nextLet(); const t3 = achat("ENERG", m, 3, 410 + (m % 3) * 35, `EP${m}25`, L3); regl("ENERG", "Énergie Plus", m, 15, t3, L3, "PRLV ENERGIE PLUS");
+    const L4 = nextLet(); const t4 = achat("SCI", m, 1, 1500, `LOY-${m}`, L4); regl("SCI", "SCI Gambetta", m, 2, t4, L4, "PRLV SCI GAMBETTA LOYER");
+    const L5 = m >= 11 ? "" : nextLet(); const t5 = vente("HOTEL", "Hôtel du Parc", m, 28, 860 + m * 12, `F25-${100 + m}`, L5);
+    if (m < 11) encais("HOTEL", "Hôtel du Parc", m + 1, 10, t5, L5, "VIR RECU HOTEL DU PARC");
+    if (m === 11) encais("HOTEL", "Hôtel du Parc", 12, 10, t5, "", "VIR RECU HOTEL DU PARC");
+    if (m === 12) encais("HOTEL", "Hôtel du Parc", 12, 31, r2(t5 - .5), "", `VIR RECU HOTEL DU PARC REF F25-112`); // écart de 0,50 € (frais) + référence
   }
-  // Anomalies plantées
-  achat("LAIT", 4, 12, 655, "LV-0412", "");                         // doublon de la facture d'avril
-  for (const [m, day, amt] of [[3, 18, 238.80], [7, 9, 412.50], [9, 22, 238.80]])
-    regl("EMBAL", "Emballages Martin", m, day, amt, "", "CB EMBALLAGES MARTIN");   // paiements sans facture
+  regl("LAIT", "Laiterie du Vexin", 12, 30, r2(laitOpen), "", "VIR LAITERIE DU VEXIN NOV+DEC");     // paiement groupé
+  const tc = vente("CANT", "Cantine Les Petits Loups", 2, 26, 1402.84, "F25-090", "");
+  encais("CANT", "Cantine Les Petits Loups", 3, 15, 740, "", "VIR RECU CANTINE 1/2");              // paiement en deux fois
+  encais("CANT", "Cantine Les Petits Loups", 4, 15, r2(tc - 740), "", "VIR RECU CANTINE 2/2");
+  achat("LAIT", 4, 12, 655, "LV-0412", "");                                                        // facture saisie deux fois
+  for (const [m, day, amt] of [[3, 18, 238.80], [7, 9, 412.50], [9, 22, 238.80]]) regl("EMBAL", "Emballages Martin", m, day, amt, "", "CB EMBALLAGES MARTIN");
   ecr("BQ", "Banque", d(5, 14), "REL0514", "CB AMAZON MKTPLACE", [["471000", "Compte d'attente", "", "", 89.90, 0], ["512000", "Banque", "", "", 0, 89.90]]);
   ecr("BQ", "Banque", d(8, 6), "REL0806", "VIR SEPA SANS LIBELLE", [["471000", "Compte d'attente", "", "", 450, 0], ["512000", "Banque", "", "", 0, 450]]);
-  encais("CAFE", "Café des Arts", 6, 17, 312, "", "VIR RECU CAFE DES ARTS");  // encaissement sans facture
-  vente("CANT", "Cantine Les Petits Loups", 2, 26, 1402.84, "F25-090", ""); // vieille créance jamais encaissée
+  ecr("BQ", "Banque", d(6, 11), "REL0611", "CB PAPETERIE CENTRALE", [["606400", "Fournitures administratives", "", "", 54.90, 0], ["512000", "Banque", "", "", 0, 54.90]]);
+  ecr("BQ", "Banque", d(6, 30), "REL0630", "FRAIS TENUE DE COMPTE", [["627000", "Services bancaires", "", "", 18, 0], ["512000", "Banque", "", "", 0, 18]]);
+  encais("CAFE", "Café des Arts", 6, 17, 312, "", "VIR RECU CAFE DES ARTS");
   return [H, ...L].join("\n");
 }
 
-// ---------- Lecture du FEC ----------
+// ---------- Lecture ----------
 const toNum = s => { s = String(s || "").trim().replace(/\s/g, ""); if (!s) return 0; if (s.includes(",")) s = s.replace(/\./g, "").replace(",", "."); const n = parseFloat(s); return isFinite(n) ? n : 0; };
 const toDate = s => { s = String(s || "").trim(); let m = s.match(/^(\d{4})(\d{2})(\d{2})/) || s.match(/^(\d{4})-(\d{2})-(\d{2})/); if (m) return new Date(+m[1], +m[2] - 1, +m[3]); m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})/); return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null; };
 function parseFEC(text) {
   text = text.replace(/^﻿/, "");
   const lines = text.split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) throw new Error("le fichier est vide.");
   const sep = lines[0].includes("\t") ? "\t" : lines[0].includes("|") ? "|" : ";";
   const head = lines[0].split(sep).map(h => h.trim().toLowerCase());
-  const col = name => head.indexOf(name.toLowerCase());
-  const need = ["JournalCode", "EcritureDate", "CompteNum", "Debit", "Credit"];
-  const miss = need.filter(n => col(n) < 0);
-  if (miss.length) throw new Error("Colonnes FEC introuvables : " + miss.join(", ") + ". Vérifiez qu'il s'agit bien d'un FEC.");
-  const get = (r, n) => { const i = col(n); return i < 0 ? "" : (r[i] || "").trim(); };
-  return lines.slice(1).map((l, i) => { const r = l.split(sep); return {
-    i, j: get(r, "JournalCode"), date: toDate(get(r, "EcritureDate")), cpt: get(r, "CompteNum"), clib: get(r, "CompteLib"),
-    aux: get(r, "CompAuxNum"), auxlib: get(r, "CompAuxLib"), piece: get(r, "PieceRef"), lib: get(r, "EcritureLib"),
-    de: toNum(get(r, "Debit")), cr: toNum(get(r, "Credit")), let: get(r, "EcritureLet"), num: get(r, "EcritureNum") }; });
+  const col = n => head.indexOf(n.toLowerCase());
+  const miss = ["JournalCode", "EcritureDate", "CompteNum", "Debit", "Credit"].filter(n => col(n) < 0);
+  if (miss.length) throw new Error("colonnes FEC introuvables (" + miss.join(", ") + "). Vérifiez qu'il s'agit bien d'un FEC.");
+  const g = (r, n) => { const i = col(n); return i < 0 ? "" : (r[i] || "").trim(); };
+  return lines.slice(1).map((l, i) => { const r = l.split(sep); const de = toNum(g(r, "Debit")), cr = toNum(g(r, "Credit")); return {
+    i, j: g(r, "JournalCode"), date: toDate(g(r, "EcritureDate")), cpt: g(r, "CompteNum"), clib: g(r, "CompteLib"), aux: g(r, "CompAuxNum"), auxlib: g(r, "CompAuxLib"),
+    piece: g(r, "PieceRef"), lib: g(r, "EcritureLib"), de, cr, amt: Math.round((de || cr) * 100), let: g(r, "EcritureLet"), num: g(r, "EcritureNum") }; });
 }
 
-// ---------- Contrôles ----------
-function analyse(rows) {
+// ---------- Lettrage ----------
+const norm = s => String(s || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+function combos(items, k, target, tolC, cb, start = 0, acc = [], sum = 0) {
+  if (acc.length === k) { if (Math.abs(sum - target) <= tolC) cb(acc.slice(), sum - target); return; }
+  for (let i = start; i < items.length; i++) { acc.push(items[i]); combos(items, k, target, tolC, cb, i + 1, acc, sum + items[i].amt); acc.pop(); }
+}
+function analyse(rows, tolEur, winDays) {
+  const tolC = Math.round(tolEur * 100), WIN = winDays * 864e5;
   const tot = rows.reduce((a, r) => [a[0] + r.de, a[1] + r.cr], [0, 0]);
-  const last = new Date(Math.max(...rows.filter(r => r.date).map(r => +r.date)));
-  const close = new Date(last.getFullYear(), 11, 31);
-  const isTiers = r => /^40[01]/.test(r.cpt) || /^41[01]/.test(r.cpt);
-  const tiers = new Map();
-  rows.filter(r => isTiers(r) && !r.let).forEach(r => { const k = (r.aux || r.cpt); if (!tiers.has(k)) tiers.set(k, []); tiers.get(k).push(r); });
-  const propos = [], ouverts = [], manq = [];
-  for (const [k, list] of tiers) {
+  const isTiers = r => /^40[0-9]/.test(r.cpt) || /^41[0-9]/.test(r.cpt);
+  const tiersLines = rows.filter(isTiers);
+  const before = tiersLines.filter(r => r.let).length;
+  const groups = new Map();
+  tiersLines.filter(r => !r.let && r.amt > 0).forEach(r => { const k = r.aux || r.cpt; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(r); });
+  const props = [], rest = [], manq = [];
+  for (const [k, list] of groups) {
     const fourn = /^40/.test(list[0].cpt);
-    const facts = list.filter(r => fourn ? r.cr > 0 : r.de > 0).sort((a, b) => a.date - b.date);
-    const regs = list.filter(r => fourn ? r.de > 0 : r.cr > 0).sort((a, b) => a.date - b.date);
-    const amt = r => r.de || r.cr, used = new Set();
-    for (const f of facts) {
-      const g = regs.find(r => !used.has(r) && Math.abs(amt(r) - amt(f)) < .005 && r.date >= f.date);
-      if (g) { used.add(g); propos.push({ tiers: f.auxlib || k, f, g, ecart: Math.round((g.date - f.date) / 864e5) }); }
-      else ouverts.push({ tiers: f.auxlib || k, r: f, age: Math.round((close - f.date) / 864e5), fourn });
-    }
-    for (const g of regs.filter(r => !used.has(r)))
-      manq.push({ date: g.date, who: g.auxlib || k, lib: g.lib, amt: amt(g), kind: fourn ? ["bad", "Paiement sans facture d'achat"] : ["bad", "Encaissement sans facture de vente"] });
+    const name = list.find(r => r.auxlib)?.auxlib || k;
+    let F = list.filter(r => fourn ? r.cr > 0 : r.de > 0).sort((a, b) => a.date - b.date);
+    let R = list.filter(r => fourn ? r.de > 0 : r.cr > 0).sort((a, b) => a.date - b.date);
+    const used = new Set(), take = (fs, rs, type, conf, why, ecart = 0) => { fs.concat(rs).forEach(x => used.add(x)); props.push({ tiers: name, fourn, F: fs, R: rs, type, conf, why, ecart, amt: fs.reduce((a, x) => a + x.amt, 0) }); };
+    const freeF = () => F.filter(x => !used.has(x)), freeR = () => R.filter(x => !used.has(x));
+    // 1. référence de facture dans le libellé du règlement
+    for (const r of R) { if (used.has(r)) continue; const lib = norm(r.lib);
+      const refs = freeF().filter(f => f.piece && norm(f.piece).length >= 4 && lib.includes(norm(f.piece)));
+      if (refs.length) { const s = refs.reduce((a, f) => a + f.amt, 0), e = r.amt - s;
+        if (Math.abs(e) <= tolC) take(refs, [r], refs.length > 1 ? "Référence (groupé)" : "Référence", e === 0 ? "haute" : "moyenne", "N° de facture trouvé dans le libellé" + (e ? `, écart de ${eur(Math.abs(e) / 100)}` : ""), e); } }
+    // 2. montant exact, un pour un
+    for (const f of freeF()) { const r = freeR().filter(r => r.amt === f.amt && r.date >= f.date && r.date - f.date <= WIN).sort((a, b) => a.date - b.date)[0];
+      if (r) take([f], [r], "Montant exact", "haute", `Même montant, réglé ${Math.round((r.date - f.date) / 864e5)} j après`); }
+    // 3. un règlement pour plusieurs factures
+    for (const r of freeR()) { const cand = freeF().filter(f => f.date <= r.date && r.date - f.date <= WIN).slice(-12); let best = null;
+      for (let k2 = 2; k2 <= 4 && !best; k2++) combos(cand, k2, r.amt, 0, (c) => { if (!best) best = c; });
+      if (best) take(best, [r], "Paiement groupé", "moyenne", `Un virement règle ${best.length} factures`); }
+    // 4. une facture réglée en plusieurs fois
+    for (const f of freeF()) { const cand = freeR().filter(r => r.date >= f.date && r.date - f.date <= WIN).slice(0, 12); let best = null;
+      for (let k2 = 2; k2 <= 4 && !best; k2++) combos(cand, k2, f.amt, 0, (c) => { if (!best) best = c; });
+      if (best) take([f], best, "Paiement fractionné", "moyenne", `Facture réglée en ${best.length} fois`); }
+    // 5. petit écart (frais, escompte, arrondi)
+    for (const f of freeF()) { const r = freeR().filter(r => Math.abs(r.amt - f.amt) <= tolC && r.date >= f.date && r.date - f.date <= WIN).sort((a, b) => Math.abs(a.amt - f.amt) - Math.abs(b.amt - f.amt))[0];
+      if (r) take([f], [r], "Écart", "verif", `Écart de ${eur(Math.abs(r.amt - f.amt) / 100)} (frais, escompte ?)`, r.amt - f.amt); }
+    freeF().forEach(f => rest.push({ tiers: name, fourn, r: f, nature: fourn ? "Facture fournisseur non réglée" : "Facture client non encaissée" }));
+    freeR().forEach(r => manq.push({ date: r.date, who: name, lib: r.lib, amt: r.amt, kind: ["bad", fourn ? "Paiement sans facture d'achat" : "Encaissement sans facture de vente"] }));
   }
-  const att = rows.filter(r => /^47[0-9]/.test(r.cpt));
-  att.forEach(r => manq.push({ date: r.date, who: (r.clib || "Compte d'attente") + " (" + r.cpt + ")", lib: r.lib, amt: r.de || r.cr, kind: ["warn", "En compte d'attente : à justifier"] }));
-  const attSolde = att.reduce((a, r) => a + r.de - r.cr, 0);
-  // doublons : journaux d'achats / ventes, ligne tiers
-  const seen = new Map(), doub = [];
-  rows.filter(r => isTiers(r) && /^(AC|HA|VE|VT)/i.test(r.j)).forEach(r => {
-    const key = [r.j, r.aux || r.cpt, (r.de || r.cr).toFixed(2), r.piece].join("|");
-    if (seen.has(key)) doub.push({ a: seen.get(key), b: r }); else seen.set(key, r);
-  });
-  manq.sort((a, b) => a.date - b.date); ouverts.sort((a, b) => b.age - a.age);
-  return { n: rows.length, ecr: new Set(rows.map(r => r.num)).size, tot, close, propos, ouverts, manq, attSolde, doub };
+  // compte d'attente et charges payées sans pièce
+  const byNum = new Map(); rows.forEach(r => { if (!byNum.has(r.num)) byNum.set(r.num, []); byNum.get(r.num).push(r); });
+  rows.filter(r => /^47[0-9]/.test(r.cpt) && r.amt > 0).forEach(r => manq.push({ date: r.date, who: `Compte d'attente (${r.cpt})`, lib: r.lib, amt: r.amt, kind: ["warn", "En attente : justificatif à obtenir"] }));
+  for (const [, ls] of byNum) {
+    if (!ls.some(r => /^512/.test(r.cpt))) continue;
+    ls.filter(r => /^6[0-2]/.test(r.cpt) && !/^627/.test(r.cpt) && r.de > 0).forEach(r => manq.push({ date: r.date, who: `${r.clib || "Charge"} (${r.cpt})`, lib: r.lib, amt: r.amt, kind: ["warn", "Dépense passée en charge sans facture"] }));
+  }
+  manq.sort((a, b) => a.date - b.date);
+  rest.sort((a, b) => a.r.date - b.r.date);
+  // codes de lettrage proposés
+  let n = 0; const code = () => { n++; let s = "", x = n; while (x > 0) { s = String.fromCharCode(97 + (x - 1) % 26) + s; x = Math.floor((x - 1) / 26); } return "z" + s; };
+  props.forEach(p => p.code = code());
+  return { rowsN: rows.length, ecr: new Set(rows.map(r => r.num)).size, tot, tiersN: tiersLines.length, before, props, rest, manq };
 }
 
 // ---------- Affichage ----------
 const $ = id => document.getElementById(id);
-const eur = n => n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+function eur(n) { return n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €"; }
 const fd = d => d ? d.toLocaleDateString("fr-FR") : "—";
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const empty = (cols, t) => `<tr><td colspan="${cols}" class="empty">${t}</td></tr>`;
-function render(A, name, meta) {
-  $("fname").textContent = name; $("fmeta").textContent = meta;
+const CONF = { haute: ["ok", "Sûr"], moyenne: ["info", "Probable"], verif: ["warn", "À vérifier"] };
+let A = null, RAW = null, NAME = "", META = "", decision = new Map();
+
+function tiles() {
+  const accepted = A.props.filter(p => decision.get(p.code) === "ok");
+  const linesProp = A.props.reduce((a, p) => a + p.F.length + p.R.length, 0);
+  const linesOk = accepted.reduce((a, p) => a + p.F.length + p.R.length, 0);
+  const pct = x => A.tiersN ? Math.round(x / A.tiersN * 100) : 100;
   const eq = Math.abs(A.tot[0] - A.tot[1]) < .01;
-  const manqAmt = A.manq.reduce((a, m) => a + m.amt, 0);
-  const lettAmt = A.propos.reduce((a, p) => a + (p.f.de || p.f.cr), 0);
-  $("tiles").innerHTML = [
-    ["ok", "Écritures lues", A.ecr, `${A.n} lignes · ${eq ? "équilibré" : "déséquilibré !"}`, "#lettrage"],
-    ["ok", "Lettrages proposés", A.propos.length, eur(lettAmt), "#lettrage"],
-    [A.ouverts.length ? "warn" : "ok", "Factures sans règlement", A.ouverts.length, eur(A.ouverts.reduce((a, o) => a + (o.r.de || o.r.cr), 0)), "#lettrage"],
-    [A.manq.length ? "bad" : "ok", "Factures manquantes", A.manq.length, eur(manqAmt), "#manquantes"],
-  ].map(([c, k, v, s, h]) => `<a class="tile ${c}" href="${h}"><span class="k">${k}</span><span class="v">${v}</span><span class="s">${s}</span></a>`).join("");
-  $("t-manq").innerHTML = A.manq.map(m => `<tr><td class="m">${fd(m.date)}</td><td>${esc(m.who)}</td><td>${esc(m.lib)}</td><td class="n">${eur(m.amt)}</td><td><span class="tag ${m.kind[0]}">${m.kind[1]}</span></td></tr>`).join("") || empty(5, "Aucune pièce manquante détectée.");
-  $("t-lett").innerHTML = A.propos.map(p => `<tr><td>${esc(p.tiers)}</td><td class="m">${esc(p.f.piece)} · ${fd(p.f.date)}</td><td class="m">${fd(p.g.date)} · ${esc(p.g.lib)}</td><td class="n">${eur(p.f.de || p.f.cr)}</td><td><span class="tag ok">${p.ecart} j</span></td></tr>`).join("") || empty(5, "Rien à lettrer : tout est déjà rapproché.");
-  $("t-sold").innerHTML = A.ouverts.map(o => `<tr><td>${esc(o.tiers)} <span class="note">${o.fourn ? "fournisseur" : "client"}</span></td><td class="m">${esc(o.r.piece)}</td><td class="m">${fd(o.r.date)}</td><td class="n">${eur(o.r.de || o.r.cr)}</td></tr>`).join("") || empty(4, "Toutes les factures ont trouvé leur règlement.");
+  const manqAmt = A.manq.reduce((a, m) => a + m.amt, 0) / 100;
+  $("tiles").innerHTML = `
+    <a class="tile" href="#lettrage"><span class="k">Comptes de tiers lettrés</span><span class="v">${pct(A.before)} % → ${pct(A.before + linesProp)} %</span><span class="s">avant → après propositions</span>
+      <span class="meter" aria-hidden="true"><i style="width:${pct(A.before)}%;background:var(--muted)"></i><i style="width:${pct(linesOk)}%;background:var(--ok)"></i><i style="width:${pct(linesProp - linesOk)}%;background:var(--brown-2);opacity:.45"></i></span></a>
+    <a class="tile ok" href="#lettrage"><span class="k">Lettrages proposés</span><span class="v">${A.props.length}</span><span class="s">${accepted.length} validé(s) · ${A.props.filter(p => decision.get(p.code) === "no").length} refusé(s)</span></a>
+    <a class="tile ${A.rest.length ? "warn" : "ok"}" href="#lettrage"><span class="k">Restent non lettrées</span><span class="v">${A.rest.length}</span><span class="s">${eur(A.rest.reduce((a, x) => a + x.r.amt, 0) / 100)}</span></a>
+    <a class="tile ${A.manq.length ? "bad" : "ok"}" href="#manquantes"><span class="k">Factures manquantes</span><span class="v">${A.manq.length}</span><span class="s">${eur(manqAmt)} · fichier ${eq ? "équilibré" : "déséquilibré !"}</span></a>`;
 }
-function load(text, name, meta) {
-  try { const rows = parseFEC(text); if (!rows.length) throw new Error("Le fichier ne contient aucune écriture."); const A = analyse(rows); render(A, name, meta); $("status").textContent = `Analyse terminée : lettrage(s) proposé(s) : ${A.propos.length}, facture(s) manquante(s) : ${A.manq.length}.`; }
+function lettRows() {
+  const q = $("q").value.trim().toLowerCase(), fc = $("fconf").value;
+  const list = A.props.filter(p => (!fc || p.conf === fc) && (!q || [p.tiers, ...p.F.map(x => x.piece + " " + x.lib), ...p.R.map(x => x.lib)].join(" ").toLowerCase().includes(q)));
+  $("t-lett").innerHTML = list.map(p => { const dcs = decision.get(p.code), c = CONF[p.conf];
+    return `<tr class="${dcs === "no" ? "rejected" : ""}"><td><b>${esc(p.tiers)}</b><div class="why">${p.fourn ? "Fournisseur" : "Client"} · code ${p.code}</div></td>
+      <td class="m">${p.F.map(f => `<div>${esc(f.piece)} · ${fd(f.date)} · ${eur(f.amt / 100)}</div>`).join("")}</td>
+      <td class="m">${p.R.map(r => `<div>${fd(r.date)} · ${esc(r.lib)} · ${eur(r.amt / 100)}</div>`).join("")}</td>
+      <td class="n">${eur(p.amt / 100)}</td>
+      <td><span class="tag ${c[0]}">${c[1]}</span> <span class="tag info">${esc(p.type)}</span><div class="why">${esc(p.why)}</div></td>
+      <td><div class="btns"><button class="sm yes" type="button" data-c="${p.code}" data-d="ok" aria-pressed="${dcs === "ok"}">Valider</button><button class="sm no" type="button" data-c="${p.code}" data-d="no" aria-pressed="${dcs === "no"}">Refuser</button></div></td></tr>`; }).join("")
+    || `<tr><td colspan="6" class="empty">${A.props.length ? "Aucune proposition ne correspond au filtre." : "Rien à lettrer : tout est déjà rapproché."}</td></tr>`;
+}
+function render() {
+  $("fname").textContent = NAME; $("fmeta").textContent = META;
+  tiles(); lettRows();
+  $("t-rest").innerHTML = A.rest.map(o => `<tr><td>${esc(o.tiers)}</td><td class="m">${esc(o.r.piece)}</td><td class="m">${fd(o.r.date)}</td><td>${esc(o.r.lib)}</td><td class="n">${eur(o.r.amt / 100)}</td><td><span class="tag warn">${o.nature}</span></td></tr>`).join("") || `<tr><td colspan="6" class="empty">Tout est lettré ou proposé.</td></tr>`;
+  $("t-manq").innerHTML = A.manq.map(m => `<tr><td class="m">${fd(m.date)}</td><td>${esc(m.who)}</td><td>${esc(m.lib)}</td><td class="n">${eur(m.amt / 100)}</td><td><span class="tag ${m.kind[0]}">${m.kind[1]}</span></td></tr>`).join("") || `<tr><td colspan="5" class="empty">Aucune facture manquante détectée.</td></tr>`;
+}
+function run() {
+  if (!RAW) return;
+  try { const rows = parseFEC(RAW); A = analyse(rows, Math.max(0, +$("tol").value || 0), Math.max(15, +$("win").value || 120)); decision = new Map();
+    render(); $("status").textContent = `${A.ecr} écritures lues · ${A.props.length} lettrage(s) proposé(s) · ${A.manq.length} facture(s) manquante(s)`; }
   catch (e) { $("status").textContent = "Impossible de lire ce fichier : " + e.message; }
 }
-$("pick").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes(String.fromCharCode(0xFFFD))) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); e.target.value = ""; });
+function load(text, name, meta) { RAW = text; NAME = name; META = meta; run(); }
+
+$("t-lett").addEventListener("click", e => { const b = e.target.closest("button[data-c]"); if (!b) return; const c = b.dataset.c, d = b.dataset.d; decision.set(c, decision.get(c) === d ? undefined : d); if (!decision.get(c)) decision.delete(c); tiles(); lettRows(); });
+$("okall").addEventListener("click", () => { A.props.filter(p => p.conf === "haute" && !decision.has(p.code)).forEach(p => decision.set(p.code, "ok")); tiles(); lettRows(); });
+$("q").addEventListener("input", lettRows); $("fconf").addEventListener("change", lettRows);
+$("tol").addEventListener("change", run); $("win").addEventListener("change", run);
+async function readFile(file) { const buf = await file.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes(String.fromCharCode(0xFFFD))) t = new TextDecoder("windows-1252").decode(buf); load(t, file.name, `${(file.size / 1024).toFixed(0)} Ko · lu dans votre navigateur`); }
+$("pick").addEventListener("change", e => { const f = e.target.files[0]; if (f) readFile(f); e.target.value = ""; });
 const drop = $("drop");
 ["dragenter", "dragover"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add("over"); }));
 ["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
-drop.addEventListener("drop", async e => { const f = e.dataTransfer?.files?.[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes(String.fromCharCode(0xFFFD))) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); });
+drop.addEventListener("drop", e => { const f = e.dataTransfer?.files?.[0]; if (f) readFile(f); });
 $("sample").addEventListener("click", () => load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025"));
+
+// ---------- Export ----------
+const DEC = { ok: "Validé", no: "Refusé" };
+function sheets() {
+  const lett = [["Code", "Tiers", "Type", "Confiance", "Décision", "Rôle", "Date", "Pièce", "Libellé", "Montant"]];
+  A.props.forEach(p => { const d = DEC[decision.get(p.code)] || "À décider";
+    p.F.forEach(f => lett.push([p.code, p.tiers, p.type, CONF[p.conf][1], d, "Facture", fd(f.date), f.piece, f.lib, f.amt / 100]));
+    p.R.forEach(r => lett.push([p.code, p.tiers, p.type, CONF[p.conf][1], d, "Règlement", fd(r.date), r.piece, r.lib, r.amt / 100])); });
+  const rest = [["Tiers", "Pièce", "Date", "Libellé", "Montant", "Nature"], ...A.rest.map(o => [o.tiers, o.r.piece, fd(o.r.date), o.r.lib, o.r.amt / 100, o.nature])];
+  const manq = [["Date", "Tiers / compte", "Libellé bancaire", "Montant", "Constat"], ...A.manq.map(m => [fd(m.date), m.who, m.lib, m.amt / 100, m.kind[1]])];
+  return { lett, rest, manq };
+}
+$("copy").addEventListener("click", async () => { const t = sheets().manq.map(r => r.map(v => typeof v === "number" ? String(v).replace(".", ",") : v).join("\t")).join("\n");
+  try { await navigator.clipboard.writeText(t); $("exnote").textContent = "Liste copiée : collez-la dans Excel ou dans un mail."; } catch { $("exnote").textContent = "Copie refusée par ce navigateur."; } });
+let downloads = null;
+$("xlsx").addEventListener("click", async () => {
+  if (!downloads || !window.XLSX) return;
+  const s = sheets(), wb = XLSX.utils.book_new();
+  [["Lettrages", s.lett, [8, 26, 18, 11, 11, 11, 11, 14, 38, 12]], ["Reste à lettrer", s.rest, [26, 14, 11, 38, 12, 30]], ["Factures manquantes", s.manq, [11, 30, 34, 12, 34]]].forEach(([n, d, w]) => {
+    const ws = XLSX.utils.aoa_to_sheet(d); ws["!cols"] = w.map(x => ({ wch: x }));
+    const rg = XLSX.utils.decode_range(ws["!ref"]); for (let R = 1; R <= rg.e.r; R++) for (let C = 0; C <= rg.e.c; C++) { const c = ws[XLSX.utils.encode_cell({ r: R, c: C })]; if (c && c.t === "n") c.z = '#,##0.00 "€"'; }
+    XLSX.utils.book_append_sheet(wb, ws, n); });
+  try { await downloads.save({ filename: `revision-${NAME.replace(/[^\w-]+/g, "-").slice(0, 40)}.xlsx`, data: new Blob([XLSX.write(wb, { type: "array", bookType: "xlsx" })]) }); $("exnote").textContent = "Rapport Excel enregistré."; }
+  catch (e) { $("exnote").textContent = e?.code === "declined" ? "Téléchargement annulé." : "Téléchargement indisponible ici : utilisez la copie."; }
+});
+(async () => { if (!window.claude?.use) return; downloads = await claude.use("downloads"); if (downloads && window.XLSX) $("xlsx").hidden = false; })();
+
 load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025");
 </script>
