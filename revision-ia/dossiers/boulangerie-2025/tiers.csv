@@ -1,0 +1,9 @@
+code;nom;nature;debit;credit;solde;lignes_non_lettrees;plus_ancienne_non_lettree;age_jours;anomalie
+401EMBAL;Emballages Martin;fournisseur;890.1;0.0;890.1;3;2025-03-18;288;solde anormal (fournisseur débiteur)
+401ENERG;Énergie Plus;fournisseur;6408.0;6408.0;0.0;0;;;
+401LAIT;Laiterie du Vexin;fournisseur;7959.98;8651.01;-691.03;4;2025-04-12;263;
+401MOULIN;Moulins de la Beauce;fournisseur;20672.73;22930.43;-2257.7;3;2025-11-05;56;
+401SCI;SCI Gambetta;fournisseur;21600.0;21600.0;0.0;0;;;
+411CAFE;Café des Arts;client;0.0;312.0;-312.0;1;2025-06-17;197;solde anormal (client créditeur)
+411CANT;Cantine Les Petits Loups;client;1480.0;1480.0;0.0;3;2025-02-26;308;
+411HOTEL;Hôtel du Parc;client;11875.08;11874.58;0.5;4;2025-11-28;33;

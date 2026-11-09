@@ -1,0 +1,13 @@
+compte;libelle;debit;credit;solde_debiteur_moins_crediteur
+401000;Fournisseurs;57530.81;59589.44;-2058.63
+411000;Clients;13355.08;13666.58;-311.5
+445660;TVA déductible;6314.44;0.0;6314.44
+445710;TVA collectée;0.0;696.24;-696.24
+471000;Compte d'attente;539.9;0.0;539.9
+512000;Banque;13666.58;58143.61;-44477.03
+606100;Électricité;5340.0;0.0;5340.0
+606400;Fournitures administratives;54.9;0.0;54.9
+607000;Achats de farine;29935.0;0.0;29935.0
+613200;Loyer;18000.0;0.0;18000.0
+627000;Services bancaires;18.0;0.0;18.0
+706000;Ventes;0.0;12658.84;-12658.84

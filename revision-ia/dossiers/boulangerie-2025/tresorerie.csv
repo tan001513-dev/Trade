@@ -1,0 +1,15 @@
+date;journal;ecriture;compte_contrepartie;tiers_ou_compte;libelle;montant;sens;nature
+2025-03-15;BQ;120;411000;Cantine Les Petits Loups;VIR RECU CANTINE 1/2;740.0;entrée;règlement de tiers non lettré
+2025-03-18;BQ;123;401000;Emballages Martin;CB EMBALLAGES MARTIN;238.8;sortie;tiers sans aucune facture enregistrée
+2025-04-15;BQ;121;411000;Cantine Les Petits Loups;VIR RECU CANTINE 2/2;740.0;entrée;règlement de tiers non lettré
+2025-05-14;BQ;126;471000;Compte d'attente;CB AMAZON MKTPLACE;89.9;sortie;compte d'attente
+2025-06-11;BQ;128;606400;Fournitures administratives;CB PAPETERIE CENTRALE;54.9;sortie;charge directe sans facture
+2025-06-17;BQ;130;411000;Café des Arts;VIR RECU CAFE DES ARTS;312.0;entrée;tiers sans aucune facture enregistrée
+2025-06-30;BQ;129;627000;Services bancaires;FRAIS TENUE DE COMPTE;18.0;sortie;frais bancaires
+2025-07-09;BQ;124;401000;Emballages Martin;CB EMBALLAGES MARTIN;412.5;sortie;tiers sans aucune facture enregistrée
+2025-08-06;BQ;127;471000;Compte d'attente;VIR SEPA SANS LIBELLE;450.0;sortie;compte d'attente
+2025-09-22;BQ;125;401000;Emballages Martin;CB EMBALLAGES MARTIN;238.8;sortie;tiers sans aucune facture enregistrée
+2025-12-08;BQ;102;401000;Moulins de la Beauce;VIR MOULINS DE LA BEAUCE;2120.55;sortie;règlement de tiers non lettré
+2025-12-10;BQ;109;411000;Hôtel du Parc;VIR RECU HOTEL DU PARC;1046.56;entrée;règlement de tiers non lettré
+2025-12-30;BQ;118;401000;Laiterie du Vexin;VIR LAITERIE DU VEXIN NOV+DEC;1487.55;sortie;règlement de tiers non lettré
+2025-12-31;BQ;117;411000;Hôtel du Parc;VIR RECU HOTEL DU PARC REF F25-112;1058.72;entrée;règlement de tiers non lettré
