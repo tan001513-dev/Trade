@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 34 82 88 89
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=SOCIETE+AUXILIAIRE+FIDUCIAIRE) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Trappes]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

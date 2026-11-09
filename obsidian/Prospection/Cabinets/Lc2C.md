@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 34 59 41 13
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=LC2C) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Voisins-Le-Bretonneux]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

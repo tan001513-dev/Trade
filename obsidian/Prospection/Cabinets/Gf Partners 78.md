@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 07 81 29 62 62
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=GF+PARTNERS+78) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Plaisir]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

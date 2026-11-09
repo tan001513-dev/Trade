@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 61 37 27 52
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=AUDIS+ASSOCIES) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Guyancourt]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

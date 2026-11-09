@@ -24,6 +24,11 @@ Zone Forum Rue Laennec 78310 Coignieres
 > - Téléphone : à trouver
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=SOGAP) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Coignieres]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

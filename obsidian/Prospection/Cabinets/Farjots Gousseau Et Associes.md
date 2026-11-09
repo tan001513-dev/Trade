@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 30 57 46 50
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=FARJOTS+GOUSSEAU+ET+ASSOCIES) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Voisins-Le-Bretonneux]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

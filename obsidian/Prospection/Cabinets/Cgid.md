@@ -24,6 +24,11 @@ Zac De La Croix Bonnet 2 Rue Georges Melies 78390 Bois-D'Arcy
 > - Téléphone : 01 81 88 98 00
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=CGID) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Bois-D'Arcy]]
+> - Offre : [[Angle A - Facture électronique]]
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

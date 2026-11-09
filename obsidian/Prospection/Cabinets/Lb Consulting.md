@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 76 78 36 80
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=LB+CONSULTING) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Trappes]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 30 05 00 70
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=PNG+&+ASSOCIES) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Coignieres]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

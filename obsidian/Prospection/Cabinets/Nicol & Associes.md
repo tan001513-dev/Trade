@@ -24,6 +24,11 @@ tags:
 > - Téléphone : à trouver
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=NICOL+&+ASSOCIES) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Voisins-Le-Bretonneux]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

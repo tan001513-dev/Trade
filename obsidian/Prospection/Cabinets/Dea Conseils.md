@@ -24,6 +24,11 @@ tags:
 > - Téléphone : à trouver
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=DEA+CONSEILS) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Neauphle-Le-Chateau]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

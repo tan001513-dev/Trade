@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 30 62 55 60
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=AUDIT+EXPERTISE+COMPTABLE+ET+FISCALITE) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Elancourt]]
+> - Offre : [[Angle B - Tâches répétitives]]
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

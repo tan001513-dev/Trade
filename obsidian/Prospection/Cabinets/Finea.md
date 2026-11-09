@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 30 07 30 60
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=FINEA) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Magny-Les-Hameaux]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

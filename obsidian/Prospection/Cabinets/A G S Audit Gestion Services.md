@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 01 30 50 86 16
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=A+G+S+AUDIT+GESTION+SERVICES) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Le Mesnil-Saint-Denis]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

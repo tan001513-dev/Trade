@@ -24,6 +24,11 @@ Parc D'Affaires 164 Avenue Joseph Kessel 78960 Voisins-Le-Bretonneux
 > - Téléphone : 01 30 60 03 30
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=JTM+EXPERT) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Voisins-Le-Bretonneux]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

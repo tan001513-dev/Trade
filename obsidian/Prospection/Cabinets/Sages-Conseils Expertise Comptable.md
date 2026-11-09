@@ -24,6 +24,11 @@ tags:
 > - Téléphone : à trouver
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=SAGES-CONSEILS+EXPERTISE+COMPTABLE) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Montigny-Le-Bretonneux]]
+> - Offre : [[Angle B - Tâches répétitives]]
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 

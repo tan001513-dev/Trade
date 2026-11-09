@@ -24,6 +24,11 @@ tags:
 > - Téléphone : 06 03 33 78 96
 > - [Fiche sur l'annuaire de l'Ordre](https://annuaire.experts-comptables.org/recherche?comptable=CENSEA+EXPERTISE+COMPTABLE) (bouton « Contacter par mail »)
 
+> [!abstract] Liens
+> - Commune : [[Versailles]]
+> - Offre : à choisir ([[Angle A - Facture électronique]] ou [[Angle B - Tâches répétitives]])
+> - Suivi : [[Prospection - Accueil]]
+
 ## Historique
 - 
 
