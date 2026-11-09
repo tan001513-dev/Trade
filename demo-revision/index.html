@@ -61,6 +61,7 @@ td.m { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
 .tag { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
 .tag.bad { background: var(--bad-soft); color: var(--bad); } .tag.warn { background: var(--warn-soft); color: var(--warn); } .tag.ok { background: var(--ok-soft); color: var(--ok); }
 .empty { color: var(--muted); padding: 14px; }
+h3.sub { font-family: var(--display); font-weight: 500; font-size: 18px; margin: 18px 0 8px; }
 .mail { display: grid; gap: 10px; }
 textarea { width: 100%; min-height: 300px; font: 14px/1.55 var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 14px; padding: 14px; resize: vertical; }
 .note { font-size: 13px; color: var(--muted); }
@@ -72,8 +73,8 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule)
   <div class="bar"><span class="brand">Révision express</span><span class="pill">Démo</span></div>
 
   <div>
-    <h1>Le FEC d'un dossier, <em>révisé en dix secondes.</em></h1>
-    <p class="lede">Déposez le fichier des écritures comptables exporté de votre logiciel. L'outil propose les lettrages, liste les pièces manquantes et les vieux soldes, et rédige le mail de demande de justificatifs au client. Le fichier est lu dans votre navigateur : rien n'est envoyé.</p>
+    <h1>Lettrage automatique et factures manquantes, <em>en dix secondes.</em></h1>
+    <p class="lede">Déposez le fichier des écritures comptables exporté de votre logiciel. L'outil lettre automatiquement les factures avec leurs règlements et repère les factures manquantes, pour gagner du temps sur la révision des comptes. Le fichier est lu dans votre navigateur : rien n'est envoyé.</p>
   </div>
 
   <div class="load drop" id="drop">
@@ -90,33 +91,22 @@ footer { font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule)
 
   <div class="tiles" id="tiles"></div>
 
+  <section class="card" id="lettrage">
+    <div class="sec-head"><h2>Lettrage automatique</h2><p>Chaque facture non lettrée est rapprochée de son règlement : même tiers, même montant. Le comptable valide en un coup d'œil.</p></div>
+    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Facture</th><th>Règlement</th><th class="n">Montant</th><th>Écart</th></tr></thead><tbody id="t-lett"></tbody></table></div>
+    <h3 class="sub">Factures restées sans règlement</h3>
+    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Facture</th><th>Date</th><th class="n">Montant</th></tr></thead><tbody id="t-sold"></tbody></table></div>
+  </section>
+
   <section class="card" id="manquantes">
-    <div class="sec-head"><h2>Pièces manquantes</h2><p>Paiements sans facture en face, encaissements sans facture de vente, mouvements bancaires passés en compte d'attente.</p></div>
+    <div class="sec-head"><h2>Factures manquantes</h2><p>Mouvements bancaires sans facture en face : paiements sans facture d'achat, encaissements sans facture de vente, sommes passées en compte d'attente faute de justificatif.</p></div>
     <div class="tbl"><table><thead><tr><th>Date</th><th>Tiers / compte</th><th>Libellé</th><th class="n">Montant</th><th>Constat</th></tr></thead><tbody id="t-manq"></tbody></table></div>
   </section>
 
-  <section class="card" id="lettrage">
-    <div class="sec-head"><h2>Lettrages proposés</h2><p>Factures et règlements non lettrés du même tiers, de même montant : l'outil propose de les rapprocher.</p></div>
-    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Facture</th><th>Règlement</th><th class="n">Montant</th><th>Écart</th></tr></thead><tbody id="t-lett"></tbody></table></div>
-  </section>
 
-  <section class="card" id="soldes">
-    <div class="sec-head"><h2>Soldes ouverts par ancienneté</h2><p>Factures clients non encaissées et factures fournisseurs non réglées à la clôture, les plus anciennes d'abord.</p></div>
-    <div class="tbl"><table><thead><tr><th>Tiers</th><th>Pièce</th><th>Date</th><th class="n">Montant</th><th class="n">Âge</th><th>Priorité</th></tr></thead><tbody id="t-sold"></tbody></table></div>
-  </section>
 
-  <section class="card" id="doublons">
-    <div class="sec-head"><h2>Doublons probables</h2><p>Même tiers, même montant et même numéro de pièce ou même date dans les journaux d'achats et de ventes.</p></div>
-    <div class="tbl"><table><thead><tr><th>Journal</th><th>Tiers</th><th>Pièce</th><th>Dates</th><th class="n">Montant</th></tr></thead><tbody id="t-doub"></tbody></table></div>
-  </section>
 
-  <section class="card mail" id="mail">
-    <div class="sec-head"><h2>Mail au client</h2><p>Prêt à envoyer : la liste des justificatifs à fournir, générée à partir des pièces manquantes.</p></div>
-    <textarea id="mailtxt" aria-label="Texte du mail au client"></textarea>
-    <div class="btns"><button class="primary" id="copy" type="button">Copier le mail</button><span class="note" id="copynote"></span></div>
-  </section>
-
-  <footer>Démo. La boulangerie et ses écritures sont fictives ; le fichier d'exemple contient volontairement des anomalies. Format attendu : FEC conforme à l'article A47 A-1 du livre des procédures fiscales (18 colonnes, séparateur tabulation ou barre verticale, montants à virgule).</footer>
+  <footer>Démo. La boulangerie et ses écritures sont fictives ; le fichier d'exemple contient volontairement des factures manquantes et des écritures à lettrer. Format attendu : FEC conforme à l'article A47 A-1 du livre des procédures fiscales (18 colonnes, séparateur tabulation ou barre verticale, montants à virgule).</footer>
 </div>
 
 <script>
@@ -225,35 +215,20 @@ const empty = (cols, t) => `<tr><td colspan="${cols}" class="empty">${t}</td></t
 function render(A, name, meta) {
   $("fname").textContent = name; $("fmeta").textContent = meta;
   const eq = Math.abs(A.tot[0] - A.tot[1]) < .01;
-  const manqAmt = A.manq.reduce((a, m) => a + m.amt, 0), vieux = A.ouverts.filter(o => o.age > 90);
+  const manqAmt = A.manq.reduce((a, m) => a + m.amt, 0);
+  const lettAmt = A.propos.reduce((a, p) => a + (p.f.de || p.f.cr), 0);
   $("tiles").innerHTML = [
-    ["ok", "Écritures lues", A.ecr, `${A.n} lignes · ${eq ? "équilibré" : "déséquilibré !"}`, "#manquantes"],
-    [A.manq.length ? "bad" : "ok", "Pièces manquantes", A.manq.length, eur(manqAmt), "#manquantes"],
-    ["warn", "Lettrages proposés", A.propos.length, eur(A.propos.reduce((a, p) => a + (p.f.de || p.f.cr), 0)), "#lettrage"],
-    [vieux.length ? "bad" : "ok", "Soldes > 90 jours", vieux.length, eur(vieux.reduce((a, o) => a + (o.r.de || o.r.cr), 0)), "#soldes"],
-    [A.attSolde ? "warn" : "ok", "Compte d'attente", eur(A.attSolde).replace(" €", ""), "solde à la clôture (€)", "#manquantes"],
-    [A.doub.length ? "bad" : "ok", "Doublons probables", A.doub.length, A.doub.length ? eur(A.doub.reduce((a, d) => a + (d.b.de || d.b.cr), 0)) : "aucun", "#doublons"],
+    ["ok", "Écritures lues", A.ecr, `${A.n} lignes · ${eq ? "équilibré" : "déséquilibré !"}`, "#lettrage"],
+    ["ok", "Lettrages proposés", A.propos.length, eur(lettAmt), "#lettrage"],
+    [A.ouverts.length ? "warn" : "ok", "Factures sans règlement", A.ouverts.length, eur(A.ouverts.reduce((a, o) => a + (o.r.de || o.r.cr), 0)), "#lettrage"],
+    [A.manq.length ? "bad" : "ok", "Factures manquantes", A.manq.length, eur(manqAmt), "#manquantes"],
   ].map(([c, k, v, s, h]) => `<a class="tile ${c}" href="${h}"><span class="k">${k}</span><span class="v">${v}</span><span class="s">${s}</span></a>`).join("");
   $("t-manq").innerHTML = A.manq.map(m => `<tr><td class="m">${fd(m.date)}</td><td>${esc(m.who)}</td><td>${esc(m.lib)}</td><td class="n">${eur(m.amt)}</td><td><span class="tag ${m.kind[0]}">${m.kind[1]}</span></td></tr>`).join("") || empty(5, "Aucune pièce manquante détectée.");
   $("t-lett").innerHTML = A.propos.map(p => `<tr><td>${esc(p.tiers)}</td><td class="m">${esc(p.f.piece)} · ${fd(p.f.date)}</td><td class="m">${fd(p.g.date)} · ${esc(p.g.lib)}</td><td class="n">${eur(p.f.de || p.f.cr)}</td><td><span class="tag ok">${p.ecart} j</span></td></tr>`).join("") || empty(5, "Rien à lettrer : tout est déjà rapproché.");
-  $("t-sold").innerHTML = A.ouverts.map(o => { const c = o.age > 180 ? ["bad", "À relancer"] : o.age > 90 ? ["warn", "À surveiller"] : ["ok", "Normal"]; return `<tr><td>${esc(o.tiers)} <span class="note">${o.fourn ? "fournisseur" : "client"}</span></td><td class="m">${esc(o.r.piece)}</td><td class="m">${fd(o.r.date)}</td><td class="n">${eur(o.r.de || o.r.cr)}</td><td class="n">${o.age} j</td><td><span class="tag ${c[0]}">${c[1]}</span></td></tr>`; }).join("") || empty(6, "Aucun solde ouvert.");
-  $("t-doub").innerHTML = A.doub.map(x => `<tr><td class="m">${esc(x.b.j)}</td><td>${esc(x.b.auxlib || x.b.aux)}</td><td class="m">${esc(x.b.piece)}</td><td class="m">${fd(x.a.date)} et ${fd(x.b.date)}</td><td class="n">${eur(x.b.de || x.b.cr)}</td></tr>`).join("") || empty(5, "Aucun doublon détecté.");
-  const lines = A.manq.map(m => `- ${fd(m.date)} : ${m.lib} (${eur(m.amt)})${m.kind[1].startsWith("Encaissement") ? " : facture de vente correspondante" : " : facture ou justificatif"}`);
-  const relances = A.ouverts.filter(o => !o.fourn && o.age > 90).map(o => `- ${o.tiers}, facture ${o.r.piece} du ${fd(o.r.date)} (${eur(o.r.de)}) : toujours non encaissée, est-elle réglée ?`);
-  $("mailtxt").value = `Objet : justificatifs manquants pour la clôture au ${fd(A.close)}
-
-Bonjour,
-
-Pour finaliser la révision de vos comptes, il nous manque les justificatifs suivants :
-
-${lines.join("\n") || "- aucun"}
-${relances.length ? `\nPar ailleurs, merci de nous confirmer la situation de ces factures clients :\n\n${relances.join("\n")}\n` : ""}
-Vous pouvez nous les transmettre en réponse à ce message, en photo ou en PDF.
-
-Merci d'avance, bonne journée.`;
+  $("t-sold").innerHTML = A.ouverts.map(o => `<tr><td>${esc(o.tiers)} <span class="note">${o.fourn ? "fournisseur" : "client"}</span></td><td class="m">${esc(o.r.piece)}</td><td class="m">${fd(o.r.date)}</td><td class="n">${eur(o.r.de || o.r.cr)}</td></tr>`).join("") || empty(4, "Toutes les factures ont trouvé leur règlement.");
 }
 function load(text, name, meta) {
-  try { const rows = parseFEC(text); if (!rows.length) throw new Error("Le fichier ne contient aucune écriture."); const A = analyse(rows); render(A, name, meta); $("status").textContent = `Analyse terminée : ${A.manq.length} pièce(s) manquante(s), ${A.propos.length} lettrage(s) proposé(s).`; }
+  try { const rows = parseFEC(text); if (!rows.length) throw new Error("Le fichier ne contient aucune écriture."); const A = analyse(rows); render(A, name, meta); $("status").textContent = `Analyse terminée : lettrage(s) proposé(s) : ${A.propos.length}, facture(s) manquante(s) : ${A.manq.length}.`; }
   catch (e) { $("status").textContent = "Impossible de lire ce fichier : " + e.message; }
 }
 $("pick").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes(String.fromCharCode(0xFFFD))) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); e.target.value = ""; });
@@ -262,6 +237,5 @@ const drop = $("drop");
 ["dragleave", "drop"].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove("over"); }));
 drop.addEventListener("drop", async e => { const f = e.dataTransfer?.files?.[0]; if (!f) return; const buf = await f.arrayBuffer(); let t = new TextDecoder("utf-8").decode(buf); if (t.includes(String.fromCharCode(0xFFFD))) t = new TextDecoder("windows-1252").decode(buf); load(t, f.name, (f.size / 1024).toFixed(0) + " Ko · lu dans votre navigateur"); });
 $("sample").addEventListener("click", () => load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025"));
-$("copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText($("mailtxt").value); $("copynote").textContent = "Mail copié."; } catch { $("mailtxt").select(); $("copynote").textContent = "Copie refusée : le texte est sélectionné, utilisez Ctrl+C."; } });
 load(sampleFEC(), "Exemple : Boulangerie Les Blés d'Or SARL", "FEC fictif, exercice 2025");
 </script>

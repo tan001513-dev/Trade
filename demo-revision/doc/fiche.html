@@ -18,27 +18,24 @@ ul { margin:0; padding-left: 15px; } li { margin: 0 0 4px; }
 .foot { margin-top: 12px; border-top:1px solid var(--rule); padding-top:6px; color: var(--muted); font-size: 8.5pt; display:flex; justify-content:space-between; }
 </style></head><body>
 <div class="top"><span class="brand">Révision express</span><span>Outil de révision pour cabinets comptables</span></div>
-<h1>Le FEC d'un dossier, <em>révisé en dix secondes.</em></h1>
-<p class="lede">Le cabinet dépose le fichier des écritures comptables exporté de son logiciel. L'outil sort la liste de ce qui manque, ce qui peut être lettré et ce qui traîne, puis rédige le mail au client.</p>
+<h1>Lettrage automatique et factures manquantes, <em>en dix secondes.</em></h1>
+<p class="lede">Pour gagner du temps sur la révision des comptes : le cabinet dépose le fichier des écritures comptables (FEC) exporté de son logiciel, l'outil lettre les factures avec leurs règlements et repère les factures manquantes.</p>
 <img src="apercu.png" alt="Aperçu de l'outil sur un dossier d'exemple">
 <div class="cols">
   <div>
     <h2>Ce qu'il fait</h2>
     <ul>
-      <li>Lit le <b>FEC</b> de n'importe quel logiciel comptable et vérifie qu'il est <b>équilibré</b>.</li>
-      <li>Repère les <b>paiements fournisseurs sans facture</b> d'achat.</li>
-      <li>Repère les <b>encaissements clients sans facture</b> de vente.</li>
-      <li>Liste les mouvements en <b>compte d'attente</b> (471) à justifier.</li>
-      <li><b>Propose des lettrages</b> : facture et règlement du même tiers, même montant, avec le délai de paiement.</li>
-      <li>Classe les <b>soldes ouverts par ancienneté</b> : normal, à surveiller (plus de 90 jours), à relancer (plus de 180 jours).</li>
-      <li>Détecte les <b>doublons probables</b> : même tiers, même montant, même pièce.</li>
-      <li>Résume tout en <b>6 chiffres clés</b>, avec un clic vers le détail.</li>
-      <li><b>Rédige le mail au client</b> avec la liste des justificatifs manquants, à copier en un clic.</li>
+      <li><b>Lettrage automatique</b> : chaque facture non lettrée est rapprochée de son règlement (même tiers, même montant), avec le délai de paiement.</li>
+      <li>Liste les <b>factures restées sans règlement</b> après lettrage.</li>
+      <li>Repère les <b>factures manquantes</b> : paiements sans facture d'achat, encaissements sans facture de vente.</li>
+      <li>Signale les sommes passées en <b>compte d'attente</b> faute de justificatif.</li>
+      <li>Résume le dossier en <b>4 chiffres clés</b> et vérifie que le fichier est équilibré.</li>
+      <li>Fonctionne avec le FEC de <b>n'importe quel logiciel</b> comptable.</li>
     </ul>
   </div>
   <div>
     <div class="box"><h2>Confidentiel</h2>Le fichier est lu dans le navigateur : <b>aucune donnée n'est envoyée</b> sur internet. Fonctionne sur ordinateur et téléphone, sans installation.</div>
-    <div class="box"><h2>Limites actuelles</h2><ul><li>Il <b>propose</b> les lettrages ; le comptable les valide dans son logiciel.</li><li>Paiements partiels ou groupés pas encore gérés.</li><li>Version de démonstration, testée sur un dossier fictif : à ajuster sur vos FEC.</li></ul></div>
+    <div class="box"><h2>Limites actuelles</h2><ul><li>Il <b>propose</b> les lettrages ; le comptable les valide dans son logiciel.</li><li>Paiements partiels ou groupés pas encore gérés.</li><li>Version de démonstration, testée sur un dossier fictif : à ajuster sur vos FEC.</li><li>La saisie des factures n'est pas traitée : vos logiciels l'automatisent déjà.</li></ul></div>
   </div>
 </div>
 <div class="foot"><span>Karoui · étudiant à l'UVSQ</span><span>Démo : la boulangerie de l'aperçu et ses écritures sont fictives.</span></div>
