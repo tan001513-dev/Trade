@@ -20,13 +20,21 @@ FOUND = {  # infos publiques : annuaires en ligne (téléphones, à vérifier) e
     "SAGES-CONSEILS EXPERTISE COMPTABLE": ("", "sages-conseils.com", "sages.conseils@yahoo.fr"),
     "LC2C": ("01 34 59 41 13", "", ""),
     "FARJOTS GOUSSEAU ET ASSOCIES": ("01 30 57 46 50", "", ""),
+    "JTM EXPERT": ("01 30 60 03 30", "", ""),
+    "A G S AUDIT GESTION SERVICES (AGS)": ("01 30 50 86 16", "", ""),
+    "GF PARTNERS 78": ("07 81 29 62 62", "", ""),
+    "FINEA": ("01 30 07 30 60", "", ""),
+    "PNG & ASSOCIES (SOGECC COIGNIERES)": ("01 30 05 00 70", "", ""),
+    "CENSEA EXPERTISE COMPTABLE (CENSEA)": ("06 03 33 78 96", "", ""),
+    "QUALIANS": ("01 30 83 87 87", "", ""),
+    "FIDUCIAIRE EXPERTISES CONSEILS (FEC)": ("01 39 50 29 14", "", ""),
 }
 
 BROWN, SOFT, INK = "7A5236", "F4ECE5", "2E241D"
 wb = Workbook()
 ws = wb.active; ws.title = "Cabinets"
 head = ["Priorité", "Km", "Cabinet", "Commune", "Adresse", "Salariés", "Dirigeant(s)", "Téléphone", "Site web",
-        "Email de contact", "Rechercher", "SIREN", "Mail 1 envoyé le", "Relance 1 le", "Relance 2 le", "Réponse", "Notes"]
+        "Email de contact", "Rechercher", "Annuaire de l'Ordre", "SIREN", "Mail 1 envoyé le", "Relance 1 le", "Relance 2 le", "Réponse", "Notes"]
 ws.append(head)
 for c in ws[1]:
     c.font = Font(bold=True, color="FFFFFF"); c.fill = PatternFill("solid", fgColor=BROWN)
@@ -36,23 +44,26 @@ for i, r in enumerate(rows):
     tel, site, mail = FOUND.get(r["nom"], ("", "", ""))
     q = urllib.parse.quote_plus(f'{r["nom"]} expert comptable {r["commune"]} contact')
     ws.append(["A" if i < 30 else ("B" if i < 80 else "C"), r["km"], r["nom"], r["commune"].title(), r["adresse"],
-               r["salaries"], r["dirigeants"], tel, site, mail, "Google ↗", r["siren"], None, None, None, "", ""])
+               r["salaries"], r["dirigeants"], tel, site, mail, "Google ↗", "Ordre ↗", r["siren"], None, None, None, "", ""])
     row = ws.max_row
     ws.cell(row, 11).hyperlink = f"https://www.google.com/search?q={q}"
     ws.cell(row, 11).font = Font(color=BROWN, underline="single")
     if site:
         ws.cell(row, 9).hyperlink = "https://" + site; ws.cell(row, 9).font = Font(color=BROWN, underline="single")
-    for col in (13, 14, 15): ws.cell(row, col).number_format = "DD/MM/YYYY"
+    nm = r["nom"].split(" (")[0]
+    ws.cell(row, 12).hyperlink = "https://annuaire.experts-comptables.org/recherche?comptable=" + urllib.parse.quote_plus(nm)
+    ws.cell(row, 12).font = Font(color=BROWN, underline="single")
+    for col in (14, 15, 16): ws.cell(row, col).number_format = "DD/MM/YYYY"
     if i % 2: 
         for col in range(1, len(head) + 1): ws.cell(row, col).fill = PatternFill("solid", fgColor="FBF8F5")
-widths = [9, 6, 38, 22, 42, 10, 40, 16, 20, 30, 11, 12, 14, 13, 13, 18, 30]
+widths = [9, 6, 38, 22, 42, 10, 40, 16, 20, 30, 11, 12, 12, 14, 13, 13, 18, 30]
 for i, w in enumerate(widths): ws.column_dimensions[chr(65 + i)].width = w
 ws.freeze_panes = "D2"; ws.auto_filter.ref = ws.dimensions
 dv = DataValidation(type="list", formula1='"Pas de réponse,Intéressé,Fichier reçu,Pas intéressé,Ne plus contacter"', allow_blank=True)
-ws.add_data_validation(dv); dv.add(f"P2:P{ws.max_row}")
+ws.add_data_validation(dv); dv.add(f"Q2:Q{ws.max_row}")
 n = ws.max_row
-ws.conditional_formatting.add(f"A2:Q{n}", FormulaRule(formula=['$P2="Fichier reçu"'], fill=PatternFill("solid", fgColor="E4F1E2")))
-ws.conditional_formatting.add(f"A2:Q{n}", FormulaRule(formula=['OR($P2="Pas intéressé",$P2="Ne plus contacter")'], font=Font(color="A8A09A", strike=True)))
+ws.conditional_formatting.add(f"A2:R{n}", FormulaRule(formula=['$Q2="Fichier reçu"'], fill=PatternFill("solid", fgColor="E4F1E2")))
+ws.conditional_formatting.add(f"A2:R{n}", FormulaRule(formula=['OR($Q2="Pas intéressé",$Q2="Ne plus contacter")'], font=Font(color="A8A09A", strike=True)))
 
 g = wb.create_sheet("Mode d'emploi")
 lines = [
@@ -64,7 +75,8 @@ lines = [
     ("Comment l'utiliser", True),
     ("1. Commence par la priorité A (les 30 plus proches).", False),
     ("2. Clique « Google ↗ » : trouve le site du cabinet, puis sa page Contact. Copie l'email dans « Email de contact ».", False),
-    ("   Pas d'email ? Utilise le formulaire du site, ou passe au suivant.", False),
+    ("   Pas d'email ? Clique « Ordre ↗ » : sur la fiche du cabinet, le bouton « Contacter par mail » de l'Ordre", False),
+    ("   envoie ton message au cabinet. C'est le canal officiel, il marche pour presque tous les cabinets.", False),
     ("3. Envoie le mail 1, note la date. Relance 1 à J+4, relance 2 à J+10. Jamais plus de 3 messages.", False),
     ("4. Remplis « Réponse » avec la liste déroulante. « Ne plus contacter » = on ne réécrit jamais.", False),
     ("", False),
