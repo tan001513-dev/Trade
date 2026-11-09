@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>FacturePrête 3D</title>
+<style>
+:root { --ink: #2e241d; --muted: #7a6a5e; --brown: #7a5236; --brown-2: #9a6b47; --soft: #f4ece5;
+  --display: "Caladea", "Bitstream Charter", Georgia, serif; --body: "Inter", "Liberation Sans", Arial, sans-serif; --mono: "JetBrains Mono", monospace; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; font-family: var(--body); color: var(--ink); }
+canvas { position: absolute; inset: 0; }
+.brand { position: absolute; top: 100px; left: 90px; right: 90px; display: flex; justify-content: space-between; font-size: 34px; font-weight: 600; color: var(--brown); z-index: 3; }
+.ov { position: absolute; left: 90px; right: 90px; z-index: 2; opacity: 0; will-change: transform, opacity; }
+.ov h1 { font-family: var(--display); font-weight: 400; font-size: 132px; line-height: 1.02; letter-spacing: -2px; }
+.ov h2 { font-family: var(--display); font-weight: 400; font-size: 96px; line-height: 1.05; letter-spacing: -1.5px; }
+.ov em { font-style: italic; color: var(--brown-2); }
+.ov p { font-size: 46px; line-height: 1.35; color: var(--muted); margin-top: 28px; }
+.halo { text-shadow: 0 0 40px #fff, 0 0 20px #fff, 0 0 8px #fff; }
+#o1 { top: 300px; } #o2 { top: 1300px; } #o3 { top: 1500px; } #o4 { top: 290px; }
+#cta { position: absolute; left: 90px; right: 90px; bottom: 150px; z-index: 2; opacity: 0; font-size: 42px; color: var(--muted); text-align: center; }
+#cta b { color: var(--brown); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="brand"><span>FacturePrête</span><span>Micro-entrepreneurs</span></div>
+<div class="ov halo" id="o1"><h1>Micro-<br>entrepreneur&nbsp;?</h1><p>Vos factures vont changer.</p></div>
+<div class="ov halo" id="o2"><h2>Vos factures passent <em>en électronique.</em></h2><p>Avec de nouvelles mentions obligatoires.</p></div>
+<div class="ov halo" id="o3"><h2>Je vérifie et <em>je corrige</em> votre modèle.</h2></div>
+<div class="ov halo" id="o4"><h2>Prêt avant <em>tout le monde.</em></h2></div>
+<div id="cta">Écrivez <b>« FACTURE »</b> en message privé</div>
+
+<script type="importmap">{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }</script>
+<script type="module">
+import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+
+const W = 1080, H = 1920;
+const C = { ink: "#2e241d", muted: "#7a6a5e", brown: "#7a5236", brown2: "#9a6b47", soft: "#f4ece5", rule: "#eadfd5", ok: "#4d7a4a", okSoft: "#edf4ea", bad: "#a8432f", badSoft: "#fbece8" };
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const out = x => 1 - Math.pow(1 - x, 3);
+const back = x => { const c = 1.6; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+const lerp = (a, b, k) => a + (b - a) * k;
+function rand(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+
+// ---------- renderer ----------
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: false });
+renderer.setPixelRatio(1); renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.25;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color("#ffffff");
+scene.fog = new THREE.Fog("#ffffff", 22, 48);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+
+const camera = new THREE.PerspectiveCamera(35, W / H, 0.1, 100);
+scene.add(new THREE.HemisphereLight("#fffaf4", "#efe4d8", 1.6));
+const sun = new THREE.DirectionalLight("#fff3e6", 2.2);
+sun.position.set(5, 9, 8); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048); sun.shadow.radius = 8; sun.shadow.bias = -0.0004;
+Object.assign(sun.shadow.camera, { left: -10, right: 10, top: 12, bottom: -12, near: 1, far: 40 });
+scene.add(sun);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.ShadowMaterial({ opacity: 0.07 }));
+ground.rotation.x = -Math.PI / 2; ground.position.y = -6.2; ground.receiveShadow = true; // no ground: floating look
+
+// ---------- textures ----------
+function canvasTex(w, h, draw) {
+  const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+  const g = cv.getContext("2d"); const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  tex.redraw = arg => { g.clearRect(0, 0, w, h); draw(g, w, h, arg); tex.needsUpdate = true; };
+  tex.redraw(); return tex;
+}
+function rr(g, x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
+
+function drawSmallInvoice(g, w, h, seed) {
+  const r = rand(seed * 97 + 13);
+  g.fillStyle = "#fff"; g.fillRect(0, 0, w, h);
+  g.fillStyle = C.brown; g.font = "600 44px Inter"; g.fillText(["FACTURE", "Facture", "FACTURE N°"][seed % 3], 60, 100);
+  g.fillStyle = C.rule;
+  for (let i = 0; i < 9; i++) { rr(g, 60, 170 + i * 62, 220 + r() * 360, 18, 9); g.fill(); }
+  g.fillStyle = C.soft; rr(g, 60, h - 260, w - 120, 150, 18); g.fill();
+  g.fillStyle = C.ink; g.font = "500 40px JetBrains Mono"; g.fillText((200 + Math.floor(r() * 900)) + ",00 €", w - 330, h - 165);
+}
+
+const ROWS = ["SIREN de votre client", "Nature : biens ou services", "Plateforme de réception"];
+function drawMainInvoice(g, w, h, st) {
+  st = st || { fix: [0, 0, 0], show: [1, 1, 1] };
+  g.fillStyle = "#fff"; g.fillRect(0, 0, w, h);
+  g.fillStyle = C.ink; g.font = "600 52px Inter"; g.fillText("Votre facture", 70, 120);
+  g.fillStyle = C.muted; g.font = "400 36px JetBrains Mono"; g.fillText("FAC-2027-014", w - 360, 120);
+  g.fillStyle = C.rule; for (let i = 0; i < 3; i++) { rr(g, 70, 175 + i * 50, [520, 380, 600][i], 18, 9); g.fill(); }
+  ROWS.forEach((label, i) => {
+    const y = 400 + i * 150, k = st.fix[i], a = st.show[i];
+    g.globalAlpha = a;
+    g.fillStyle = C.soft; g.fillRect(70, y - 20, w - 140, 3);
+    const col = k > .5 ? C.ok : C.bad, bg = k > .5 ? C.okSoft : C.badSoft;
+    g.fillStyle = bg; g.beginPath(); g.arc(120, y + 52, 40 * (1 + 0.25 * Math.sin(Math.PI * k)), 0, 7); g.fill();
+    g.strokeStyle = col; g.lineWidth = 9; g.lineCap = "round"; g.beginPath();
+    if (k > .5) { g.moveTo(102, y + 54); g.lineTo(116, y + 68); g.lineTo(140, y + 38); }
+    else { g.moveTo(106, y + 38); g.lineTo(134, y + 66); g.moveTo(134, y + 38); g.lineTo(106, y + 66); }
+    g.stroke();
+    g.fillStyle = C.ink; g.font = "500 46px Inter"; g.fillText(label, 190, y + 68);
+    g.globalAlpha = 1;
+  });
+  g.fillStyle = C.soft; rr(g, 70, h - 230, w - 140, 140, 22); g.fill();
+  g.fillStyle = C.muted; g.font = "500 40px Inter"; g.fillText("Total TTC", 110, h - 145);
+  g.fillStyle = C.ink; g.font = "500 44px JetBrains Mono"; g.fillText("1 309,50 €", w - 390, h - 145);
+}
+
+function drawDate(g, w, h) {
+  g.fillStyle = C.brown; g.fillRect(0, 0, w, 210);
+  g.fillStyle = "#fff"; g.font = "600 92px Inter"; g.textAlign = "center"; g.fillText("SEPT.", w / 2, 145);
+  g.fillStyle = "#fff"; g.fillRect(0, 210, w, h - 210);
+  g.fillStyle = C.ink; g.font = "400 300px Caladea"; g.fillText("2027", w / 2, 560);
+  g.fillStyle = C.muted; g.font = "500 52px Inter"; g.fillText("facture électronique", w / 2, 680);
+  g.textAlign = "left";
+}
+function drawCta(g, w, h) {
+  g.fillStyle = C.brown; g.fillRect(0, 0, w, h);
+  g.fillStyle = "#fff"; g.textAlign = "center";
+  g.font = "400 112px Caladea"; g.fillText("Gratuit pour", w / 2, 210); g.fillText("les 5 premiers", w / 2, 340);
+  g.textAlign = "left";
+}
+
+// ---------- objects ----------
+const white = new THREE.MeshStandardMaterial({ color: "#ffffff", roughness: 0.85, emissive: "#ffffff", emissiveIntensity: 0.08 });
+function card(w, h, d, tex, r = 0.06) {
+  const geo = new RoundedBoxGeometry(w, h, d, 4, r);
+  const front = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.75, emissive: "#ffffff", emissiveMap: tex, emissiveIntensity: 0.12 });
+  // RoundedBox groups: 0 +x,1 -x,2 +y,3 -y,4 +z(front),5 -z
+  const m = new THREE.Mesh(geo, [white, white, white, white, front, white]);
+  m.castShadow = true; m.receiveShadow = true; return m;
+}
+// rounded box UVs on the front face span the whole face: fine for our textures.
+
+const papers = [];
+const R = rand(42);
+for (let i = 0; i < 9; i++) {
+  const tex = canvasTex(640, 900, (g, w, h) => drawSmallInvoice(g, w, h, i));
+  const m = card(2.2, 3.1, 0.035, tex, 0.03);
+  m.userData = { p: new THREE.Vector3((R() - .5) * 9, (R() - .5) * 13, -R() * 9 + 1.5), r: new THREE.Euler((R() - .5) * 1.2, (R() - .5) * 1.6, (R() - .5) * 0.8), ph: R() * 6.28, sp: 0.4 + R() * 0.5 };
+  scene.add(m); papers.push(m);
+}
+const mainTex = canvasTex(1024, 1400, drawMainInvoice);
+const invoice = card(4.4, 6.0, 0.08, mainTex, 0.1); scene.add(invoice);
+const dateTex = canvasTex(900, 760, drawDate);
+const dateBlock = card(4.2, 3.55, 0.9, dateTex, 0.22); scene.add(dateBlock);
+const ctaTex = canvasTex(1100, 440, drawCta);
+const ctaSlab = new THREE.Mesh(new RoundedBoxGeometry(4.1, 1.64, 0.36, 5, 0.22),
+  [...Array(4).fill(new THREE.MeshStandardMaterial({ color: C.brown, roughness: .5 })), new THREE.MeshStandardMaterial({ map: ctaTex, roughness: .5 }), new THREE.MeshStandardMaterial({ color: C.brown })]);
+ctaSlab.castShadow = true; scene.add(ctaSlab);
+
+// scan beam
+const beam = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 0.5), new THREE.MeshBasicMaterial({
+  map: canvasTex(16, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "rgba(154,107,71,0)"); gr.addColorStop(.5, "rgba(154,107,71,.55)"); gr.addColorStop(1, "rgba(154,107,71,0)"); g.fillStyle = gr; g.fillRect(0, 0, w, h); }),
+  transparent: true, depthWrite: false }));
+invoice.add(beam); beam.position.z = 0.06;
+
+// pulse rings at row icons (in invoice local space)
+const rings = ROWS.map((_, i) => {
+  const m = new THREE.Mesh(new THREE.RingGeometry(0.2, 0.25, 48), new THREE.MeshBasicMaterial({ color: C.ok, transparent: true, depthWrite: false }));
+  m.position.set(-2.2 + 4.4 * (120 / 1024), 3.0 - 6.0 * ((452 + i * 150) / 1400), 0.06); invoice.add(m); return m;
+});
+
+// sparkles
+const SP = 140, spGeo = new THREE.BufferGeometry(), spPos = new Float32Array(SP * 3), spDir = [];
+const R2 = rand(7);
+for (let i = 0; i < SP; i++) { const a = R2() * 6.28, b = (R2() - .5) * 2.5, s = 2 + R2() * 4; spDir.push(new THREE.Vector3(Math.cos(a) * s, Math.sin(a) * s * 0.8 + b, (R2() - .3) * 3)); }
+spGeo.setAttribute("position", new THREE.BufferAttribute(spPos, 3));
+const sparkles = new THREE.Points(spGeo, new THREE.PointsMaterial({ color: "#c79a6b", size: 0.11, transparent: true, depthWrite: false }));
+scene.add(sparkles);
+
+const ov = id => document.getElementById(id);
+function showOv(el, t, a, b, dy = 60) {
+  const k = seg(t, a, a + 0.6), o = 1 - seg(t, b - 0.5, b);
+  const v = Math.min(out(k), o);
+  el.style.opacity = v; el.style.transform = `translateY(${(1 - out(k)) * dy}px)`;
+}
+
+// ---------- timeline ----------
+window.renderAt = function (t) {
+  // camera: slow drift
+  const camZ = lerp(17, 14.5, ease(seg(t, 0, 20.5)));
+  camera.position.set(Math.sin(t * 0.25) * 0.6, 0.2 + Math.sin(t * 0.18) * 0.3, camZ);
+  camera.lookAt(0, -0.2, 0);
+
+  // papers: float (scene 1), gather & fly away (scene 2)
+  const gather = ease(seg(t, 4.1, 6.2)), leave = ease(seg(t, 8.6, 9.8));
+  papers.forEach((m, i) => {
+    const u = m.userData, f = Math.sin(t * u.sp + u.ph) * 0.35;
+    const p0 = new THREE.Vector3(u.p.x, u.p.y + f, u.p.z);
+    const stack = new THREE.Vector3(-0.2 + i * 0.05, -3.4 + i * 0.04, -3 - i * 0.12);
+    const p = p0.clone().lerp(stack, gather);
+    p.z -= leave * (14 + i); p.y += leave * 2;
+    m.position.copy(p);
+    m.rotation.set(lerp(u.r.x + t * 0.08, -1.25, gather), lerp(u.r.y + t * 0.12, 0, gather), lerp(u.r.z, (i - 4) * 0.04, gather));
+    const s = 1 - 0.15 * gather; m.scale.setScalar(s); m.visible = leave < 1;
+  });
+
+  // date block (scene 2)
+  const din = back(seg(t, 4.5, 5.7)), dout = ease(seg(t, 8.8, 9.6));
+  dateBlock.visible = t > 4.4 && dout < 1;
+  dateBlock.position.set(0, lerp(-9, 1.6, din) + Math.sin(t * 1.2) * 0.08 + dout * 6, lerp(-4, 0.5, din));
+  dateBlock.rotation.set(lerp(1.4, -0.08, din) - dout * 1.2, lerp(-0.9, 0.18, din) + Math.sin(t * 0.7) * 0.05, 0);
+  dateBlock.scale.setScalar(1 - dout * 0.6);
+
+  // main invoice (scene 3 & 4)
+  const iin = back(seg(t, 9.3, 10.6)), ipark = ease(seg(t, 15.0, 16.4));
+  invoice.visible = t > 9.2;
+  invoice.position.set(lerp(0, 0, iin) - ipark * 2, lerp(-12, 0.6, iin) + Math.sin(t * 1.1) * 0.06 + ipark * 13, lerp(-8, 0, iin) - ipark * 3);
+  invoice.rotation.set(lerp(-1.0, -0.06, iin) - ipark * 0.9, lerp(0.8, -0.22, iin) + Math.sin(t * 0.5) * 0.06 + ipark * 0.8, lerp(0.3, 0.02, iin) + ipark * 0.4);
+  invoice.visible = t > 9.2 && ipark < 1;
+  const fix = [12.2, 12.7, 13.2].map(x => seg(t, x, x + 0.25));
+  const show = [10.6, 10.9, 11.2].map(x => out(seg(t, x, x + 0.35)));
+  mainTex.redraw({ fix, show });
+  const scan = seg(t, 10.9, 12.0);
+  beam.visible = scan > 0 && scan < 1; beam.position.y = lerp(3.0, -3.0, ease(scan));
+  rings.forEach((m, i) => { const k = seg(t, [12.2, 12.7, 13.2][i], [12.2, 12.7, 13.2][i] + 0.9); m.visible = k > 0 && k < 1; m.scale.setScalar(1 + k * 3); m.material.opacity = (1 - k) * 0.8; });
+
+  // CTA slab (scene 4)
+  const cin = back(seg(t, 15.3, 16.6));
+  ctaSlab.visible = t > 15.2;
+  ctaSlab.position.set(0, lerp(-10, -1.2, cin) + Math.sin(t * 1.3) * 0.07, lerp(-3, 1.2, cin));
+  ctaSlab.rotation.set(lerp(-1.3, -0.05, cin), lerp(0.6, 0, cin) + Math.sin(t * 0.8) * 0.06, 0);
+
+  // sparkles burst from the slab
+  const sk = seg(t, 16.0, 18.6);
+  sparkles.visible = sk > 0 && sk < 1;
+  for (let i = 0; i < SP; i++) { const d = spDir[i], e = out(sk); spPos[i * 3] = d.x * e; spPos[i * 3 + 1] = -1.2 + d.y * e - sk * sk * 1.5; spPos[i * 3 + 2] = 1.4 + d.z * e; }
+  spGeo.attributes.position.needsUpdate = true; sparkles.material.opacity = (1 - sk) * 0.9;
+
+  // overlays
+  showOv(ov("o1"), t, 0.4, 4.3);
+  showOv(ov("o2"), t, 5.0, 9.3);
+  showOv(ov("o3"), t, 10.2, 14.9);
+  showOv(ov("o4"), t, 15.4, 99);
+  showOv(ov("cta"), t, 16.6, 99, 30);
+
+  renderer.render(scene, camera);
+};
+await document.fonts.ready;
+[...papers.map(p => p.material[4].map), dateTex, ctaTex].forEach(tx => tx.redraw());
+window.ready = true;
+renderAt(0);
+</script>
+</body>
+</html>
