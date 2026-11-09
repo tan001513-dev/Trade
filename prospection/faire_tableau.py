@@ -10,12 +10,16 @@ rows = json.load(open(src))
 EXCL = ("COMPAGNIE REGIONALE", "CTRE DEVELOPPEMENT", "CENTRE AGRICOLE", "CENTRE DE GESTION", "ASSOCIATION")
 rows = [r for r in rows if not any(x in r["nom"].upper() for x in EXCL)]
 
-FOUND = {  # infos publiques trouvées par recherche web (annuaires), à vérifier
-    "CT EXPERT": ("01 34 62 02 42", ""),
-    "LB CONSULTING": ("01 76 78 36 80", ""),
-    "SOCIETE AUXILIAIRE FIDUCIAIRE (SAF)": ("01 34 82 88 89", ""),
-    "AUDIT EXPERTISE COMPTABLE ET FISCALITE (AECF)": ("01 30 62 55 60", "cabinet-aecf.fr"),
-    "CGID": ("01 81 88 98 00", "cgid.fr"),
+FOUND = {  # infos publiques : annuaires en ligne (téléphones, à vérifier) et sites des cabinets (emails)
+    "CT EXPERT": ("01 34 62 02 42", "", ""),
+    "LB CONSULTING": ("01 76 78 36 80", "", ""),
+    "SOCIETE AUXILIAIRE FIDUCIAIRE (SAF)": ("01 34 82 88 89", "", ""),
+    "AUDIT EXPERTISE COMPTABLE ET FISCALITE (AECF)": ("01 30 62 55 60", "cabinet-aecf.fr", "azi@cabinet-aecf.fr"),
+    "CGID": ("01 81 88 98 00", "cgid.fr", "cgid@cgid.fr"),
+    "AUDIS ASSOCIES": ("01 61 37 27 52", "", ""),
+    "SAGES-CONSEILS EXPERTISE COMPTABLE": ("", "sages-conseils.com", "sages.conseils@yahoo.fr"),
+    "LC2C": ("01 34 59 41 13", "", ""),
+    "FARJOTS GOUSSEAU ET ASSOCIES": ("01 30 57 46 50", "", ""),
 }
 
 BROWN, SOFT, INK = "7A5236", "F4ECE5", "2E241D"
@@ -29,10 +33,10 @@ for c in ws[1]:
     c.alignment = Alignment(vertical="center", wrap_text=True)
 ws.row_dimensions[1].height = 30
 for i, r in enumerate(rows):
-    tel, site = FOUND.get(r["nom"], ("", ""))
+    tel, site, mail = FOUND.get(r["nom"], ("", "", ""))
     q = urllib.parse.quote_plus(f'{r["nom"]} expert comptable {r["commune"]} contact')
     ws.append(["A" if i < 30 else ("B" if i < 80 else "C"), r["km"], r["nom"], r["commune"].title(), r["adresse"],
-               r["salaries"], r["dirigeants"], tel, site, "", "Google ↗", r["siren"], None, None, None, "", ""])
+               r["salaries"], r["dirigeants"], tel, site, mail, "Google ↗", r["siren"], None, None, None, "", ""])
     row = ws.max_row
     ws.cell(row, 11).hyperlink = f"https://www.google.com/search?q={q}"
     ws.cell(row, 11).font = Font(color=BROWN, underline="single")
@@ -65,7 +69,7 @@ lines = [
     ("4. Remplis « Réponse » avec la liste déroulante. « Ne plus contacter » = on ne réécrit jamais.", False),
     ("", False),
     ("À savoir", True),
-    ("Téléphones et sites des 5 premiers : trouvés dans des annuaires en ligne, à vérifier.", False),
+    ("Téléphones : trouvés dans des annuaires en ligne, à vérifier. Emails : relevés sur le site du cabinet lui-même.", False),
     ("Écris uniquement à l'adresse professionnelle publiée par le cabinet. Chaque mail propose de refuser d'être recontacté.", False),
 ]
 for t, b in lines:
