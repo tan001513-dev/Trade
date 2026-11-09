@@ -32,24 +32,24 @@ h2 { font-family: var(--display); font-weight: 400; font-size: 100px; line-heigh
 .cta b { display: block; font-family: var(--display); font-weight: 400; font-size: 64px; line-height: 1.1; }
 .cta span { display: block; font-size: 40px; opacity: .88; margin-top: 18px; }
 
-/* timeline: 0-3s / 3-6.5s / 6.5-10.5s / 10.5-14s */
+/* timeline (20.5 s): 0.3-4.3 / 4.3-9.3 / 9.3-14.9 / 15-20.5 */
 @keyframes inout { 0% { opacity: 0; transform: translateY(40px); } 8% { opacity: 1; transform: none; } 90% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes inhold { 0% { opacity: 0; transform: translateY(40px); } 12% { opacity: 1; transform: none; } 100% { opacity: 1; } }
 @keyframes pop { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }
 @keyframes fix { to { background: var(--ok-soft); color: var(--ok); } }
-.s1 { animation: inout 3s ease 0.2s both; }
-.s2 { animation: inout 3.5s ease 3.2s both; }
-.s3 { animation: inout 4s ease 6.7s both; }
-.s3 .row:nth-child(2) { animation: pop .4s ease 7.3s both; }
-.s3 .row:nth-child(3) { animation: pop .4s ease 7.7s both; }
-.s3 .row:nth-child(4) { animation: pop .4s ease 8.1s both; }
+.s1 { animation: inout 4s ease 0.3s both; }
+.s2 { animation: inout 5s ease 4.3s both; }
+.s3 { animation: inout 5.6s ease 9.3s both; }
+.s3 .row:nth-child(2) { animation: pop .4s ease 10.0s both; }
+.s3 .row:nth-child(3) { animation: pop .4s ease 10.5s both; }
+.s3 .row:nth-child(4) { animation: pop .4s ease 11.0s both; }
 .s3 .row .ic { animation: fix .3s ease both; }
-.s3 .row:nth-child(2) .ic, .s3 .row:nth-child(2) .ic i { animation-delay: 9.0s; }
-.s3 .row:nth-child(3) .ic, .s3 .row:nth-child(3) .ic i { animation-delay: 9.3s; }
-.s3 .row:nth-child(4) .ic, .s3 .row:nth-child(4) .ic i { animation-delay: 9.6s; }
+.s3 .row:nth-child(2) .ic, .s3 .row:nth-child(2) .ic i { animation-delay: 12.2s; }
+.s3 .row:nth-child(3) .ic, .s3 .row:nth-child(3) .ic i { animation-delay: 12.7s; }
+.s3 .row:nth-child(4) .ic, .s3 .row:nth-child(4) .ic i { animation-delay: 13.2s; }
 .s3 .ic .v { animation: show .3s ease both; }
 .s3 .ic .x { animation: hide .3s ease both; }
-.s4 { animation: inhold 3.5s ease 10.8s both; }
+.s4 { animation: inhold 5.5s ease 15.0s both; }
 </style>
 </head>
 <body>
