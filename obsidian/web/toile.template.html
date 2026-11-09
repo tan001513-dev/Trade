@@ -1,0 +1,235 @@
+<title>Toile du droit des contrats</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Figtree:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+/* Layout: one-screen study tool. Top bar (title, search, type filters), the web of notes filling
+   the screen, and a reading panel (right on desktop, bottom sheet on phones). White and brown. */
+:root {
+  --bg: #ffffff; --panel: #faf7f4; --ink: #2e241d; --muted: #7a6a5e; --rule: #ece4dc;
+  --notion: #7a5236; --arret: #4d7a4a; --article: #a9a39c; --cours: #c08a2e;
+  --edge: rgba(122, 82, 54, .16); --edge-hi: rgba(122, 82, 54, .75); --halo: #ffffff;
+  --display: "Fraunces", Georgia, serif; --body: "Figtree", "Segoe UI", Roboto, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1b1612; --panel: #241d18; --ink: #efe6dd; --muted: #b3a294; --rule: #3a2f27;
+  --notion: #d9a77f; --arret: #8fbf86; --article: #776d64; --cours: #e2b25c;
+  --edge: rgba(217, 167, 127, .16); --edge-hi: rgba(217, 167, 127, .8); --halo: #1b1612; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #1b1612; --panel: #241d18; --ink: #efe6dd; --muted: #b3a294; --rule: #3a2f27;
+  --notion: #d9a77f; --arret: #8fbf86; --article: #776d64; --cours: #e2b25c;
+  --edge: rgba(217, 167, 127, .16); --edge-hi: rgba(217, 167, 127, .8); --halo: #1b1612; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; overflow: hidden; }
+.app { height: 100%; display: grid; grid-template-rows: auto 1fr; }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-block: 12px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  border-bottom: 1px solid var(--rule); background: var(--bg); position: relative; z-index: 2; }
+h1 { font-family: var(--display); font-weight: 500; font-size: 22px; margin: 0; letter-spacing: -.01em; }
+h1 small { font-family: var(--body); font-size: 13px; color: var(--muted); font-weight: 400; margin-left: 8px; }
+.search { flex: 1 1 220px; min-width: 0; max-width: 360px; }
+.search input { width: 100%; font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule); background: var(--panel); color: var(--ink); }
+.search input:focus-visible, button:focus-visible { outline: 3px solid var(--notion); outline-offset: 1px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: 600 13px var(--body); border: 1px solid var(--rule); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 6px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chip i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.chip[aria-pressed="false"] { opacity: .45; }
+.chip span { color: var(--muted); font-weight: 500; font-variant-numeric: tabular-nums; }
+main { position: relative; min-height: 0; display: grid; grid-template-columns: 1fr minmax(320px, 420px); }
+#graph { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+#graph:active { cursor: grabbing; }
+.node text { font-family: var(--body); font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: var(--halo); stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
+.node.notion text { font-weight: 600; font-size: 12px; }
+.node { cursor: pointer; }
+.dim { opacity: .12; }
+aside { border-left: 1px solid var(--rule); background: var(--panel); overflow-y: auto; min-height: 0;
+  padding-block: 20px 32px; padding-left: 22px; padding-right: max(22px, env(safe-area-inset-right, 0px)); }
+.kind { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.note h1, .intro h2 { font-family: var(--display); font-weight: 500; font-size: 26px; line-height: 1.15; margin: 6px 0 12px; text-wrap: balance; }
+.note h2 { font-family: var(--display); font-weight: 500; font-size: 18px; margin: 20px 0 8px; }
+.note p, .note li, .intro p { line-height: 1.55; }
+.note ul { padding-left: 18px; margin: 6px 0; display: grid; gap: 6px; }
+.callout { background: var(--bg); border: 1px solid var(--rule); border-radius: 14px; padding: 12px 14px; margin: 10px 0; }
+.callout b.t { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+a.wl { color: var(--notion); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--notion) 35%, transparent); cursor: pointer; }
+a.wl:hover { border-bottom-color: var(--notion); }
+a.ext { color: var(--muted); }
+.close { float: right; border: 0; background: none; font-size: 22px; color: var(--muted); cursor: pointer; line-height: 1; padding: 4px 8px; }
+.toplist { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 6px; }
+.toplist li { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.toplist span { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 13px; }
+.legend { display: grid; gap: 4px; margin-top: 14px; color: var(--muted); font-size: 13px; }
+@media (max-width: 760px) {
+  main { grid-template-columns: 1fr; }
+  aside { position: absolute; left: 0; right: 0; bottom: 0; max-height: 46%; border-left: 0; border-top: 1px solid var(--rule);
+    border-radius: 18px 18px 0 0; box-shadow: 0 -8px 30px rgba(0,0,0,.08);
+    padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+  h1 { font-size: 19px; } h1 small { display: none; }
+  .note h1, .intro h2 { font-size: 22px; }
+}
+</style>
+
+<div class="app">
+  <header>
+    <h1>Toile du droit des contrats <small>LAS2 · d'après tes CM et TD</small></h1>
+    <div class="search"><input id="q" type="search" placeholder="Chercher une notion, un arrêt, un article…" autocomplete="off" aria-label="Chercher dans la toile"></div>
+    <div class="chips" id="chips"></div>
+  </header>
+  <main>
+    <svg id="graph" aria-label="Toile des notions, arrêts, articles et cours"></svg>
+    <aside id="panel" aria-live="polite"></aside>
+  </main>
+</div>
+
+<script>
+const DATA = __DATA__;
+const TYPES = { notion: "Notions", arret: "Arrêts", article: "Articles", cours: "Cours" };
+const KIND = { notion: "Notion", arret: "Arrêt", article: "Article du Code civil", cours: "Cours" };
+const css = n => getComputedStyle(document.documentElement).getPropertyValue("--" + n).trim();
+const byId = new Map(DATA.nodes.map(n => [n.id, n]));
+const deg = new Map(DATA.nodes.map(n => [n.id, 0]));
+DATA.links.forEach(l => { deg.set(l.s, deg.get(l.s) + 1); deg.set(l.t, deg.get(l.t) + 1); });
+const nbr = new Map(DATA.nodes.map(n => [n.id, new Set()]));
+DATA.links.forEach(l => { nbr.get(l.s).add(l.t); nbr.get(l.t).add(l.s); });
+const radius = n => (n.t === "article" ? 3 : n.t === "cours" ? 7 : n.t === "arret" ? 4.5 : 5) + Math.sqrt(deg.get(n.id)) * (n.t === "article" ? .6 : 1.3);
+const shown = { notion: true, arret: true, article: true, cours: true };
+
+// chips
+const chips = document.getElementById("chips");
+for (const [t, label] of Object.entries(TYPES)) {
+  const b = document.createElement("button"); b.className = "chip"; b.type = "button"; b.setAttribute("aria-pressed", "true");
+  b.innerHTML = `<i style="background:var(--${t})"></i>${label} <span>${DATA.nodes.filter(n => n.t === t).length}</span>`;
+  b.onclick = () => { shown[t] = !shown[t]; b.setAttribute("aria-pressed", shown[t]); applyVisibility(); };
+  chips.append(b);
+}
+
+// graph
+const svg = d3.select("#graph");
+const box = () => svg.node().getBoundingClientRect();
+const g = svg.append("g");
+const nodes = DATA.nodes.map(n => ({ ...n }));
+const links = DATA.links.map(l => ({ source: l.s, target: l.t }));
+const sim = d3.forceSimulation(nodes)
+  .force("link", d3.forceLink(links).id(d => d.id).distance(l => (l.source.t === "article" || l.target.t === "article") ? 30 : 70).strength(.5))
+  .force("charge", d3.forceManyBody().strength(d => d.t === "article" ? -45 : -260))
+  .force("collide", d3.forceCollide(d => radius(d) + 3))
+  .force("x", d3.forceX(0).strength(.04)).force("y", d3.forceY(0).strength(.05))
+  .stop();
+for (let i = 0; i < 400; i++) sim.tick();
+
+const link = g.append("g").attr("stroke-linecap", "round").selectAll("line").data(links).join("line")
+  .attr("stroke", "var(--edge)").attr("stroke-width", 1);
+const node = g.append("g").selectAll("g").data(nodes).join("g").attr("class", d => "node " + d.t);
+node.append("circle").attr("r", radius).attr("fill", d => `var(--${d.t})`).attr("stroke", "var(--halo)").attr("stroke-width", 1.5);
+node.append("text").attr("x", d => radius(d) + 4).attr("y", 4).text(d => d.id);
+function draw() {
+  link.attr("x1", d => d.source.x).attr("y1", d => d.source.y).attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+}
+draw();
+sim.on("tick", draw);
+
+let k = 1;
+const zoom = d3.zoom().scaleExtent([.2, 5]).on("zoom", e => { g.attr("transform", e.transform); k = e.transform.k; labels(); });
+svg.call(zoom);
+function fit() {
+  const r = box(), mobile = innerWidth <= 760, b = { width: r.width, height: mobile ? r.height * .54 : r.height }, xs = nodes.map(n => n.x), ys = nodes.map(n => n.y);
+  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  const s = Math.min(b.width / (x1 - x0 + 60), b.height / (y1 - y0 + 60), 1.4);
+  svg.call(zoom.transform, d3.zoomIdentity.translate(b.width / 2 - s * (x0 + x1) / 2, b.height / 2 - s * (y0 + y1) / 2).scale(s));
+}
+let focusId = null, query = "";
+function labels() {
+  node.select("text").attr("display", d => {
+    if (focusId && (d.id === focusId || nbr.get(focusId).has(d.id))) return null;
+    if (query && d.id.toLowerCase().includes(query)) return null;
+    if (d.t === "notion" || d.t === "cours") return (deg.get(d.id) >= 9 ? k > .35 : k > .9) ? null : "none";
+    return k > 1.6 ? null : "none";
+  });
+}
+function applyVisibility() {
+  node.attr("display", d => shown[d.t] ? null : "none");
+  link.attr("display", d => shown[d.source.t] && shown[d.target.t] ? null : "none");
+}
+function highlight() {
+  const on = focusId ? new Set([focusId, ...nbr.get(focusId)]) : null;
+  const hit = query ? new Set(nodes.filter(n => n.id.toLowerCase().includes(query)).map(n => n.id)) : null;
+  node.classed("dim", d => (on && !on.has(d.id)) || (hit && !hit.has(d.id) && !(on && on.has(d.id))));
+  link.attr("stroke", d => focusId && (d.source.id === focusId || d.target.id === focusId) ? "var(--edge-hi)" : "var(--edge)")
+      .attr("stroke-width", d => focusId && (d.source.id === focusId || d.target.id === focusId) ? 1.6 : 1)
+      .classed("dim", d => on && !(on.has(d.source.id) && on.has(d.target.id)));
+  node.select("circle").attr("stroke", d => d.id === focusId ? "var(--ink)" : "var(--halo)").attr("stroke-width", d => d.id === focusId ? 2.5 : 1.5);
+  labels();
+}
+
+node.call(d3.drag()
+  .on("start", (e, d) => { if (!e.active) sim.alphaTarget(.2).restart(); d.fx = d.x; d.fy = d.y; })
+  .on("drag", (e, d) => { d.fx = e.x; d.fy = e.y; })
+  .on("end", (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+node.on("click", (e, d) => { e.stopPropagation(); open(d.id, false); });
+svg.on("click", () => { focusId = null; highlight(); intro(); });
+
+// panel
+const panel = document.getElementById("panel");
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function inline(s) {
+  s = esc(s);
+  s = s.replace(/\[\[([^\]|#]+)\]\]/g, (m, x) => byId.has(x) ? `<a class="wl" data-id="${x}">${x}</a>` : x);
+  s = s.replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a class="ext" href="$2" target="_blank" rel="noopener">$1</a>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*([^*]+)\*/g, "<i>$1</i>");
+  return s;
+}
+const CALLOUT = { abstract: "Définition", info: "Faits", success: "Solution", tip: "Texte intégral" };
+function render(md) {
+  const out = []; let list = null, call = null;
+  const flush = () => { if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; } if (call) { out.push(`<div class="callout"><b class="t">${call.t}</b>${call.l.join("<br>")}</div>`); call = null; } };
+  for (const raw of md.split("\n")) {
+    const line = raw.trimEnd();
+    let m;
+    if ((m = line.match(/^> \[!(\w+)\]\s*(.*)$/))) { flush(); call = { t: m[2] || CALLOUT[m[1]] || "", l: [] }; continue; }
+    if (call && line.startsWith(">")) { call.l.push(inline(line.replace(/^>\s?/, ""))); continue; }
+    if ((m = line.match(/^- (.*)$/))) { if (call) flush(); (list = list || []).push("<li>" + inline(m[1]) + "</li>"); continue; }
+    flush();
+    if (!line) continue;
+    if ((m = line.match(/^# (.*)$/))) out.push("<h1>" + inline(m[1]) + "</h1>");
+    else if ((m = line.match(/^## (.*)$/))) out.push("<h2>" + inline(m[1]) + "</h2>");
+    else out.push("<p>" + inline(line) + "</p>");
+  }
+  flush(); return out.join("");
+}
+function open(id, center = true) {
+  const n = byId.get(id); if (!n) return;
+  focusId = id; highlight();
+  panel.innerHTML = `<button class="close" type="button" aria-label="Fermer">×</button><div class="kind" style="color:var(--${n.t})">${KIND[n.t]} · ${nbr.get(id).size} liens</div><div class="note">${render(n.md)}</div>`;
+  panel.scrollTop = 0;
+  panel.querySelector(".close").onclick = () => { focusId = null; highlight(); intro(); };
+  if (center) {
+    const d = nodes.find(x => x.id === id), b = box(), s = Math.max(k, 1.2);
+    svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(b.width / 2 - s * d.x, b.height / 2.6 - s * d.y).scale(s));
+  }
+}
+panel.addEventListener("click", e => { const a = e.target.closest("a.wl"); if (a) { e.preventDefault(); open(a.dataset.id); } });
+function intro() {
+  const top = DATA.nodes.filter(n => n.t === "notion").sort((a, b) => deg.get(b.id) - deg.get(a.id)).slice(0, 8);
+  panel.innerHTML = `<div class="intro"><div class="kind" style="color:var(--notion)">Droit des contrats</div><h2>${DATA.nodes.length} notes, ${DATA.links.length} liens</h2>
+  <p>Chaque point est une note tirée de tes CM1 à CM5 et TD1-TD2. Touche un point pour lire la fiche et voir à quoi il est relié ; touche un lien dans la fiche pour voyager dans la toile.</p>
+  <div class="legend"><div><b style="color:var(--notion)">●</b> Notions : définition, points à retenir</div><div><b style="color:var(--arret)">●</b> Arrêts : faits, solution, portée</div><div><b style="color:var(--article)">●</b> Articles du Code civil</div><div><b style="color:var(--cours)">●</b> Cours et TD</div></div>
+  <h2 style="font-family:var(--display);font-weight:500;font-size:18px;margin:20px 0 4px">Les notions les plus reliées</h2>
+  <ul class="toplist">${top.map(n => `<li><a class="wl" data-id="${n.id}">${n.id}</a><span>${deg.get(n.id)} liens</span></li>`).join("")}</ul></div>`;
+}
+document.getElementById("q").addEventListener("input", e => {
+  query = e.target.value.trim().toLowerCase(); highlight();
+});
+document.getElementById("q").addEventListener("keydown", e => {
+  if (e.key !== "Enter" || !query) return;
+  const order = { notion: 0, arret: 1, cours: 2, article: 3 };
+  const hits = DATA.nodes.filter(n => n.id.toLowerCase().includes(query)).sort((a, b) => (b.id.toLowerCase() === query) - (a.id.toLowerCase() === query) || order[a.t] - order[b.t] || deg.get(b.id) - deg.get(a.id));
+  const hit = hits[0];
+  if (hit) open(hit.id);
+});
+fit(); labels(); intro();
+window.addEventListener("resize", () => fit());
+</script>
