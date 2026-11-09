@@ -6,3 +6,8 @@
 - Fiches à la demande : https://comeup.com/fr/service/357736/creer-vos-fiches-de-revision-pour-votre-cours-de-droit
 - Outils cabinets : https://www.pennylane.com/fr/integrations/relcompta ; https://dext.com/fr/cabinet ; https://blog.tiime.fr/ec/approchedurisque
 - Livret A : https://selectra.info/finance/actualites/marche/ce-qui-change-novembre-2026-epargne-livrets
+- Réforme PASS/LAS 2027 : https://www.service-public.gouv.fr/particuliers/actualites/A18890 ; https://www.cidj.com/s-orienter/apres-le-bac/etudes-de-sante-la-reforme-passlas-remplacee-par-une-licence-sante-en-2027 ; https://thotismedia.com/pass-las-supprimes-2027-change-etudiants-actuels/
+- Accessibilité (EAA) : https://www.monparcourshandicap.gouv.fr/actualite/accessibilite-numerique-et-handicap-entree-en-vigueur-de-leaa ; https://www.iubenda.com/fr/help/181749-eaa-compliance-7/
+- VSME et questionnaires RSE : https://www.actu-environnement.com/tribunes/souha-bel-haj-messaoud/553/csrd-pour-pme-enjeu-plus-agir-prouver-795.html ; https://hayot-expertise.fr/blog/questionnaire-esg-donneur-ordre-pme-fournisseur ; https://kolonell.com/fr/blog/automatisation-reporting-csrd-esg-pme-strasbourg-2026
+- CRFPA : https://www.pamplemousse-magazine.co/annuaire-prepa-crfpa ; https://iej-facdedroit.univ-amu.fr/system/files/media-ressource/BAT1-Triptyque%20DESUEJ%20CRFPA%202025-26-1_0.pdf
+- Associations : https://hackceleration.com/fr/labs/meilleur/logiciel-comptabilite-associations ; https://www.assoconnect.com/logiciel-comptabilite-gratuit
