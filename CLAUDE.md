@@ -41,3 +41,9 @@ Le coffre Obsidian est le dossier `obsidian/` (racine du coffre). La toile de dr
 - Utiliser les skills à la demande, pas toutes à la fois.
 - Les sorties financières sont des brouillons à faire valider par un professionnel qualifié ; garder les preuves et la traçabilité.
 - Ne jamais contourner l'autorisation, l'isolation entre clients ou la confirmation des actions destructrices.
+
+## Recherche d'opportunités business (pack « Business Opportunity »)
+- Travailler en français, de façon sceptique et concrète. Distinguer FAIT SOURCÉ, ESTIMATION et HYPOTHÈSE.
+- Citer l'URL et la date de chaque preuve externe. Ne jamais inventer de source, de client, d'entretien, de prix ni de taille de marché.
+- Entonnoir : trier large, n'approfondir que le top 3. Recommander une validation terrain avant de construire.
+- Livrables dans `business-research/`.
