@@ -11,12 +11,12 @@ tags:
 *Ass. plén., 13 déc. 1962*
 
 > [!info] Faits
-> Acte conclu par un représentant sans pouvoir.
+> {faits}
 
 > [!success] Solution
-> Le mandant peut être engagé sur le fondement d'un mandat apparent si la croyance du tiers était légitime.
+> {sol}
 
-**Portée.** Consacré à l'art. 1156 al. 1.
+**Portée.** {portee}
 
 ## Notions
 [[Mandat apparent]] · [[Représentation]]

@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 7 oct. 1998*
 
 > [!info] Faits
-> Contrat au but illicite ignoré de l'une des parties.
+> {faits}
 
 > [!success] Solution
-> Nullité même si une partie ignorait le motif illicite.
+> {sol}
 
-**Portée.** Consacré par l'art. 1162 (« connu ou non par toutes les parties »).
+**Portée.** {portee}
 
 ## Notions
 [[Ordre public]] · [[Contenu du contrat]]

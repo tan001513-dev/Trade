@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Ch. mixte, 26 mai 2006, n° 03-19.376"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Ch. mixte, 26 mai 2006
 
 *Ch. mixte, 26 mai 2006, n° 03-19.376*
 
+> [!warning] Arrêt essentiel
+> Codifié à l'art. 1123 al. 2 : double condition de la substitution.
+
 > [!info] Faits
-> Pacte de préférence dans une donation-partage (Polynésie) ; une parcelle est vendue à une SCI.
+> {faits}
 
 > [!success] Solution
-> Rejet, mais principe : nullité et substitution si le tiers connaissait l'existence du pacte et l'intention du bénéficiaire de s'en prévaloir.
+> {sol}
 
-**Portée.** Double condition difficile à prouver ; codifiée à l'art. 1123 al. 2.
+**Portée.** {portee}
 
 ## Notions
 [[Pacte de préférence]]

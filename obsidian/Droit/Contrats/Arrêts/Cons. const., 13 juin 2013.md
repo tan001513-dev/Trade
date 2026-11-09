@@ -11,12 +11,12 @@ tags:
 *Cons. const., 13 juin 2013, n° 2013-672 DC*
 
 > [!info] Faits
-> Clauses de désignation imposant à toutes les entreprises d'une branche un organisme assureur pour la complémentaire santé.
+> {faits}
 
 > [!success] Solution
-> Atteinte disproportionnée à la liberté contractuelle et à la liberté d'entreprendre : L. 912-1 CSS contraire à la Constitution.
+> {sol}
 
-**Portée.** Valeur constitutionnelle de la liberté contractuelle (art. 4 DDHC), qui inclut le choix du cocontractant.
+**Portée.** {portee}
 
 ## Notions
 [[Liberté contractuelle]]

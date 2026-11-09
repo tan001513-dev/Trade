@@ -11,12 +11,12 @@ tags:
 *Civ. 3e, 3 nov. 2011, n° 10-20.936*
 
 > [!info] Faits
-> Venderesse et acquéreur représentés par la même personne physique, qui connaissait le droit de préférence du locataire.
+> {faits}
 
 > [!success] Solution
-> Rejet : double connaissance établie, vente annulée, substitution ordonnée.
+> {sol}
 
-**Portée.** Preuve facilitée par l'identité de dirigeant.
+**Portée.** {portee}
 
 ## Notions
 [[Pacte de préférence]]

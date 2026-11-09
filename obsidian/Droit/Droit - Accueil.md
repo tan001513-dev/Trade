@@ -20,4 +20,4 @@ Toile de révision de la LAS2 Droit (2026-2027), construite à partir des cours 
 - **Articles** : chaque article relie toutes les notions qui l'utilisent.
 - **Cours** : chaque CM ou TD renvoie aux notions vues et au document Drive d'origine.
 
-Vue graphique : `Ctrl+G`. Groupes de couleur conseillés : `tag:#notion`, `tag:#arret`, `tag:#article`, `tag:#cours`.
+Vue graphique : `Ctrl+G`. Groupes de couleur conseillés, dans cet ordre : `tag:#essentiel` (rouge), `tag:#notion`, `tag:#arret`, `tag:#article`, `tag:#cours`. Les arrêts essentiels portent le tag #essentiel.

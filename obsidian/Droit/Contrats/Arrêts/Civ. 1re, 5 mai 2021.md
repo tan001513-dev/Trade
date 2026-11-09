@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 5 mai 2021, n° 19-20.921*
 
 > [!info] Faits
-> Cessionnaire d'un fonds invoquant dol et erreur faute de communication des comptes au 30 juin 2013.
+> {faits}
 
 > [!success] Solution
-> Rejet : les parties s'étaient fondées sur les comptes 2012, exacts.
+> {sol}
 
-**Portée.** Vices appréciés au jour du contrat ; rentabilité parfois qualité essentielle.
+**Portée.** {portee}
 
 ## Notions
 [[Dol]] · [[Erreur]]

@@ -359,3 +359,21 @@ ARTICLES = {
  "Art. 1231-3": "Dommage prévisible ; faute lourde ou dolosive", "Art. 1240": "Responsabilité extracontractuelle (ex-1382)", "Art. 1352-4": "Restitutions de l'incapable",
  "Art. 1589": "Promesse de vente vaut vente", "Art. 1596": "Interdiction d'achat par le mandataire", "Art. 1674": "Lésion de plus des 7/12 dans la vente d'immeuble",
 }
+
+# Arrêts essentiels (galop d'essai, interrogations, examen) : signalés comme tels dans les CM/TD
+# (« à maîtriser absolument », « arrêt à commenter ») ou fondateurs d'une règle codifiée en 2016.
+ESSENTIELS = {
+ "Soc., 21 sept. 2017": "« Arrêt à maîtriser absolument » (TD2) : distinction offre / promesse.",
+ "Com., 15 mars 2023": "Arrêt donné à commenter en TD2.",
+ "Manoukian (Com., 26 nov. 2003)": "Codifié à l'art. 1112 al. 2 : préjudice réparable en cas de rupture des pourparlers.",
+ "Consorts Cruz (Civ. 3e, 15 déc. 1993)": "Solution renversée par l'art. 1124 al. 2 : point de départ de toute la question.",
+ "Civ. 3e, 23 juin 2021": "Revirement sur la rétractation du promettant.",
+ "Ch. mixte, 26 mai 2006": "Codifié à l'art. 1123 al. 2 : double condition de la substitution.",
+ "Civ., 25 mai 1870 (Guilloux)": "Principe : le silence ne vaut pas acceptation (art. 1120).",
+ "Poussin I (Civ. 1re, 22 févr. 1978)": "Grand arrêt de l'erreur sur sa propre prestation.",
+ "Verrou de Fragonard (Civ. 1re, 24 mars 1987)": "Codifié à l'art. 1133 al. 3 : l'aléa chasse l'erreur.",
+ "Baldus (Civ. 1re, 3 mai 2000)": "Codifié à l'art. 1137 al. 3 : pas de dol par silence sur la valeur.",
+ "Civ. 1re, 3 avr. 2002": "Base de l'abus de dépendance (art. 1143).",
+ "Chronopost (Com., 22 oct. 1996)": "Codifié à l'art. 1170 : obligation essentielle.",
+ "Ass. plén., 1er déc. 1995": "Détermination du prix, repris aux art. 1164 et 1165.",
+}

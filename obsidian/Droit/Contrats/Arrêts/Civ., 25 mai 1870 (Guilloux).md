@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Civ., 25 mai 1870"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Civ., 25 mai 1870 (Guilloux)
 
 *Civ., 25 mai 1870*
 
+> [!warning] Arrêt essentiel
+> Principe : le silence ne vaut pas acceptation (art. 1120).
+
 > [!info] Faits
-> Silence gardé face à une proposition.
+> {faits}
 
 > [!success] Solution
-> Le silence ne vaut pas acceptation.
+> {sol}
 
-**Portée.** Principe codifié à l'art. 1120. La diapo indique « 25 mars » par erreur.
+**Portée.** {portee}
 
 ## Notions
 [[Silence]]

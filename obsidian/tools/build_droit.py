@@ -26,7 +26,9 @@ for n, (dfn, pts, arts, arrs, voir, cours) in mod.NOTIONS.items():
     write("Notions", n, t)
 
 for a, (ref, faits, sol, portee, notions, cours) in mod.ARRETS.items():
-    t = fm("arret", f"reference: \"{ref}\"\n") + f"# {a}\n\n*{ref}*\n\n> [!info] Faits\n> {faits}\n\n> [!success] Solution\n> {sol}\n\n**Portée.** {portee}\n\n## Notions\n" + " · ".join(L(n) for n in notions) + "\n\n## Sources\n" + " · ".join(L(c) for c in cours) + "\n"
+    ess = getattr(mod, "ESSENTIELS", {}).get(a)
+    head = fm("arret", f"reference: \"{ref}\"\n" + ("essentiel: true\n" if ess else "")).replace("  - arret\n", "  - arret\n  - essentiel\n" if ess else "  - arret\n")
+    t = head + f"# {a}\n\n*{ref}*\n\n" + (f"> [!warning] Arrêt essentiel\n> {ess}\n\n" if ess else "") + "> [!info] Faits\n> {faits}\n\n> [!success] Solution\n> {sol}\n\n**Portée.** {portee}\n\n## Notions\n" + " · ".join(L(n) for n in notions) + "\n\n## Sources\n" + " · ".join(L(c) for c in cours) + "\n"
     write("Arrêts", a, t)
 
 # articles cités partout

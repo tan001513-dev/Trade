@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 13 déc. 1983*
 
 > [!info] Faits
-> Suite de l'affaire Poussin.
+> {faits}
 
 > [!success] Solution
-> Des éléments postérieurs à la vente peuvent prouver l'erreur.
+> {sol}
 
-**Portée.** La croyance s'apprécie au jour du contrat, la réalité peut être établie après.
+**Portée.** {portee}
 
 ## Notions
 [[Erreur]]

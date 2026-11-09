@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Civ. 1re, 22 févr. 1978"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Poussin I (Civ. 1re, 22 févr. 1978)
 
 *Civ. 1re, 22 févr. 1978*
 
+> [!warning] Arrêt essentiel
+> Grand arrêt de l'erreur sur sa propre prestation.
+
 > [!info] Faits
-> Tableau vendu comme « École des Carrache », exposé ensuite au Louvre comme un Poussin.
+> {faits}
 
 > [!success] Solution
-> Cassation : rechercher si le consentement des vendeurs était vicié par la conviction erronée que ce ne pouvait être un Poussin.
+> {sol}
 
-**Portée.** Erreur possible sur sa propre prestation, et sans certitude sur la réalité.
+**Portée.** {portee}
 
 ## Notions
 [[Erreur]]

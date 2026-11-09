@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Civ. 3e, 23 juin 2021, n° 20-17.554"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Civ. 3e, 23 juin 2021
 
 *Civ. 3e, 23 juin 2021, n° 20-17.554*
 
+> [!warning] Arrêt essentiel
+> Revirement sur la rétractation du promettant.
+
 > [!info] Faits
-> Même affaire que le 6 déc. 2018, sur renvoi.
+> {faits}
 
 > [!success] Solution
-> Revirement : le promettant s'oblige définitivement à vendre dès la promesse, sans possibilité de rétractation sauf stipulation contraire.
+> {sol}
 
-**Portée.** Abandon de Cruz même pour les promesses antérieures à 2016.
+**Portée.** {portee}
 
 ## Notions
 [[Promesse unilatérale de contrat]] · [[Réforme de 2016]]

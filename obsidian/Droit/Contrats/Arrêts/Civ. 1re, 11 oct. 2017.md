@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 11 oct. 2017, n° 16-24.533*
 
 > [!info] Faits
-> Deux sœurs s'engagent envers leur frère, exclu de la succession, à le faire bénéficier d'une partie des biens, puis reviennent sur leur parole.
+> {faits}
 
 > [!success] Solution
-> L'engagement transforme le devoir de conscience en obligation civile (art. 1100 al. 2).
+> {sol}
 
-**Portée.** Illustration rare de l'obligation naturelle.
+**Portée.** {portee}
 
 ## Notions
 [[Obligation naturelle]]

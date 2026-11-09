@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Civ. 1re, 3 mai 2000"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Baldus (Civ. 1re, 3 mai 2000)
 
 *Civ. 1re, 3 mai 2000*
 
+> [!warning] Arrêt essentiel
+> Codifié à l'art. 1137 al. 3 : pas de dol par silence sur la valeur.
+
 > [!info] Faits
-> Une venderesse cède des photos de Baldus à bas prix au même acquéreur, puis découvre la notoriété du photographe.
+> {faits}
 
 > [!success] Solution
-> Cassation : aucune obligation d'information ne pesait sur l'acheteur quant à la valeur.
+> {sol}
 
-**Portée.** Pas de dol par silence sur la valeur (art. 1137 al. 3, étendu à toute partie).
+**Portée.** {portee}
 
 ## Notions
 [[Dol]] · [[Devoir précontractuel d'information]]

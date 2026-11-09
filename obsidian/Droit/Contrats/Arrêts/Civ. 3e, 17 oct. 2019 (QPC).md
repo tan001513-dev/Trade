@@ -11,12 +11,12 @@ tags:
 *Civ. 3e, 17 oct. 2019, n° 19-40.028*
 
 > [!info] Faits
-> QPC contre l'art. 1124 al. 2 (liberté contractuelle, propriété).
+> {faits}
 
 > [!success] Solution
-> Non-lieu à renvoi : le promettant a déjà consenti au contrat.
+> {sol}
 
-**Portée.** L'art. 1124 al. 2 ne porte pas atteinte aux droits constitutionnels.
+**Portée.** {portee}
 
 ## Notions
 [[Promesse unilatérale de contrat]]

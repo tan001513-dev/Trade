@@ -11,12 +11,12 @@ tags:
 *Com., 14 mai 2025, n° 23-17.948*
 
 > [!info] Faits
-> L'acquéreur d'un restaurant reproche au cédant de ne pas l'avoir informé de l'inadaptation de la hotte.
+> {faits}
 
 > [!success] Solution
-> Le devoir d'information suppose un lien direct et nécessaire **et** une importance déterminante ; non établie ici.
+> {sol}
 
-**Portée.** Le lien direct ne suffit pas.
+**Portée.** {portee}
 
 ## Notions
 [[Devoir précontractuel d'information]]

@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Soc., 21 sept. 2017, n° 16-20.103"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Soc., 21 sept. 2017
 
 *Soc., 21 sept. 2017, n° 16-20.103*
 
+> [!warning] Arrêt essentiel
+> « Arrêt à maîtriser absolument » (TD2) : distinction offre / promesse.
+
 > [!info] Faits
-> Un club de rugby adresse à un joueur une offre de contrat (emploi, rémunération, date), puis renonce avant que le joueur la renvoie signée.
+> {faits}
 
 > [!success] Solution
-> Cassation : c'est une offre, rétractable tant qu'elle n'est pas parvenue ; la promesse unilatérale suppose un droit d'option.
+> {sol}
 
-**Portée.** Abandon de « promesse d'embauche vaut contrat » ; critère de distinction offre / promesse. Arrêt à maîtriser absolument.
+**Portée.** {portee}
 
 ## Notions
 [[Offre]] · [[Promesse unilatérale de contrat]]

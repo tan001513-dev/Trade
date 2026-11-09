@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Civ. 3e, 15 déc. 1993, n° 91-10.199"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Consorts Cruz (Civ. 3e, 15 déc. 1993)
 
 *Civ. 3e, 15 déc. 1993, n° 91-10.199*
 
+> [!warning] Arrêt essentiel
+> Solution renversée par l'art. 1124 al. 2 : point de départ de toute la question.
+
 > [!info] Faits
-> Promesse de vente valable jusqu'au 1er septembre ; la promettante se rétracte le 26 mai ; les bénéficiaires lèvent l'option le 10 juin.
+> {faits}
 
 > [!success] Solution
-> Rejet : avant la levée d'option, obligation de faire ; la levée postérieure à la rétractation exclut la rencontre des volontés : dommages-intérêts seulement.
+> {sol}
 
-**Portée.** Très critiqué ; renversé par l'art. 1124 al. 2 puis par Civ. 3e, 23 juin 2021.
+**Portée.** {portee}
 
 ## Notions
 [[Promesse unilatérale de contrat]]

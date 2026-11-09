@@ -11,12 +11,12 @@ tags:
 *Civ. 1re, 3 déc. 2025*
 
 > [!info] Faits
-> Une famille commande un cercueil pour une inhumation en enfeu au Portugal ; le cercueil se dégrade.
+> {faits}
 
 > [!success] Solution
-> Le professionnel devait se renseigner sur le mode de sépulture : condamnation.
+> {sol}
 
-**Portée.** Devoir de curiosité du professionnel envers un profane.
+**Portée.** {portee}
 
 ## Notions
 [[Devoir précontractuel d'information]]

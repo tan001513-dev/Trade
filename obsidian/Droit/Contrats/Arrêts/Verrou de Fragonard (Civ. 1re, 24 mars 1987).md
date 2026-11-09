@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Civ. 1re, 24 mars 1987"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Verrou de Fragonard (Civ. 1re, 24 mars 1987)
 
 *Civ. 1re, 24 mars 1987*
 
+> [!warning] Arrêt essentiel
+> Codifié à l'art. 1133 al. 3 : l'aléa chasse l'erreur.
+
 > [!info] Faits
-> Tableau vendu « attribué à Fragonard », dont l'authenticité est ensuite établie.
+> {faits}
 
 > [!success] Solution
-> Rejet : l'aléa sur l'authenticité était entré dans le champ contractuel.
+> {sol}
 
-**Portée.** Codifié à l'art. 1133 al. 3 : l'acceptation d'un aléa exclut l'erreur.
+**Portée.** {portee}
 
 ## Notions
 [[Erreur]]

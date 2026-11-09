@@ -8,17 +8,17 @@
    the screen, and a reading panel (right on desktop, bottom sheet on phones). White and brown. */
 :root {
   --bg: #ffffff; --panel: #faf7f4; --ink: #2e241d; --muted: #7a6a5e; --rule: #ece4dc;
-  --notion: #7a5236; --arret: #4d7a4a; --article: #a9a39c; --cours: #c08a2e;
+  --notion: #7a5236; --arret: #4d7a4a; --essentiel: #b8402a; --article: #a9a39c; --cours: #c08a2e;
   --edge: rgba(122, 82, 54, .16); --edge-hi: rgba(122, 82, 54, .75); --halo: #ffffff;
   --display: "Fraunces", Georgia, serif; --body: "Figtree", "Segoe UI", Roboto, Arial, sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #1b1612; --panel: #241d18; --ink: #efe6dd; --muted: #b3a294; --rule: #3a2f27;
-  --notion: #d9a77f; --arret: #8fbf86; --article: #776d64; --cours: #e2b25c;
+  --notion: #d9a77f; --arret: #8fbf86; --essentiel: #f08a6b; --article: #776d64; --cours: #e2b25c;
   --edge: rgba(217, 167, 127, .16); --edge-hi: rgba(217, 167, 127, .8); --halo: #1b1612; color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #1b1612; --panel: #241d18; --ink: #efe6dd; --muted: #b3a294; --rule: #3a2f27;
-  --notion: #d9a77f; --arret: #8fbf86; --article: #776d64; --cours: #e2b25c;
+  --notion: #d9a77f; --arret: #8fbf86; --essentiel: #f08a6b; --article: #776d64; --cours: #e2b25c;
   --edge: rgba(217, 167, 127, .16); --edge-hi: rgba(217, 167, 127, .8); --halo: #1b1612; color-scheme: dark; }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
@@ -42,6 +42,7 @@ main { position: relative; min-height: 0; display: grid; grid-template-columns: 
 #graph:active { cursor: grabbing; }
 .node text { font-family: var(--body); font-size: 11px; fill: var(--ink); paint-order: stroke; stroke: var(--halo); stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
 .node.notion text { font-weight: 600; font-size: 12px; }
+.node.essentiel text { font-weight: 700; font-size: 12px; fill: var(--essentiel); }
 .node { cursor: pointer; }
 .dim { opacity: .12; }
 aside { border-left: 1px solid var(--rule); background: var(--panel); overflow-y: auto; min-height: 0;
@@ -86,16 +87,16 @@ a.ext { color: var(--muted); }
 
 <script>
 const DATA = __DATA__;
-const TYPES = { notion: "Notions", arret: "Arrêts", article: "Articles", cours: "Cours" };
-const KIND = { notion: "Notion", arret: "Arrêt", article: "Article du Code civil", cours: "Cours" };
+const TYPES = { notion: "Notions", essentiel: "Arrêts essentiels", arret: "Autres arrêts", article: "Articles", cours: "Cours" };
+const KIND = { notion: "Notion", essentiel: "Arrêt essentiel", arret: "Arrêt", article: "Article du Code civil", cours: "Cours" };
 const css = n => getComputedStyle(document.documentElement).getPropertyValue("--" + n).trim();
 const byId = new Map(DATA.nodes.map(n => [n.id, n]));
 const deg = new Map(DATA.nodes.map(n => [n.id, 0]));
 DATA.links.forEach(l => { deg.set(l.s, deg.get(l.s) + 1); deg.set(l.t, deg.get(l.t) + 1); });
 const nbr = new Map(DATA.nodes.map(n => [n.id, new Set()]));
 DATA.links.forEach(l => { nbr.get(l.s).add(l.t); nbr.get(l.t).add(l.s); });
-const radius = n => (n.t === "article" ? 3 : n.t === "cours" ? 7 : n.t === "arret" ? 4.5 : 5) + Math.sqrt(deg.get(n.id)) * (n.t === "article" ? .6 : 1.3);
-const shown = { notion: true, arret: true, article: true, cours: true };
+const radius = n => (n.t === "article" ? 3 : n.t === "cours" ? 7 : n.t === "arret" ? 4.5 : n.t === "essentiel" ? 6.5 : 5) + Math.sqrt(deg.get(n.id)) * (n.t === "article" ? .6 : 1.3);
+const shown = { notion: true, essentiel: true, arret: true, article: true, cours: true };
 
 // chips
 const chips = document.getElementById("chips");
@@ -146,6 +147,7 @@ function labels() {
   node.select("text").attr("display", d => {
     if (focusId && (d.id === focusId || nbr.get(focusId).has(d.id))) return null;
     if (query && d.id.toLowerCase().includes(query)) return null;
+    if (d.t === "essentiel") return k > .35 ? null : "none";
     if (d.t === "notion" || d.t === "cours") return (deg.get(d.id) >= 9 ? k > .35 : k > .9) ? null : "none";
     return k > 1.6 ? null : "none";
   });
@@ -182,7 +184,7 @@ function inline(s) {
   s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*([^*]+)\*/g, "<i>$1</i>");
   return s;
 }
-const CALLOUT = { abstract: "Définition", info: "Faits", success: "Solution", tip: "Texte intégral" };
+const CALLOUT = { warning: "Arrêt essentiel", abstract: "Définition", info: "Faits", success: "Solution", tip: "Texte intégral" };
 function render(md) {
   const out = []; let list = null, call = null;
   const flush = () => { if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; } if (call) { out.push(`<div class="callout"><b class="t">${call.t}</b>${call.l.join("<br>")}</div>`); call = null; } };
@@ -216,7 +218,9 @@ function intro() {
   const top = DATA.nodes.filter(n => n.t === "notion").sort((a, b) => deg.get(b.id) - deg.get(a.id)).slice(0, 8);
   panel.innerHTML = `<div class="intro"><div class="kind" style="color:var(--notion)">Droit des contrats</div><h2>${DATA.nodes.length} notes, ${DATA.links.length} liens</h2>
   <p>Chaque point est une note tirée de tes CM1 à CM5 et TD1-TD2. Touche un point pour lire la fiche et voir à quoi il est relié ; touche un lien dans la fiche pour voyager dans la toile.</p>
-  <div class="legend"><div><b style="color:var(--notion)">●</b> Notions : définition, points à retenir</div><div><b style="color:var(--arret)">●</b> Arrêts : faits, solution, portée</div><div><b style="color:var(--article)">●</b> Articles du Code civil</div><div><b style="color:var(--cours)">●</b> Cours et TD</div></div>
+  <div class="legend"><div><b style="color:var(--notion)">●</b> Notions : définition, points à retenir</div><div><b style="color:var(--essentiel)">●</b> Arrêts essentiels : à connaître par cœur</div><div><b style="color:var(--arret)">●</b> Autres arrêts : faits, solution, portée</div><div><b style="color:var(--article)">●</b> Articles du Code civil</div><div><b style="color:var(--cours)">●</b> Cours et TD</div></div>
+  <h2 style="font-family:var(--display);font-weight:500;font-size:18px;margin:20px 0 4px">Les arrêts essentiels</h2>
+  <ul class="toplist">${DATA.nodes.filter(n => n.t === "essentiel").map(n => `<li><a class="wl" data-id="${n.id}" style="color:var(--essentiel)">${n.id}</a></li>`).join("")}</ul>
   <h2 style="font-family:var(--display);font-weight:500;font-size:18px;margin:20px 0 4px">Les notions les plus reliées</h2>
   <ul class="toplist">${top.map(n => `<li><a class="wl" data-id="${n.id}">${n.id}</a><span>${deg.get(n.id)} liens</span></li>`).join("")}</ul></div>`;
 }

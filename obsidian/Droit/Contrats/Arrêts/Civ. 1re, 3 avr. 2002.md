@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Civ. 1re, 3 avr. 2002"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Civ. 1re, 3 avr. 2002
 
 *Civ. 1re, 3 avr. 2002*
 
+> [!warning] Arrêt essentiel
+> Base de l'abus de dépendance (art. 1143).
+
 > [!info] Faits
-> Une salariée cède à son employeur ses droits sur un dictionnaire, sous la crainte d'un licenciement.
+> {faits}
 
 > [!success] Solution
-> Il faut l'exploitation abusive d'une situation de dépendance économique.
+> {sol}
 
-**Portée.** La violence économique : un contexte et l'abus de ce contexte.
+**Portée.** {portee}
 
 ## Notions
 [[Violence]] · [[Abus de dépendance]]

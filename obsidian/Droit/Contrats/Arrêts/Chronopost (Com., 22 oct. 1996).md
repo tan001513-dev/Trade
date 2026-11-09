@@ -2,21 +2,26 @@
 type: arret
 matiere: "[[Droit des contrats]]"
 reference: "Com., 22 oct. 1996"
+essentiel: true
 tags:
   - droit/contrats
   - arret
+  - essentiel
 ---
 # Chronopost (Com., 22 oct. 1996)
 
 *Com., 22 oct. 1996*
 
+> [!warning] Arrêt essentiel
+> Codifié à l'art. 1170 : obligation essentielle.
+
 > [!info] Faits
-> Clause limitant l'indemnisation du retard d'un transporteur rapide au prix du transport.
+> {faits}
 
 > [!success] Solution
-> Clause réputée non écrite : elle contredit l'obligation essentielle de célérité.
+> {sol}
 
-**Portée.** Codifié à l'art. 1170.
+**Portée.** {portee}
 
 ## Notions
 [[Obligation essentielle]]
