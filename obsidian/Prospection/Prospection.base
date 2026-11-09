@@ -1,0 +1,103 @@
+# Suivi de prospection des cabinets comptables.
+# Statuts : À contacter, Mail 1 envoyé, Relance 1 envoyée, Relance 2 envoyée,
+#           Répondu, Fichier reçu, Pas intéressé, Ne plus contacter
+# Relances : relance 1 à J+4 après le mail 1, relance 2 à J+6 après la relance 1.
+
+filters:
+  and:
+    - 'type == "cabinet"'
+    - file.inFolder("Prospection/Cabinets")
+
+formulas:
+  date_relance: 'if(statut == "Mail 1 envoyé" && mail1, date(mail1) + "4d", if(statut == "Relance 1 envoyée" && relance1, date(relance1) + "6d", ""))'
+  a_relancer: 'if(statut == "Mail 1 envoyé" && mail1, date(mail1) + "4d" <= today(), if(statut == "Relance 1 envoyée" && relance1, date(relance1) + "6d" <= today(), false))'
+  prochaine_action: 'if(statut == "À contacter", if(email, "Envoyer le mail 1", "Trouver l''email ou passer par l''Ordre"), if(statut == "Mail 1 envoyé", "Relance 1", if(statut == "Relance 1 envoyée", "Relance 2", if(statut == "Fichier reçu", "Faire le diagnostic", if(statut == "Répondu", "Répondre", "")))))'
+  joignable: 'if(email, "📧", if(telephone, "📞", "—"))'
+
+properties:
+  formula.joignable:
+    displayName: ""
+  formula.prochaine_action:
+    displayName: "Prochaine action"
+  formula.date_relance:
+    displayName: "Relance prévue"
+  formula.a_relancer:
+    displayName: "À relancer"
+  km:
+    displayName: "Km"
+  salaries:
+    displayName: "Salariés"
+
+views:
+  - type: table
+    name: "À relancer aujourd'hui"
+    filters:
+      and:
+        - 'formula.a_relancer == true'
+    order:
+      - file.name
+      - statut
+      - formula.date_relance
+      - email
+      - angle
+
+  - type: table
+    name: "À contacter"
+    filters:
+      and:
+        - 'statut == "À contacter"'
+    order:
+      - formula.joignable
+      - file.name
+      - commune
+      - km
+      - salaries
+      - email
+      - telephone
+      - formula.prochaine_action
+    summaries:
+      email: Filled
+
+  - type: table
+    name: "En cours"
+    filters:
+      and:
+        - 'statut != "À contacter"'
+        - 'statut != "Pas intéressé"'
+        - 'statut != "Ne plus contacter"'
+    groupBy:
+      property: statut
+      direction: ASC
+    order:
+      - file.name
+      - angle
+      - mail1
+      - relance1
+      - relance2
+      - formula.date_relance
+      - formula.prochaine_action
+
+  - type: cards
+    name: "Tableau"
+    groupBy:
+      property: statut
+      direction: ASC
+    order:
+      - file.name
+      - commune
+      - formula.prochaine_action
+
+  - type: table
+    name: "Résultats du test A/B"
+    filters:
+      and:
+        - 'statut != "À contacter"'
+    groupBy:
+      property: angle
+      direction: ASC
+    order:
+      - file.name
+      - statut
+      - reponse
+    summaries:
+      reponse: Filled
