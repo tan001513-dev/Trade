@@ -19,3 +19,12 @@ Le coffre Obsidian est le dossier `obsidian/` (racine du coffre). La toile de dr
 7. Committer et pousser sur la branche `claude/confident-albattani-me5rpf`.
 
 **Style :** français, phrases courtes, pas de schéma « ce n'est pas X, c'est Y ». Arrêts nommés « Juridiction, date » ou par leur nom usuel avec la référence entre parenthèses.
+
+## Workflow de développement (pack « Claude Code Pro — économie »)
+- Locate relevant files using filenames, symbols, and narrow searches before reading content.
+- Read only necessary files and sections; avoid generated artifacts, dependencies, lockfiles, and large logs unless required.
+- Prefer the smallest safe change; preserve existing conventions and public behavior.
+- Run the smallest relevant verification first; report what was and was not tested.
+- Keep final responses concise: changes, verification, caveats.
+- For ambiguous or broad tasks, agree on scope before extensive exploration.
+- Never expose secrets or weaken security to reduce token use.
