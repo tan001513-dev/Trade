@@ -12,8 +12,13 @@ tags:
 
 *Civ. 1re, 3 mai 2000*
 
+> [!tip] À retenir
+> L'acheteur n'a pas à révéler la valeur du bien : pas de dol par silence sur la valeur (art. 1137 al. 3, étendu à toute partie).
+
 > [!warning] Arrêt essentiel
 > Codifié à l'art. 1137 al. 3 : pas de dol par silence sur la valeur.
+
+## Fiche détaillée
 
 > [!info] Faits
 > En 1986, Mme Boucher vend aux enchères 50 photographies de Baldus à 1 000 francs pièce. En 1989, elle en vend 85 autres au même acquéreur, au prix qu'elle fixe elle-même. Elle découvre ensuite la grande notoriété de Baldus et la valeur réelle des photos.

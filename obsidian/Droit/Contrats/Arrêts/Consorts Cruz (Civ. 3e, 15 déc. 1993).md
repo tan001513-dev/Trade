@@ -12,8 +12,13 @@ tags:
 
 *Civ. 3e, 15 déc. 1993, n° 91-10.199*
 
+> [!tip] À retenir
+> Ancienne solution : la rétractation du promettant avant la levée d'option empêche la vente, seulement des dommages-intérêts. Renversée par l'art. 1124 al. 2 et en 2021.
+
 > [!warning] Arrêt essentiel
 > Solution renversée par l'art. 1124 al. 2 : point de départ de toute la question.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Mme Y consent le 22 mai 1987 une promesse de vente d'un immeuble, valable jusqu'au 1er septembre. Le 26 mai, elle notifie aux bénéficiaires qu'elle ne veut plus vendre. Ceux-ci lèvent l'option le 10 juin.

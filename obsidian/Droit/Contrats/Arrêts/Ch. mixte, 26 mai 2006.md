@@ -12,8 +12,13 @@ tags:
 
 *Ch. mixte, 26 mai 2006, n° 03-19.376*
 
+> [!tip] À retenir
+> Pacte de préférence violé : nullité ou substitution seulement si le tiers connaissait le pacte ET l'intention du bénéficiaire de s'en prévaloir (art. 1123 al. 2).
+
 > [!warning] Arrêt essentiel
 > Codifié à l'art. 1123 al. 2 : double condition de la substitution.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Une donation-partage de 1957 contient un pacte de préférence sur un bien situé à Haapiti (Polynésie). Une parcelle est transmise en 1985, le pacte étant rappelé, puis vendue le 3 décembre 1985 à la SCI Emeraude.

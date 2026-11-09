@@ -10,6 +10,11 @@ tags:
 
 *Com., 22 mars 2017, n° 15-14.875*
 
+> [!tip] À retenir
+> Remettre en cause le prix à quelques jours de la signature = rupture abusive ; on répare les dépenses inutiles, pas les gains espérés.
+
+## Fiche détaillée
+
 > [!info] Faits
 > À quelques jours de la signature d'une cession d'actions, l'acquéreur remet en cause unilatéralement la valorisation.
 

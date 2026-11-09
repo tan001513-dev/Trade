@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 7 oct. 1998*
 
+> [!tip] À retenir
+> But illicite : nullité même si l'autre partie l'ignorait (art. 1162 « connu ou non »).
+
+## Fiche détaillée
+
 > [!info] Faits
 > Contrat au but illicite ignoré de l'une des parties.
 

@@ -12,8 +12,13 @@ tags:
 
 *Com., 22 oct. 1996*
 
+> [!tip] À retenir
+> La clause qui vide de sa substance l'obligation essentielle est réputée non écrite (art. 1170).
+
 > [!warning] Arrêt essentiel
 > Codifié à l'art. 1170 : obligation essentielle.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Complément hors cours pour le détail des faits : la société Banchereau confie à Chronopost deux plis contenant une soumission à une adjudication ; ils arrivent en retard et elle ne peut pas concourir. Le contrat limite l'indemnisation du retard au prix du transport (cours).

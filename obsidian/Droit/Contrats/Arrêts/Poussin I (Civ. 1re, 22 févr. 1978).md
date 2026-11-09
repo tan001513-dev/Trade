@@ -12,8 +12,13 @@ tags:
 
 *Civ. 1re, 22 févr. 1978*
 
+> [!tip] À retenir
+> On peut se tromper sur sa propre prestation, et l'erreur existe même sans certitude sur la réalité (art. 1133 al. 2).
+
 > [!warning] Arrêt essentiel
 > Grand arrêt de l'erreur sur sa propre prestation.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Des vendeurs mettent aux enchères un tableau attribué à « l'École des Carrache ». La Réunion des musées nationaux exerce son droit de préemption puis expose le tableau au Louvre comme une œuvre de Poussin.

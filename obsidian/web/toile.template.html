@@ -53,6 +53,8 @@ aside { border-left: 1px solid var(--rule); background: var(--panel); overflow-y
 .note p, .note li, .intro p { line-height: 1.55; }
 .note ul { padding-left: 18px; margin: 6px 0; display: grid; gap: 6px; }
 .callout { background: var(--bg); border: 1px solid var(--rule); border-radius: 14px; padding: 12px 14px; margin: 10px 0; }
+.callout.tip { border-color: var(--essentiel); background: color-mix(in srgb, var(--essentiel) 7%, var(--bg)); }
+.callout.tip b.t { color: var(--essentiel); }
 .callout b.t { display: block; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
 a.wl { color: var(--notion); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--notion) 35%, transparent); cursor: pointer; }
 a.wl:hover { border-bottom-color: var(--notion); }
@@ -184,14 +186,14 @@ function inline(s) {
   s = s.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*([^*]+)\*/g, "<i>$1</i>");
   return s;
 }
-const CALLOUT = { question: "Question de droit", warning: "Arrêt essentiel", abstract: "Définition", info: "Faits", success: "Solution", tip: "Texte intégral" };
+const CALLOUT = { tip: "À retenir", question: "Question de droit", warning: "Arrêt essentiel", abstract: "Définition", info: "Faits", success: "Solution", tip: "Texte intégral" };
 function render(md) {
   const out = []; let list = null, call = null;
-  const flush = () => { if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; } if (call) { out.push(`<div class="callout"><b class="t">${call.t}</b>${call.l.join("<br>")}</div>`); call = null; } };
+  const flush = () => { if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; } if (call) { out.push(`<div class="callout ${call.k}"><b class="t">${call.t}</b>${call.l.join("<br>")}</div>`); call = null; } };
   for (const raw of md.split("\n")) {
     const line = raw.trimEnd();
     let m;
-    if ((m = line.match(/^> \[!(\w+)\]\s*(.*)$/))) { flush(); call = { t: m[2] || CALLOUT[m[1]] || "", l: [] }; continue; }
+    if ((m = line.match(/^> \[!(\w+)\]\s*(.*)$/))) { flush(); call = { t: m[2] || CALLOUT[m[1]] || "", k: m[1], l: [] }; continue; }
     if (call && line.startsWith(">")) { call.l.push(inline(line.replace(/^>\s?/, ""))); continue; }
     if ((m = line.match(/^- (.*)$/))) { if (call) flush(); (list = list || []).push("<li>" + inline(m[1]) + "</li>"); continue; }
     flush();

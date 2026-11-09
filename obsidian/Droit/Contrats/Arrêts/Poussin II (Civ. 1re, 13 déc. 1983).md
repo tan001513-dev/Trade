@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 13 déc. 1983*
 
+> [!tip] À retenir
+> On peut prouver l'erreur par des éléments postérieurs au contrat ; la croyance s'apprécie au jour du contrat.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Suite de l'affaire Poussin.
 

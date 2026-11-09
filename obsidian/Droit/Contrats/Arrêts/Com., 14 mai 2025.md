@@ -10,6 +10,11 @@ tags:
 
 *Com., 14 mai 2025, n° 23-17.948*
 
+> [!tip] À retenir
+> Devoir d'information : il faut un lien direct avec le contrat ET une importance déterminante ; le lien seul ne suffit pas.
+
+## Fiche détaillée
+
 > [!info] Faits
 > L'acquéreur d'un restaurant reproche au cédant de ne pas l'avoir informé de l'inadaptation de la hotte.
 

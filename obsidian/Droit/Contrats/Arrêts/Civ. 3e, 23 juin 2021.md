@@ -12,8 +12,13 @@ tags:
 
 *Civ. 3e, 23 juin 2021, n° 20-17.554*
 
+> [!tip] À retenir
+> Revirement : le promettant est engagé définitivement dès la promesse ; sa rétractation pendant le délai n'empêche pas la vente, même pour une promesse d'avant 2016.
+
 > [!warning] Arrêt essentiel
 > Revirement sur la rétractation du promettant.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Promesse de vente d'un appartement du 1er avril 1999, option levable au décès d'une usufruitière. La promettante se rétracte le 17 février 2010 ; les bénéficiaires lèvent l'option le 8 janvier 2011.

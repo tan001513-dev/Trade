@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 25 sept. 2024, n° 23-14.777*
 
+> [!tip] À retenir
+> Engagement perpétuel (pacte sans terme) : pas nul, mais résiliable à tout moment avec préavis (art. 1210).
+
+## Fiche détaillée
+
 > [!info] Faits
 > Pacte de préférence de 1990 sans terme ; les bénéficiaires l'exercent en 2011 ; le légataire en invoque la nullité.
 

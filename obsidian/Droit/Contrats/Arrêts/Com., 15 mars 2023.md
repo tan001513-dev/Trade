@@ -12,8 +12,13 @@ tags:
 
 *Com., 15 mars 2023, n° 21-20.399*
 
+> [!tip] À retenir
+> Le promettant ne peut pas se rétracter, même avant l'ouverture du délai d'option, sauf clause contraire. Appliqué aux promesses d'avant 2016. Les chambres sont unifiées.
+
 > [!warning] Arrêt essentiel
 > Arrêt donné à commenter en TD2.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Le 21 juin 2012, Morgane groupe (MG) et Groupe Télégramme développement (GTD) concluent un protocole sur l'entrée de GTD au capital de C2G, filiale de MG : achat de 47 % des actions, promesse unilatérale de cession de 13 % supplémentaires (option à lever dans les six mois de l'assemblée approuvant les comptes 2015), promesse synallagmatique pour le reste. Le 8 mars 2016, MG se rétracte, avant même l'ouverture du délai d'option. Le 28 juin 2016, GTD lève l'option.

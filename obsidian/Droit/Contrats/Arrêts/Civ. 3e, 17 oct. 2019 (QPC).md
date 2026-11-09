@@ -10,6 +10,11 @@ tags:
 
 *Civ. 3e, 17 oct. 2019, n° 19-40.028*
 
+> [!tip] À retenir
+> L'art. 1124 al. 2 est conforme à la Constitution : le promettant a déjà consenti.
+
+## Fiche détaillée
+
 > [!info] Faits
 > QPC contre l'art. 1124 al. 2 (liberté contractuelle, propriété).
 

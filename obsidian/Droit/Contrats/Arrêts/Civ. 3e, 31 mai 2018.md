@@ -10,6 +10,11 @@ tags:
 
 *Civ. 3e, 31 mai 2018, n° 17-17.539*
 
+> [!tip] À retenir
+> Même après 3 ans de pourparlers, rompre est libre tant qu'il n'y a pas d'accord sur les éléments essentiels.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Locataire et bailleresse négocient trois ans un nouveau bail sans s'accorder sur le loyer ; la locataire quitte les lieux.
 

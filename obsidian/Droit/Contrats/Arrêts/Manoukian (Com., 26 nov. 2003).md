@@ -12,8 +12,13 @@ tags:
 
 *Com., 26 nov. 2003, n° 00-10.243*
 
+> [!tip] À retenir
+> Rupture des pourparlers de mauvaise foi = faute. Mais on n'indemnise que les frais de négociation, jamais les gains espérés ni la perte de chance (art. 1112 al. 2).
+
 > [!warning] Arrêt essentiel
 > Codifié à l'art. 1112 al. 2 : préjudice réparable en cas de rupture des pourparlers.
+
+## Fiche détaillée
 
 > [!info] Faits
 > La société Alain Manoukian négocie avec les actionnaires de la société Stuck la cession de leurs actions. Un projet d'accord est établi (24 sept. 1997), avec des conditions suspensives dont la date est reportée d'un commun accord. Le 10 novembre 1997, les cédants consentent en secret une promesse de cession à la société Les Complices, tout en laissant croire que la signature n'était retardée que par l'absence de l'expert-comptable. Manoukian l'apprend le 24 novembre.

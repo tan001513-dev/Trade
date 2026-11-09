@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 4 juill. 1995*
 
+> [!tip] À retenir
+> Un prix très bas n'est pas une absence de contrepartie : pas de nullité (art. 1169 ne sanctionne que l'illusoire ou le dérisoire).
+
+## Fiche détaillée
+
 > [!info] Faits
 > Bijou Cartier vendu à un prix très inférieur à sa valeur.
 

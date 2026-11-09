@@ -10,6 +10,11 @@ tags:
 
 *Civ. 3e, 2 oct. 1974*
 
+> [!tip] À retenir
+> Taire un élément déterminant (une porcherie voisine) = réticence dolosive, même hors substance.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Les vendeurs taisent la présence d'une porcherie près de la maison.
 

@@ -12,8 +12,13 @@ tags:
 
 *Soc., 21 sept. 2017, n° 16-20.103*
 
+> [!tip] À retenir
+> Offre = rétractable tant qu'elle n'est pas parvenue, sinon seulement des dommages-intérêts. Promesse unilatérale = droit d'option ; sa révocation n'empêche pas le contrat. Fin de « promesse d'embauche vaut contrat ».
+
 > [!warning] Arrêt essentiel
 > « Arrêt à maîtriser absolument » (TD2) : distinction offre / promesse.
+
+## Fiche détaillée
 
 > [!info] Faits
 > En mai 2012, l'Union sportive carcassonnaise adresse à un joueur de rugby international une offre de contrat, avec une convention précisant la saison, la rémunération (3 200 € brut), la mise à disposition d'un véhicule et la date d'entrée en fonction (1er juillet 2012). Le 6 juin, le club renonce. Le joueur renvoie ensuite le contrat signé (12-13 juin).

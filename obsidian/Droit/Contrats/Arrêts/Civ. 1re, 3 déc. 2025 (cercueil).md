@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 3 déc. 2025*
 
+> [!tip] À retenir
+> Face à un profane, le professionnel a un devoir de curiosité sur l'usage prévu du bien.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Une famille commande un cercueil pour une inhumation en enfeu au Portugal ; le cercueil se dégrade.
 

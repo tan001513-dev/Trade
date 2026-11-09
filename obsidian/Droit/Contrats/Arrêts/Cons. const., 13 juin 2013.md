@@ -10,6 +10,11 @@ tags:
 
 *Cons. const., 13 juin 2013, n° 2013-672 DC*
 
+> [!tip] À retenir
+> La liberté contractuelle, y compris le choix du cocontractant, a valeur constitutionnelle (art. 4 DDHC).
+
+## Fiche détaillée
+
 > [!info] Faits
 > Clauses de désignation imposant à toutes les entreprises d'une branche un organisme assureur pour la complémentaire santé.
 

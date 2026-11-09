@@ -10,6 +10,11 @@ tags:
 
 *Com., 20 mai 2003*
 
+> [!tip] À retenir
+> Le dirigeant n'est responsable envers les tiers qu'en cas de faute séparable de ses fonctions.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Responsabilité personnelle d'un dirigeant envers un tiers.
 

@@ -12,8 +12,13 @@ tags:
 
 *Civ., 25 mai 1870*
 
+> [!tip] À retenir
+> Le silence ne vaut pas acceptation, sauf loi, usages, relations d'affaires ou circonstances particulières (art. 1120).
+
 > [!warning] Arrêt essentiel
 > Principe : le silence ne vaut pas acceptation (art. 1120).
+
+## Fiche détaillée
 
 > [!info] Faits
 > Complément hors cours, à vérifier dans un recueil : M. Guilloux reçoit une lettre l'informant qu'il est inscrit comme souscripteur d'actions d'une société ; il ne répond pas, puis on lui réclame le versement.

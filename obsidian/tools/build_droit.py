@@ -29,7 +29,8 @@ for a, (ref, faits, sol, portee, notions, cours) in mod.ARRETS.items():
     ess = getattr(mod, "ESSENTIELS", {}).get(a)
     fi = getattr(mod, "FICHES", {}).get(a)
     head = fm("arret", f"reference: \"{ref}\"\n" + ("essentiel: true\n" if ess else "")).replace("  - arret\n", "  - arret\n  - essentiel\n" if ess else "  - arret\n")
-    t = head + f"# {a}\n\n*{ref}*\n\n" + (f"> [!warning] Arrêt essentiel\n> {ess}\n\n" if ess else "")
+    ret = getattr(mod, "RETENIR", {}).get(a)
+    t = head + f"# {a}\n\n*{ref}*\n\n" + (f"> [!tip] À retenir\n> {ret}\n\n" if ret else "") + (f"> [!warning] Arrêt essentiel\n> {ess}\n\n" if ess else "") + ("## Fiche détaillée\n\n" if ret else "")
     if fi:
         t += (f"> [!info] Faits\n> {fi['faits']}\n\n**Procédure.** {fi['procedure']}\n\n**Prétentions.** {fi['pretentions']}\n\n"
               f"> [!question] Question de droit\n> {fi['question']}\n\n> [!success] Solution\n> {fi['solution']}\n\n**Portée.** {fi['portee']}\n\n")

@@ -12,8 +12,13 @@ tags:
 
 *Civ. 1re, 3 avr. 2002*
 
+> [!tip] À retenir
+> La dépendance économique ne suffit pas : il faut son exploitation abusive pour qu'il y ait violence. Base de l'art. 1143.
+
 > [!warning] Arrêt essentiel
 > Base de l'abus de dépendance (art. 1143).
+
+## Fiche détaillée
 
 > [!info] Faits
 > Une salariée cède à son employeur ses droits d'auteur sur un dictionnaire à succès qu'elle a rédigé, sous la crainte d'un licenciement.

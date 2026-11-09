@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 30 mai 2000*
 
+> [!tip] À retenir
+> La contrainte économique peut constituer une violence (première pierre de l'art. 1143).
+
+## Fiche détaillée
+
 > [!info] Faits
 > Un garagiste dont le garage a brûlé signe une transaction avec son assureur sous la pression du besoin d'argent.
 

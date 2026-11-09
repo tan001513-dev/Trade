@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 3 juill. 1996*
 
+> [!tip] À retenir
+> Cause appréciée selon « l'économie voulue » : dérive subjective, abandonnée en 2009.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Location de cassettes vidéo dans un village où l'exploitation était impossible « selon l'économie voulue ».
 

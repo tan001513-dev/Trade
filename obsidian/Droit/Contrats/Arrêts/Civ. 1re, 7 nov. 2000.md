@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 7 nov. 2000*
 
+> [!tip] À retenir
+> Cession de clientèle civile licite si la liberté de choix du patient est préservée.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Cession de clientèle médicale.
 

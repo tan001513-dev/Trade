@@ -10,6 +10,11 @@ tags:
 
 *Civ. 1re, 5 mai 2021, n° 19-20.921*
 
+> [!tip] À retenir
+> Les vices s'apprécient au jour du contrat ; la réticence suppose une information légitimement ignorée.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Cessionnaire d'un fonds invoquant dol et erreur faute de communication des comptes au 30 juin 2013.
 

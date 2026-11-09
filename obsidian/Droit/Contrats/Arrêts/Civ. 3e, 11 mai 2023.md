@@ -10,6 +10,11 @@ tags:
 
 *Civ. 3e, 11 mai 2023, n° 22-11.287*
 
+> [!tip] À retenir
+> Une offre imprécise reste des pourparlers ; les parties peuvent faire d'un acte ultérieur une condition de formation de la vente.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Lettre d'intention d'achat à 424 000 € acceptée, prévoyant un acte ultérieur fixant les modalités et conditions ; l'acheteur ne vient pas signer.
 

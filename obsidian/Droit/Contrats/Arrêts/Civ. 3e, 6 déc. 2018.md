@@ -10,6 +10,11 @@ tags:
 
 *Civ. 3e, 6 déc. 2018, n° 17-21.170*
 
+> [!tip] À retenir
+> Maintient Cruz pour les promesses d'avant 2016 ; abandonné en 2021.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Promesse de 1999 ; rétractation en 2010, levée d'option en 2011.
 

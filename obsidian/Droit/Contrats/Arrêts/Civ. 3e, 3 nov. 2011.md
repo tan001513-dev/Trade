@@ -10,6 +10,11 @@ tags:
 
 *Civ. 3e, 3 nov. 2011, n° 10-20.936*
 
+> [!tip] À retenir
+> Même dirigeant des deux côtés = le tiers connaissait le pacte et l'intention du bénéficiaire : nullité et substitution.
+
+## Fiche détaillée
+
 > [!info] Faits
 > Venderesse et acquéreur représentés par la même personne physique, qui connaissait le droit de préférence du locataire.
 

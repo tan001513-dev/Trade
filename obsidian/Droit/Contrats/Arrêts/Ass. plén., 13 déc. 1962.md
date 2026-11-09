@@ -10,6 +10,11 @@ tags:
 
 *Ass. plén., 13 déc. 1962*
 
+> [!tip] À retenir
+> Mandat apparent : le représenté est engagé si le tiers a légitimement cru aux pouvoirs du représentant (art. 1156).
+
+## Fiche détaillée
+
 > [!info] Faits
 > Acte conclu par un représentant sans pouvoir.
 

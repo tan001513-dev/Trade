@@ -12,8 +12,13 @@ tags:
 
 *Civ. 1re, 24 mars 1987*
 
+> [!tip] À retenir
+> Si un aléa sur une qualité est accepté (« attribué à »), pas d'erreur possible sur cette qualité (art. 1133 al. 3).
+
 > [!warning] Arrêt essentiel
 > Codifié à l'art. 1133 al. 3 : l'aléa chasse l'erreur.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Un tableau (« Le Verrou ») est vendu comme « attribué à Fragonard ». Son authenticité est établie après la vente.

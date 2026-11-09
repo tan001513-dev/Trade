@@ -12,8 +12,13 @@ tags:
 
 *Ass. plén., 1er déc. 1995 (4 arrêts)*
 
+> [!tip] À retenir
+> Le prix n'a pas à être déterminé dans le contrat cadre ; seul l'abus dans sa fixation est sanctionné (aujourd'hui art. 1164-1165, sans révision du prix).
+
 > [!warning] Arrêt essentiel
 > Détermination du prix, repris aux art. 1164 et 1165.
+
+## Fiche détaillée
 
 > [!info] Faits
 > Quatre affaires de contrats cadre de distribution ou de fourniture où le prix des contrats d'application était fixé unilatéralement par le fournisseur (complément hors cours : contrats de location-entretien d'installations téléphoniques et contrats de distribution).
