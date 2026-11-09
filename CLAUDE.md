@@ -36,3 +36,8 @@ Le coffre Obsidian est le dossier `obsidian/` (racine du coffre). La toile de dr
 - For financial workflows, ensure tenant isolation, traceability, human approval and tests. Never assume AI-generated accounting decisions are authoritative.
 - Never use real client data, secrets or credentials in prompts, tests, logs or examples.
 - After changes, state files changed, targeted checks run, and unresolved risks in under 12 lines.
+
+## Pack « Ultimate Skills » (généraliste)
+- Utiliser les skills à la demande, pas toutes à la fois.
+- Les sorties financières sont des brouillons à faire valider par un professionnel qualifié ; garder les preuves et la traçabilité.
+- Ne jamais contourner l'autorisation, l'isolation entre clients ou la confirmation des actions destructrices.
